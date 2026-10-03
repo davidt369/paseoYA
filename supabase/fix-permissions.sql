@@ -22,7 +22,12 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON TABLES TO auth
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authenticated;
 ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON ROUTINES TO anon, authenticated;
 
--- 5. Confirmar que las tiendas y categorías sean legibles públicamente
+-- 5. ASIGNACIÓN AUTOMÁTICA DE UUID V4 Y CORRECCIÓN DE RESTRICCIÓN PROFILES (Error 23503)
+-- Elimina el requisito estricto de que el ID de perfil exista en auth.users antes de tiempo
+ALTER TABLE public.profiles DROP CONSTRAINT IF EXISTS profiles_id_fkey;
+ALTER TABLE public.profiles ALTER COLUMN id SET DEFAULT gen_random_uuid();
+
+-- 6. Confirmar que las tiendas y categorías sean legibles públicamente
 ALTER TABLE public.categories ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.stores ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.products ENABLE ROW LEVEL SECURITY;

@@ -60,9 +60,9 @@ CREATE TABLE IF NOT EXISTS public.stores (
     created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc', NOW())
 );
 
--- 5. TABLA: PROFILES (Perfiles con roles y vinculación de tienda)
+-- 5. TABLA: PROFILES (Perfiles con roles y vinculación de tienda - UUID v4 automático)
 CREATE TABLE IF NOT EXISTS public.profiles (
-    id UUID PRIMARY KEY REFERENCES auth.users(id) ON DELETE CASCADE,
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     email TEXT NOT NULL,
     nombre_completo TEXT NOT NULL,
     telefono TEXT,
@@ -71,6 +71,10 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc', NOW()),
     updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc', NOW())
 );
+
+-- Si la tabla ya existía con la restricción foránea a auth.users, la eliminamos para evitar errores 23503:
+ALTER TABLE public.profiles DROP CONSTRAINT IF EXISTS profiles_id_fkey;
+ALTER TABLE public.profiles ALTER COLUMN id SET DEFAULT gen_random_uuid();
 
 -- 6. TABLA: PRODUCTS (Catálogo con control de stock de cada tienda)
 CREATE TABLE IF NOT EXISTS public.products (
