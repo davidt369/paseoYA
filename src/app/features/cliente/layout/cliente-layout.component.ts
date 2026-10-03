@@ -169,12 +169,12 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
               </button>
             }
 
-            <!-- Free Parking Badge (Tablet / Desktop) -->
+            <!-- Retiro Presencial Badge -->
             <div
-              title="2 Horas de parqueo gratis con retiro en mostrador"
-              class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold"
+              title="Compra en línea y retira en el local del Paseo Aranjuez"
+              class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold"
             >
-              <span>🚗 2h Parqueo Gratis</span>
+              <span>📍 Retiro Presencial en Mall</span>
             </div>
 
             <!-- Cart Quick Icon with item count -->
@@ -396,19 +396,19 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
                   </div>
                 </a>
 
-                <!-- 6. Información de Parqueo 2h -->
+                <!-- 6. Información de Retiro Presencial en Mall -->
                 <div
-                  class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-indigo-50/70 border border-indigo-100 text-slate-800"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-800"
                 >
-                  <div class="size-9 rounded-full bg-indigo-600 text-white flex items-center justify-center text-lg shrink-0 shadow-xs">
-                    🚗
+                  <div class="size-9 rounded-full bg-slate-900 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-xs">
+                    📍
                   </div>
                   <div class="min-w-0 flex-1">
-                    <div class="font-semibold text-xs text-slate-900 leading-tight">2 Horas Parqueo Gratis</div>
-                    <div class="text-[10px] text-indigo-700">Ticket digital al retirar en local</div>
+                    <div class="font-semibold text-xs text-slate-900 leading-tight">Retiro en Mostrador</div>
+                    <div class="text-[10px] text-slate-500">Muestra tu código QR en el local del Paseo</div>
                   </div>
-                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700 border border-indigo-200">
-                    Gratis
+                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">
+                    4 Pisos
                   </span>
                 </div>
               </div>
@@ -566,9 +566,9 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
             <span class="text-[10px] tracking-tight leading-none">Inicio</span>
           </a>
 
-          <!-- 2. BUSCAR / EXPLORAR -->
+          <!-- 2. CATÁLOGO / BUSCAR -->
           <a
-            routerLink="/cliente/buscar"
+            routerLink="/cliente/productos"
             routerLinkActive="text-amber-600 font-bold"
             class="flex flex-col items-center justify-center gap-0.5 text-slate-400 hover:text-slate-800 transition py-1 touch-target group"
           >
@@ -580,7 +580,7 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
             <span class="text-[10px] tracking-tight leading-none">Buscar</span>
           </a>
 
-          <!-- 3. ✨ IA PASEOYA (EN EL MEDIO - ESTILO META AI DE FACEBOOK) -->
+          <!-- 3. ✨ IA PASEOYA (EN EL MEDIO - ORBE CÓSMICO VECTORIAL) -->
           <div class="flex flex-col items-center justify-center -mt-5 relative z-40">
             <button
               (click)="chatbotService.toggleOpen()"
@@ -592,14 +592,11 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
               <!-- Glowing Pulsating Ring -->
               <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400 to-indigo-500 blur-xs opacity-60 animate-pulse"></span>
               
-              <!-- Inner Button Body -->
+              <!-- Inner Button Body with 4-pointed Star SVG -->
               <div class="relative w-full h-full rounded-full bg-slate-950 flex flex-col items-center justify-center text-white">
-                <span class="text-sm font-black leading-none bg-gradient-to-r from-amber-300 to-indigo-300 bg-clip-text text-transparent">
-                  IA
-                </span>
-                <span class="text-[8px] font-bold text-indigo-300 leading-none mt-0.5">
-                  ✨
-                </span>
+                <svg class="size-6 text-amber-300 drop-shadow-md animate-pulse" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
+                </svg>
               </div>
             </button>
             <span class="text-[9px] font-extrabold tracking-tight text-indigo-700 mt-0.5">
