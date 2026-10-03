@@ -1,0 +1,157 @@
+@import "tailwindcss";
+
+@theme {
+  /* Brand Tokens - Paseo Aranjuez */
+  --color-aranjuez-charcoal: #121417;
+  --color-aranjuez-dark: #1b1e23;
+  --color-aranjuez-surface: #f8fafc;
+  --color-aranjuez-card: #ffffff;
+  --color-aranjuez-border: #e2e8f0;
+
+  /* Accent Bronze/Gold - Elegancia sobria de centro comercial */
+  --color-aranjuez-gold-50: #fbf7ee;
+  --color-aranjuez-gold-100: #f5eccf;
+  --color-aranjuez-gold-200: #ecd79c;
+  --color-aranjuez-gold-300: #e0be63;
+  --color-aranjuez-gold-400: #d4a737;
+  --color-aranjuez-gold-500: #b88a24;
+  --color-aranjuez-gold-600: #9c6e1c;
+  --color-aranjuez-gold-700: #7b5219;
+  --color-aranjuez-gold-800: #66431b;
+  --color-aranjuez-gold-900: #55371a;
+
+  /* Semantic Status Tokens */
+  --color-status-recibido: #0284c7;
+  --color-status-confirmado: #d97706;
+  --color-status-preparando: #ea580c;
+  --color-status-listo: #0d9488;
+  --color-status-llego: #4f46e5;
+  --color-status-entregado: #16a34a;
+
+  /* Typography */
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+@layer base {
+  html {
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #f8fafc;
+    color: #121417;
+    font-family: var(--font-sans);
+    min-height: 100dvh;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Typography Polish (baseline-ui) */
+  h1, h2, h3, h4, h5, h6 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Accessible Focus Rings (fixing-accessibility) */
+  :focus-visible {
+    outline: 2px solid #121417;
+    outline-offset: 2px;
+  }
+}
+
+/* Reduced Motion Override (fixing-motion-performance) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+:root {
+  /* Emil Kowalski Easing curves */
+  --ease-out-emil: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out-emil: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer-emil: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-spring-emil: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Emil Kowalski Tactile Button / Press Interactions */
+.btn-press {
+  transition: transform 160ms var(--ease-out-emil), box-shadow 160ms var(--ease-out-emil), background-color 160ms ease;
+  will-change: transform;
+}
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+.card-press {
+  transition: transform 180ms var(--ease-out-emil), box-shadow 180ms var(--ease-out-emil), border-color 180ms ease;
+}
+.card-press:active {
+  transform: scale(0.985);
+}
+
+/* Glass & Surface Light-Catching Borders (Taste & Apple Design) */
+.glass-panel {
+  background: rgba(18, 20, 23, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.glass-panel-light {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.8), 0 8px 24px rgba(0, 0, 0, 0.06);
+}
+
+/* Subtle Micro-Border Accent */
+.inner-border-subtle {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
+}
+
+/* Stagger entrance animations */
+@keyframes itemEntrance {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.stagger-item {
+  animation: itemEntrance 240ms var(--ease-out-emil) forwards;
+}
+
+/* Utilities */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
+}
+
+.touch-target {
+  min-height: 44px;
+  min-width: 44px;
+}
+
+.safe-bottom {
+  padding-bottom: max(16px, env(safe-area-inset-bottom, 16px));
+}
+
+.safe-top {
+  padding-top: max(16px, env(safe-area-inset-top, 16px));
+}

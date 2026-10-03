@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="50%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#ef4444" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#grad)" />
+  <circle cx="256" cy="256" r="180" fill="none" stroke="url(#glow)" stroke-width="12" opacity="0.4" />
+  <!-- Shopping Bag / QR Motif -->
+  <path d="M176 192 V144 C176 100 212 64 256 64 C300 64 336 100 336 144 V192" fill="none" stroke="#f59e0b" stroke-width="28" stroke-linecap="round" />
+  <rect x="136" y="192" width="240" height="240" rx="32" fill="#ffffff" />
+  <text x="256" y="320" font-family="system-ui, -apple-system, sans-serif" font-weight="900" font-size="108" fill="#0f172a" text-anchor="middle" dominant-baseline="middle">PY</text>
+  <circle cx="340" cy="220" r="20" fill="#10b981" />
+</svg>

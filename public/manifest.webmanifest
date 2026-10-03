@@ -1,0 +1,66 @@
+{
+  "name": "PaseoYa — Marketplace Paseo Aranjuez",
+  "short_name": "PaseoYa",
+  "description": "Marketplace oficial y plataforma de retiro presencial con QR de Paseo Aranjuez, Cochabamba.",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Inicio",
+      "url": "/cliente",
+      "description": "Explorar tiendas y productos"
+    },
+    {
+      "name": "Asistente IA",
+      "url": "/cliente?chat=open",
+      "description": "Consultar a la IA sobre precios y pisos"
+    },
+    {
+      "name": "Mis Pedidos QR",
+      "url": "/cliente/pedidos",
+      "description": "Ver mis códigos QR de retiro"
+    },
+    {
+      "name": "Escanear QR Comercio",
+      "url": "/comercio/pedidos",
+      "description": "Validación de retiros en mostrador"
+    }
+  ],
+  "categories": ["shopping", "food", "lifestyle"]
+}

@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <title>PaseoYa — Marketplace y Retiro en Paseo Aranjuez (Cochabamba)</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Marketplace oficial de Paseo Aranjuez (Cochabamba, Bolivia). Explora tiendas, compra en línea y retira en persona con código QR. Obtén 2 horas de parqueo subterráneo gratis." />
+    
+    <!-- PWA & Mobile Chrome -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="PaseoYa" />
+    <link rel="apple-touch-icon" href="/icon.svg" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="PaseoYa - Paseo Aranjuez" />
+    <meta property="og:title" content="PaseoYa — Marketplace y Retiro con QR" />
+    <meta property="og:description" content="Digitaliza tus compras en Paseo Aranjuez. Retiro rápido en tienda con QR y validación de parqueo subterráneo gratis." />
+    <meta property="og:locale" content="es_BO" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="PaseoYa — Paseo Aranjuez Cochabamba" />
+    <meta name="twitter:description" content="Marketplace y compras con retiro express en tienda con código QR." />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+    <!-- Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js').catch(() => {});
+        });
+      }
+    </script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased selection:bg-amber-100 selection:text-amber-900">
+    <app-root></app-root>
+  </body>
+</html>
