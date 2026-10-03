@@ -234,7 +234,8 @@ export class PedidosComercioComponent implements OnInit, OnDestroy {
     }
   }
 
-  refreshOrders(): void {
+  async refreshOrders(): Promise<void> {
+    await this.catalogService.loadOrders();
     const storeId = this.authService.profile()?.store_id || 'a0000000-0000-0000-0000-000000000001';
     const list = this.catalogService.getStoreOrders(storeId);
     this.orders.set(list);

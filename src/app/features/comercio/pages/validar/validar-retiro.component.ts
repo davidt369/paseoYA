@@ -232,7 +232,8 @@ export class ValidarRetiroComponent implements OnInit, OnDestroy {
     this.stopScanner();
   }
 
-  refreshPendingOrders(): void {
+  async refreshPendingOrders(): Promise<void> {
+    await this.catalogService.loadOrders();
     const list = this.catalogService.orders().filter(
       (o) => o.estado === 'listo_para_recoger' || o.estado === 'cliente_llego' || o.estado === 'recibido' || o.estado === 'confirmado' || o.estado === 'preparando'
     );

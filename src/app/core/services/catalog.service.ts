@@ -299,6 +299,8 @@ export class CatalogService {
   constructor() {
     this.hydrateStoresWithTienda();
     this.loadOrdersFromStorage();
+    this.loadOrders();
+    this.initOrdersRealtime();
   }
 
   private hydrateStoresWithTienda(): void {
@@ -326,6 +328,72 @@ export class CatalogService {
       localStorage.setItem('PASEO_ORDERS', JSON.stringify(this.orders()));
     } catch (e) {
       console.warn('Error saving orders:', e);
+    }
+  }
+
+  /**
+   * Fetches real orders from Supabase database with joined store, profile and item details,
+   * merging with local orders.
+   */
+  async loadOrders(): Promise<Order[]> {
+    try {
+      const { data, error } = await this.supabase
+        .from('orders')
+        .select('*, tienda:stores(*), cliente:profiles(*), items:order_items(*)')
+        .order('created_at', { ascending: false });
+
+      if (!error && data && data.length > 0) {
+        const storeMap = new Map(this.stores().map((s) => [s.id, s]));
+        const mappedOrders: Order[] = data.map((d: any) => ({
+          id: d.id,
+          cliente_id: d.cliente_id,
+          store_id: d.store_id,
+          estado: d.estado as OrderStatus,
+          total: Number(d.total),
+          pickup_code: d.pickup_code,
+          pin_seguridad: d.pin_seguridad,
+          ventana_retiro: d.ventana_retiro,
+          nota: d.nota,
+          created_at: d.created_at,
+          updated_at: d.updated_at,
+          tienda: d.tienda || storeMap.get(d.store_id),
+          cliente: d.cliente,
+          items: (d.items || []).map((it: any) => ({
+            product_id: it.product_id,
+            nombre_producto: it.nombre_producto,
+            precio_unitario: Number(it.precio_unitario),
+            cantidad: Number(it.cantidad),
+            subtotal: Number(it.subtotal),
+          })),
+        }));
+
+        const serverIds = new Set(mappedOrders.map((o) => o.id));
+        const localOnly = this.orders().filter((o) => !serverIds.has(o.id));
+        const merged = [...mappedOrders, ...localOnly];
+        this.orders.set(merged);
+        this.saveOrdersToStorage();
+        return merged;
+      }
+    } catch (e) {
+      console.warn('Error loading orders from Supabase:', e);
+    }
+    return this.orders();
+  }
+
+  private initOrdersRealtime(): void {
+    try {
+      this.supabase
+        .channel('catalog-orders-realtime-sync')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'orders' },
+          () => {
+            this.loadOrders();
+          }
+        )
+        .subscribe();
+    } catch (e) {
+      console.warn('Realtime catalog orders sync fallback:', e);
     }
   }
 
@@ -450,7 +518,7 @@ export class CatalogService {
     const total = items.reduce((sum, item) => sum + item.product.precio * item.quantity, 0);
     const pickupCode = 'PY-' + Math.random().toString(36).substring(2, 8).toUpperCase();
     const pin = Math.floor(1000 + Math.random() * 9000).toString();
-    const orderId = 'ord-' + Math.random().toString(36).substring(2, 9);
+    const orderId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'ord-' + Math.random().toString(36).substring(2, 9);
 
     // Try Supabase RPC
     try {
@@ -467,6 +535,34 @@ export class CatalogService {
       });
 
       if (!error && data?.success) {
+        const serverOrder: Order = {
+          id: data.order_id,
+          cliente_id: clienteId,
+          store_id: storeId,
+          estado: 'recibido',
+          total: Number(data.total) || total,
+          pickup_code: data.pickup_code,
+          pin_seguridad: data.pin_seguridad,
+          ventana_retiro: ventanaRetiro,
+          nota,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+          tienda: store,
+          cliente: this.authService.profile() || undefined,
+          items: items.map((i) => ({
+            product_id: i.product.id,
+            nombre_producto: i.product.nombre,
+            precio_unitario: i.product.precio,
+            cantidad: i.quantity,
+            subtotal: i.product.precio * i.quantity,
+            producto: i.product,
+          })),
+        };
+
+        this.orders.update((list) => [serverOrder, ...list.filter((o) => o.id !== serverOrder.id)]);
+        this.saveOrdersToStorage();
+        this.loadOrders();
+
         return {
           success: true,
           orderId: data.order_id,
@@ -633,7 +729,7 @@ export class CatalogService {
   }
 
   async addProduct(product: Partial<Product>): Promise<Product> {
-    const newId = 'prod-' + Math.random().toString(36).substring(2, 9);
+    const newId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'b' + Math.random().toString(36).substring(2, 10).padStart(35, '0');
     const store = await this.getStoreById(product.store_id || 'a0000000-0000-0000-0000-000000000001');
 
     const created: Product = {
@@ -650,10 +746,21 @@ export class CatalogService {
     };
 
     try {
-      const { data, error } = await this.supabase.from('products').insert([created]).select().single();
+      const insertPayload = {
+        id: created.id,
+        store_id: created.store_id,
+        nombre: created.nombre,
+        descripcion: created.descripcion,
+        precio: created.precio,
+        stock: created.stock,
+        imagen_url: created.imagen_url,
+        categoria: created.categoria,
+        activo: created.activo,
+      };
+      const { data, error } = await this.supabase.from('products').insert([insertPayload]).select().single();
       if (!error && data) {
         const prod = { ...data, tienda: store };
-        this.products.update((list) => [prod, ...list]);
+        this.products.update((list) => [prod, ...list.filter((p) => p.id !== prod.id)]);
         return prod;
       }
     } catch (e) {}
@@ -688,6 +795,54 @@ export class CatalogService {
 
     this.products.update((list) => list.filter((p) => p.id !== productId));
     return true;
+  }
+
+  async addStore(storeData: Partial<Store>): Promise<Store> {
+    const newId = typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : 'a' + Math.random().toString(36).substring(2, 10).padStart(35, '0');
+    const newStore: Store = {
+      id: newId,
+      category_id: storeData.category_id || '11111111-c000-0000-0000-000000000001',
+      nombre: storeData.nombre || 'Nueva Tienda',
+      rubro: storeData.rubro || 'Comercio General',
+      piso: storeData.piso || 'Piso 1',
+      sector: storeData.sector || 'Plaza Central',
+      local: storeData.local || 'Local 101',
+      horario_semana: storeData.horario_semana || '10:00 - 22:00',
+      horario_domingo_feriado: storeData.horario_domingo_feriado || '12:00 - 22:00',
+      telefono: storeData.telefono || '70000000',
+      logo_url: storeData.logo_url || 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=160&auto=format&fit=crop&q=80',
+      portada_url: storeData.portada_url || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=80',
+      activo: storeData.activo ?? true,
+    };
+
+    try {
+      const { data, error } = await this.supabase.from('stores').insert([newStore]).select().single();
+      if (!error && data) {
+        this.stores.update((list) => [data as Store, ...list.filter((s) => s.id !== data.id)]);
+        return data as Store;
+      }
+    } catch (e) {}
+
+    this.stores.update((list) => [newStore, ...list]);
+    return newStore;
+  }
+
+  async updateStore(storeId: string, updates: Partial<Store>): Promise<Store | undefined> {
+    try {
+      await this.supabase.from('stores').update(updates).eq('id', storeId);
+    } catch (e) {}
+
+    let updatedStore: Store | undefined;
+    this.stores.update((list) =>
+      list.map((s) => {
+        if (s.id === storeId) {
+          updatedStore = { ...s, ...updates };
+          return updatedStore;
+        }
+        return s;
+      })
+    );
+    return updatedStore;
   }
 }
 
