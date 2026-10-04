@@ -7,11 +7,12 @@ import { CartService } from '../../../../core/services/cart.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { Product } from '../../../../core/models';
 import { StateMessageComponent } from '../../../../shared/ui/state/state-message.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-buscador',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, StateMessageComponent],
+  imports: [CommonModule, FormsModule, RouterLink, StateMessageComponent, IconComponent],
   template: `
     <div class="space-y-4 pb-8">
       <!-- Search Input Header -->
@@ -41,7 +42,7 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
               aria-label="Limpiar búsqueda"
               class="absolute right-3 text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
             >
-              ✕
+              <app-icon name="x" [size]="16" />
             </button>
           }
         </div>
@@ -57,7 +58,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
               (click)="setSearch(tag)"
               class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-700 rounded-xl whitespace-nowrap transition cursor-pointer text-xs font-medium"
             >
-              🔍 {{ tag }}
+              <app-icon name="search" [size]="12" class="inline-block align-[-1px] mr-0.5" />
+              {{ tag }}
             </button>
           }
         </div>
@@ -67,7 +69,10 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
       @if (results().length > 1) {
         <div class="p-3 bg-amber-50 border border-amber-200 rounded-xl text-xs space-y-1">
           <div class="flex items-center justify-between font-bold text-amber-900">
-            <span>⚖️ Comparativa de Precios en el Paseo</span>
+            <span class="inline-flex items-center gap-1">
+              <app-icon name="scale" [size]="14" />
+              <span>Comparativa de Precios en el Paseo</span>
+            </span>
             <span class="text-[11px] bg-amber-200/80 px-2 py-0.5 rounded-full font-bold">
               {{ results().length }} opciones
             </span>

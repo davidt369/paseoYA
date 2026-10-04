@@ -55,7 +55,7 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
               <option value="preparando">3. En Preparación</option>
               <option value="listo_para_recoger">4. Listo para Retiro</option>
               <option value="cliente_llego">5. Cliente en Mostrador</option>
-              <option value="entregado">6. Entregado + Parqueo</option>
+              <option value="entregado">6. Entregado</option>
             </select>
           </div>
 

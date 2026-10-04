@@ -101,9 +101,9 @@ import { UserRole } from '../../core/models';
               name="rol"
               class="w-full h-11 px-3.5 text-sm bg-slate-50 border border-slate-300 rounded-xl focus:outline-none focus:border-slate-900 focus:bg-white transition-colors"
             >
-              <option value="cliente">🛍️ Cliente (Comprar y retirar con QR)</option>
-              <option value="comercio">🏪 Comercio (Tienda de Paseo Aranjuez)</option>
-              <option value="admin">🏢 Administrador (Gestión general del Paseo)</option>
+              <option value="cliente">Cliente (Comprar y retirar con QR)</option>
+              <option value="comercio">Comercio (Tienda de Paseo Aranjuez)</option>
+              <option value="admin">Administrador (Gestión general del Paseo)</option>
             </select>
           </div>
 

@@ -17,7 +17,7 @@ import { Order, Store, Product, OrderStatus } from '../../../../core/models';
             Tablero de Control Operacional
           </h1>
           <p class="text-xs text-slate-500 mt-0.5">
-            Supervisión integral de ventas, flujo de retiro y parqueo en Paseo Aranjuez.
+            Supervisión integral de ventas, flujo de retiro y operaciones en Paseo Aranjuez.
           </p>
         </div>
 
@@ -53,14 +53,14 @@ import { Order, Store, Product, OrderStatus } from '../../../../core/models';
           </p>
         </div>
 
-        <!-- 3. Horas de Parqueo Subterráneo -->
+        <!-- 3. Tasa de Retiro en Mostrador -->
         <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-2xs space-y-1">
-          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Parqueo Subterráneo</span>
-          <div class="text-2xl font-black text-indigo-700 tabular-nums">
-            {{ deliveredCount() * 2 }} hrs
+          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Retiros en Mostrador</span>
+          <div class="text-2xl font-black text-sky-700 tabular-nums">
+            {{ deliveredCount() }}
           </div>
           <p class="text-[11px] text-slate-500 font-medium">
-            Validadas por consumo físico
+            Pases QR canjeados en local
           </p>
         </div>
 

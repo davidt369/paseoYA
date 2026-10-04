@@ -4,12 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { ChatbotService, ChatMessage } from '../../../../core/services/chatbot.service';
 import { CartService } from '../../../../core/services/cart.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
+import { AiOrbIconComponent } from '../../../../shared/ui/ai-orb/ai-orb-icon.component';
 import { Product } from '../../../../core/models';
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, AiOrbIconComponent],
   template: `
     <!-- Chat Modal Window (Only launched via central IA button) -->
     @if (chatbot.isOpen()) {
@@ -18,8 +19,8 @@ import { Product } from '../../../../core/models';
         <!-- Header -->
         <div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white px-4 py-3.5 flex items-center justify-between shadow-sm">
           <div class="flex items-center gap-3">
-            <div class="w-9 h-9 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 font-black text-sm">
-              PY
+            <div class="size-9 rounded-xl bg-slate-950/40 border border-white/10 flex items-center justify-center shrink-0">
+              <app-ai-orb-icon [size]="30" [glow]="false" label="Asistente PaseoYa" />
             </div>
             <div>
               <div class="flex items-center gap-1.5">
@@ -123,7 +124,7 @@ import { Product } from '../../../../core/models';
               type="text"
               [(ngModel)]="userInput"
               name="userInput"
-              placeholder="Ej: audífonos, comida piso 3, parqueo..."
+              placeholder="Ej: audífonos, comida piso 3, horarios..."
               class="flex-1 bg-slate-100 hover:bg-slate-50 focus:bg-white text-slate-900 text-xs sm:text-sm px-3.5 py-2.5 rounded-xl border border-transparent focus:border-amber-500 focus:outline-none transition-all"
               [disabled]="chatbot.isTyping()"
             />

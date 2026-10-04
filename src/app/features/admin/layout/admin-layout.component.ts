@@ -4,11 +4,12 @@ import { RouterOutlet, RouterLink, RouterLinkActive, Router, NavigationEnd } fro
 import { filter } from 'rxjs/operators';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastComponent } from '../../../shared/ui/toast/toast.component';
+import { IconComponent } from '../../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-admin-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent, IconComponent],
   template: `
     <div class="min-h-dvh flex flex-col md:flex-row bg-slate-100 text-slate-900 select-none">
       <app-toast />
@@ -54,28 +55,32 @@ import { ToastComponent } from '../../../shared/ui/toast/toast.component';
           routerLinkActive="bg-purple-600 text-white font-bold"
           class="px-3 py-1.5 rounded-lg text-slate-300 hover:bg-slate-800 transition whitespace-nowrap flex items-center gap-1"
         >
-          <span>📊 Dashboard</span>
+          <app-icon name="chart-bar" [size]="12" />
+          <span>Dashboard</span>
         </a>
         <a
           routerLink="/admin/pedidos"
           routerLinkActive="bg-purple-600 text-white font-bold"
           class="px-3 py-1.5 rounded-lg text-slate-300 hover:bg-slate-800 transition whitespace-nowrap flex items-center gap-1"
         >
-          <span>📦 Supervisión Pedidos</span>
+          <app-icon name="package" [size]="12" />
+          <span>Supervisión Pedidos</span>
         </a>
         <a
           routerLink="/admin/tiendas"
           routerLinkActive="bg-purple-600 text-white font-bold"
           class="px-3 py-1.5 rounded-lg text-slate-300 hover:bg-slate-800 transition whitespace-nowrap flex items-center gap-1"
         >
-          <span>🏪 Tiendas & Pisos</span>
+          <app-icon name="store" [size]="12" />
+          <span>Tiendas & Pisos</span>
         </a>
         <a
           routerLink="/admin/usuarios"
           routerLinkActive="bg-purple-600 text-white font-bold"
           class="px-3 py-1.5 rounded-lg text-slate-300 hover:bg-slate-800 transition whitespace-nowrap flex items-center gap-1"
         >
-          <span>👥 Usuarios & Roles</span>
+          <app-icon name="users" [size]="12" />
+          <span>Usuarios & Roles</span>
         </a>
       </nav>
 
@@ -94,7 +99,9 @@ import { ToastComponent } from '../../../shared/ui/toast/toast.component';
                     <p class="text-[10px] text-purple-400 font-semibold uppercase tracking-wider">Panel de Administración</p>
                   </div>
                 </div>
-                <button (click)="closeMobileMenu()" class="text-slate-400 hover:text-white p-1">✕</button>
+                <button (click)="closeMobileMenu()" class="text-slate-400 hover:text-white p-1 flex items-center justify-center">
+                  <app-icon name="x" [size]="18" />
+                </button>
               </div>
 
               <!-- Menu Items Grouped -->
@@ -224,7 +231,7 @@ import { ToastComponent } from '../../../shared/ui/toast/toast.component';
                 <span class="text-base group-hover:scale-110 transition-transform">📊</span>
                 <div class="flex-1 min-w-0">
                   <div class="text-xs">Dashboard Ejecutivo</div>
-                  <div class="text-[10px] opacity-75 font-normal truncate">KPIs, ventas y parqueo</div>
+                  <div class="text-[10px] opacity-75 font-normal truncate">KPIs, ventas y retiros</div>
                 </div>
               </a>
 

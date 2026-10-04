@@ -1,6 +1,14 @@
-import { Component, inject, signal, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  computed,
+  HostListener,
+  inject,
+  signal,
+  OnInit,
+  ChangeDetectionStrategy,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { CartService } from '../../../core/services/cart.service';
 import { ChatbotService } from '../../../core/services/chatbot.service';
@@ -8,7 +16,9 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
 import { ToastService } from '../../../shared/ui/toast/toast.service';
 import { ToastComponent } from '../../../shared/ui/toast/toast.component';
 import { ChatbotComponent } from '../components/chatbot/chatbot.component';
+import { AiOrbIconComponent } from '../../../shared/ui/ai-orb/ai-orb-icon.component';
 import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/pwa-install-modal.component';
+import { IconComponent } from '../../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-cliente-layout',
@@ -20,7 +30,9 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
     RouterLinkActive,
     ToastComponent,
     ChatbotComponent,
+    AiOrbIconComponent,
     PwaInstallModalComponent,
+    IconComponent,
   ],
   template: `
     <div class="min-h-dvh flex flex-col bg-slate-100 text-slate-900 pb-20 md:pb-8 select-none">
@@ -51,10 +63,10 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
               <button
                 (click)="dismissPwaBanner()"
                 type="button"
-                class="text-slate-400 hover:text-white p-1 text-xs cursor-pointer"
+                class="text-slate-400 hover:text-white p-1 text-xs cursor-pointer flex items-center justify-center"
                 aria-label="Cerrar banner"
               >
-                ✕
+                <app-icon name="x" [size]="16" />
               </button>
             </div>
           </div>
@@ -113,7 +125,7 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
               routerLinkActive="bg-slate-900 text-white shadow-xs"
               class="btn-press px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 whitespace-nowrap flex items-center gap-1.5"
             >
-              <span>🛍️</span>
+              <app-icon name="shopping-bag" [size]="16" />
               <span>Todos los Productos</span>
             </a>
 
@@ -122,7 +134,7 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
               routerLinkActive="bg-slate-900 text-white shadow-xs"
               class="btn-press px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 whitespace-nowrap flex items-center gap-1.5"
             >
-              <span>🏪</span>
+              <app-icon name="store" [size]="16" />
               <span>Tiendas & Pisos</span>
             </a>
 
@@ -131,7 +143,7 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
               routerLinkActive="bg-slate-900 text-white shadow-xs"
               class="btn-press px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 whitespace-nowrap flex items-center gap-1.5"
             >
-              <span>🎬</span>
+              <app-icon name="film" [size]="16" />
               <span>Reels</span>
             </a>
 
@@ -140,7 +152,7 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
               routerLinkActive="bg-slate-900 text-white shadow-xs"
               class="btn-press px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 whitespace-nowrap flex items-center gap-1.5"
             >
-              <span>🔍</span>
+              <app-icon name="search" [size]="16" />
               <span>Buscador</span>
             </a>
 
@@ -149,7 +161,7 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
               routerLinkActive="bg-slate-900 text-white shadow-xs"
               class="btn-press px-3 py-2 rounded-xl hover:bg-slate-100 text-slate-700 whitespace-nowrap flex items-center gap-1.5"
             >
-              <span>📦</span>
+              <app-icon name="package" [size]="16" />
               <span>Mis Pedidos</span>
             </a>
           </nav>
@@ -164,18 +176,10 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
                 class="btn-press hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-xs cursor-pointer inner-border-subtle"
                 title="Instalar PaseoYa en tu teléfono o computadora"
               >
-                <span>📲</span>
+                <app-icon name="smartphone" [size]="16" />
                 <span>Instalar App</span>
               </button>
             }
-
-            <!-- Free Parking Badge (Tablet / Desktop) -->
-            <div
-              title="2 Horas de parqueo gratis con retiro en mostrador"
-              class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-50 border border-indigo-200 text-indigo-700 text-xs font-bold"
-            >
-              <span>🚗 2h Parqueo Gratis</span>
-            </div>
 
             <!-- Cart Quick Icon with item count -->
             <a
@@ -232,67 +236,71 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
         >
           <!-- Drawer Container (White Modern Style) -->
           <aside
-            class="w-84 max-w-[88vw] h-full bg-white text-slate-800 flex flex-col justify-between shadow-2xl border-r border-slate-200/90 overflow-y-auto animate-in slide-in-from-left duration-200 select-none"
+            id="cliente-side-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Menú de navegación de PaseoYa"
+            class="w-84 max-w-[88vw] h-full bg-white text-slate-800 flex flex-col justify-between shadow-[0_0_80px_rgba(15,23,42,0.22)] border-r border-slate-200/80 overflow-y-auto animate-in slide-in-from-left duration-200 select-none"
             (click)="$event.stopPropagation()"
           >
             <!-- Top Profile & Brand Header -->
-            <div class="p-4 border-b border-slate-100 space-y-3 bg-white">
+            <div class="p-5 border-b border-slate-100 space-y-4 bg-white">
               <div class="flex items-center justify-between">
                 <!-- Brand header -->
                 <div class="flex items-center gap-2.5">
-                  <div class="size-10 rounded-full bg-gradient-to-tr from-amber-500 via-amber-600 to-amber-700 text-white font-black text-sm flex items-center justify-center shadow-xs">
+                  <div class="size-10 rounded-2xl bg-gradient-to-tr from-amber-500 via-amber-600 to-amber-700 text-white font-black text-sm flex items-center justify-center shadow-sm shadow-amber-900/20 ring-1 ring-inset ring-black/5">
                     PY
                   </div>
                   <div>
                     <h2 class="font-black text-sm text-slate-900 tracking-tight leading-tight">PaseoYa Mall</h2>
-                    <p class="text-[10px] text-amber-600 font-semibold leading-none mt-0.5">Paseo Aranjuez &middot; Cochabamba</p>
+                    <p class="text-[10px] text-amber-700 font-semibold leading-none mt-0.5">Paseo Aranjuez &middot; Cochabamba</p>
                   </div>
                 </div>
 
                 <button
                   type="button"
                   (click)="closeSidePanel()"
-                  class="size-8 rounded-full bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-600 flex items-center justify-center transition cursor-pointer text-xs"
+                  class="size-8 rounded-full bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-500 flex items-center justify-center transition cursor-pointer text-xs"
                   aria-label="Cerrar menú"
                 >
-                  ✕
+                  <app-icon name="x" [size]="18" />
                 </button>
               </div>
 
               <!-- Profile Row -->
-              <div class="p-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 transition flex items-center justify-between cursor-pointer border border-slate-200/70">
+              <div class="p-3.5 rounded-2xl bg-slate-50/80 hover:bg-slate-50 border border-slate-100 transition flex items-center justify-between gap-2 cursor-pointer">
                 <div class="flex items-center gap-3 min-w-0">
-                  <div class="relative">
-                    <div class="size-10 rounded-full bg-gradient-to-tr from-indigo-500 to-amber-500 text-white font-bold text-sm flex items-center justify-center shrink-0 shadow-xs">
+                  <div class="relative shrink-0">
+                    <div class="size-11 rounded-2xl bg-gradient-to-tr from-indigo-500 via-sky-500 to-amber-500 text-white font-extrabold text-base flex items-center justify-center shadow-sm ring-1 ring-inset ring-black/5">
                       {{ (authService.profile()?.nombre_completo || 'U').charAt(0).toUpperCase() }}
                     </div>
-                    <span class="absolute bottom-0 right-0 size-3 rounded-full bg-emerald-500 border-2 border-white"></span>
+                    <span class="absolute -bottom-0.5 -right-0.5 size-3.5 rounded-full bg-emerald-500 border-2 border-white"></span>
                   </div>
                   <div class="truncate">
-                    <p class="text-xs font-bold text-slate-900 truncate leading-tight">
+                    <p class="text-sm font-extrabold text-slate-900 truncate leading-tight tracking-tight">
                       {{ authService.profile()?.nombre_completo || 'Invitado del Paseo' }}
                     </p>
-                    <p class="text-[10px] text-slate-500 mt-0.5 capitalize">
-                      {{ authService.role() }} &middot; Activo ahora
+                    <p class="text-[10px] text-slate-500 mt-1 font-medium capitalize">
+                      {{ roleLabel() }} &middot; Activo ahora
                     </p>
                   </div>
                 </div>
 
-                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <span class="shrink-0 text-[10px] font-bold px-2 py-0.5 rounded-full border {{ roleChip() }}">
                   En línea
                 </span>
               </div>
             </div>
 
             <!-- Drawer Navigation Body -->
-            <div class="flex-1 p-3 space-y-4 text-xs overflow-y-auto">
+            <div class="flex-1 p-3.5 space-y-3 text-xs overflow-y-auto">
               
               <!-- PWA Direct Install Tile in Drawer -->
               @if (!pwaInstall.isInstalled()) {
                 <div class="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 text-slate-950 flex items-center justify-between shadow-xs">
                   <div class="flex items-center gap-2.5">
                     <div class="size-9 rounded-xl bg-slate-950 text-amber-400 font-black text-xs flex items-center justify-center shadow-xs shrink-0">
-                      📲
+                      <app-icon name="smartphone" [size]="18" />
                     </div>
                     <div>
                       <h4 class="font-black text-xs text-slate-950 leading-tight">Instalar App PaseoYa</h4>
@@ -311,22 +319,23 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
 
               <!-- Main Navigation Items -->
               <div class="space-y-1">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 block mb-1">
+                <span class="drawer-section-label block mb-1.5">
                   Menú Principal
                 </span>
 
                 <!-- 1. Todos los Productos -->
                 <a
                   routerLink="/cliente/productos"
+                  routerLinkActive="drawer-link-active"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-100 active:bg-slate-200/80 transition group text-slate-800"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl group"
                 >
-                  <div class="size-9 rounded-full bg-blue-600 text-white flex items-center justify-center text-lg shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-                    🛍️
+                  <div class="size-9 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
+                    <app-icon name="shopping-bag" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <div class="font-semibold text-xs text-slate-900 leading-tight">Todos los Productos</div>
-                    <div class="text-[10px] text-slate-500">Gran vitrina de todas las tiendas</div>
+                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Todos los Productos</div>
+                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">Gran vitrina de todas las tiendas</div>
                   </div>
                   <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">
                     Mall
@@ -336,30 +345,32 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
                 <!-- 2. Tiendas y Pisos -->
                 <a
                   routerLink="/cliente/tiendas"
+                  routerLinkActive="drawer-link-active"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-100 active:bg-slate-200/80 transition group text-slate-800"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl group"
                 >
-                  <div class="size-9 rounded-full bg-amber-500 text-slate-950 flex items-center justify-center text-lg shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-                    🏪
+                  <div class="size-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
+                    <app-icon name="store" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <div class="font-semibold text-xs text-slate-900 leading-tight">Tiendas y Pisos</div>
-                    <div class="text-[10px] text-slate-500">Directorio de 12 locales en Pisos 1-4</div>
+                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Tiendas y Pisos</div>
+                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">Directorio de 12 locales en Pisos 1-4</div>
                   </div>
                 </a>
 
                 <!-- 3. Reels & Videos -->
                 <a
                   routerLink="/cliente/reels"
+                  routerLinkActive="drawer-link-active"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-100 active:bg-slate-200/80 transition group text-slate-800"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl group"
                 >
-                  <div class="size-9 rounded-full bg-rose-500 text-white flex items-center justify-center text-lg shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-                    🎬
+                  <div class="size-9 rounded-xl bg-rose-500 text-white flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
+                    <app-icon name="film" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <div class="font-semibold text-xs text-slate-900 leading-tight">Reels de Publicaciones</div>
-                    <div class="text-[10px] text-slate-500">Videos y promociones virales</div>
+                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Reels de Publicaciones</div>
+                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">Videos y promociones virales</div>
                   </div>
                   <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200">
                     En Vivo
@@ -369,171 +380,184 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
                 <!-- 4. Buscador & Comparador -->
                 <a
                   routerLink="/cliente/buscar"
+                  routerLinkActive="drawer-link-active"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-100 active:bg-slate-200/80 transition group text-slate-800"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl group"
                 >
-                  <div class="size-9 rounded-full bg-cyan-500 text-white flex items-center justify-center text-lg shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-                    🔍
+                  <div class="size-9 rounded-xl bg-cyan-500 text-white flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
+                    <app-icon name="search" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <div class="font-semibold text-xs text-slate-900 leading-tight">Buscador Global</div>
-                    <div class="text-[10px] text-slate-500">Comparador de precios por pisos</div>
+                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Buscador Global</div>
+                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">Comparador de precios por pisos</div>
                   </div>
                 </a>
 
                 <!-- 5. Mis Pedidos QR -->
                 <a
                   routerLink="/cliente/pedidos"
+                  routerLinkActive="drawer-link-active"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-slate-100 active:bg-slate-200/80 transition group text-slate-800"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl group"
                 >
-                  <div class="size-9 rounded-full bg-emerald-500 text-white flex items-center justify-center text-lg shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-                    📦
+                  <div class="size-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
+                    <app-icon name="package" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <div class="font-semibold text-xs text-slate-900 leading-tight">Mis Pedidos QR</div>
-                    <div class="text-[10px] text-slate-500">Pases oficiales de retiro en mostrador</div>
+                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Mis Pedidos QR</div>
+                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">Pases oficiales de retiro en mostrador</div>
                   </div>
+                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    QR
+                  </span>
                 </a>
 
-                <!-- 6. Información de Parqueo 2h -->
+                <!-- 6. Retiro Express en Mostrador -->
                 <div
-                  class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-indigo-50/70 border border-indigo-100 text-slate-800"
+                  class="flex items-center gap-3 py-2.5 pr-3 rounded-xl bg-amber-50/70 border border-amber-100 text-slate-800"
                 >
-                  <div class="size-9 rounded-full bg-indigo-600 text-white flex items-center justify-center text-lg shrink-0 shadow-xs">
-                    🚗
+                  <div class="size-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5">
+                    <app-icon name="ticket" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <div class="font-semibold text-xs text-slate-900 leading-tight">2 Horas Parqueo Gratis</div>
-                    <div class="text-[10px] text-indigo-700">Ticket digital al retirar en local</div>
+                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Retiro Express con QR</div>
+                    <div class="text-[10px] text-amber-700 font-medium mt-0.5">Paga online y recoge en mostrador</div>
                   </div>
-                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700 border border-indigo-200">
+                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">
                     Gratis
                   </span>
                 </div>
               </div>
 
               <!-- Divider -->
-              <div class="border-t border-slate-100 my-2"></div>
+              <hr class="drawer-divider" />
 
               <!-- Section: Tus accesos directos (Shortcuts) -->
               <div class="space-y-1">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 block mb-1">
+                <span class="drawer-section-label block mb-1.5">
                   Tus accesos directos (Pisos)
                 </span>
 
                 <a
                   routerLink="/cliente/tiendas"
                   [queryParams]="{ piso: 'Piso 1' }"
+                  [class.drawer-link-active]="activeFloor() === 'Piso 1'"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 transition text-slate-800"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl group"
                 >
-                  <div class="size-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center text-base shrink-0">
-                    👗
+                  <div class="size-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-base shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
+                    <app-icon name="shirt" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <p class="font-semibold text-xs text-slate-900">Piso 1: Moda & Joyería</p>
-                    <p class="text-[10px] text-slate-500">Boutiques y alta costura</p>
+                    <p class="font-bold text-xs text-slate-900 tracking-tight">Piso 1: Moda & Joyería</p>
+                    <p class="text-[10px] text-slate-500 font-medium mt-0.5">Boutiques y alta costura</p>
                   </div>
                 </a>
 
                 <a
                   routerLink="/cliente/tiendas"
                   [queryParams]="{ piso: 'Piso 2' }"
+                  [class.drawer-link-active]="activeFloor() === 'Piso 2'"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 transition text-slate-800"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl group"
                 >
-                  <div class="size-8 rounded-lg bg-indigo-100 text-indigo-800 flex items-center justify-center text-base shrink-0">
-                    🎧
+                  <div class="size-9 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center text-base shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
+                    <app-icon name="headphones" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <p class="font-semibold text-xs text-slate-900">Piso 2: Tecnología & Audio</p>
-                    <p class="text-[10px] text-slate-500">Xiaomi, Sony, Audífonos Bluetooth</p>
+                    <p class="font-bold text-xs text-slate-900 tracking-tight">Piso 2: Tecnología & Audio</p>
+                    <p class="text-[10px] text-slate-500 font-medium mt-0.5">Xiaomi, Sony, Audífonos Bluetooth</p>
                   </div>
                 </a>
 
                 <a
                   routerLink="/cliente/tiendas"
                   [queryParams]="{ piso: 'Piso 3' }"
+                  [class.drawer-link-active]="activeFloor() === 'Piso 3'"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 transition text-slate-800"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl group"
                 >
-                  <div class="size-8 rounded-lg bg-orange-100 text-orange-800 flex items-center justify-center text-base shrink-0">
-                    🍔
+                  <div class="size-9 rounded-xl bg-orange-100 text-orange-800 flex items-center justify-center text-base shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
+                    <app-icon name="burger" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <p class="font-semibold text-xs text-slate-900">Piso 3: Mercado Gastronómico</p>
-                    <p class="text-[10px] text-slate-500">Burger Craft, comidas rápidas</p>
+                    <p class="font-bold text-xs text-slate-900 tracking-tight">Piso 3: Mercado Gastronómico</p>
+                    <p class="text-[10px] text-slate-500 font-medium mt-0.5">Burger Craft, comidas rápidas</p>
                   </div>
                 </a>
 
                 <a
                   routerLink="/cliente/tiendas"
                   [queryParams]="{ piso: 'Piso 4' }"
+                  [class.drawer-link-active]="activeFloor() === 'Piso 4'"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-slate-100 transition text-slate-800"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl group"
                 >
-                  <div class="size-8 rounded-lg bg-rose-100 text-rose-800 flex items-center justify-center text-base shrink-0">
-                    🍷
+                  <div class="size-9 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center text-base shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
+                    <app-icon name="wine" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
-                    <p class="font-semibold text-xs text-slate-900">Piso 4: Terraza El Cuarto</p>
-                    <p class="text-[10px] text-slate-500">Carnes premium y mirador</p>
+                    <p class="font-bold text-xs text-slate-900 tracking-tight">Piso 4: Terraza El Cuarto</p>
+                    <p class="text-[10px] text-slate-500 font-medium mt-0.5">Carnes premium y mirador</p>
                   </div>
                 </a>
               </div>
 
               <!-- Divider -->
-              <div class="border-t border-slate-100 my-2"></div>
+              <hr class="drawer-divider" />
 
               <!-- Section: Otros Paneles -->
               <div class="space-y-1">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider px-3 block mb-1">
+                <span class="drawer-section-label block mb-1.5">
                   Administración & Comercios
                 </span>
 
                 <a
                   routerLink="/comercio/pedidos"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-emerald-700 transition"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl text-slate-600 hover:text-emerald-700"
                 >
-                  <span class="text-base">🏪</span>
-                  <span class="font-semibold text-xs">Panel de Comercio (Escanear QR)</span>
+                  <span class="size-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-base shrink-0 ring-1 ring-inset ring-emerald-100">
+                    <app-icon name="store" [size]="18" />
+                  </span>
+                  <span class="font-bold text-xs">Panel de Comercio (Escanear QR)</span>
                 </a>
 
                 <a
                   routerLink="/admin"
                   (click)="closeSidePanel()"
-                  class="flex items-center gap-3 px-3 py-2 rounded-xl text-slate-600 hover:bg-slate-100 hover:text-purple-700 transition"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl text-slate-600 hover:text-purple-700"
                 >
-                  <span class="text-base">📊</span>
-                  <span class="font-semibold text-xs">Panel de Supervisión y Admin</span>
+                  <span class="size-9 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-base shrink-0 ring-1 ring-inset ring-purple-100">
+                    <app-icon name="chart-bar" [size]="18" />
+                  </span>
+                  <span class="font-bold text-xs">Panel de Supervisión y Admin</span>
                 </a>
               </div>
             </div>
 
             <!-- Modern White Footer -->
-            <div class="p-4 border-t border-slate-100 bg-slate-50/90 space-y-2.5">
-              <div class="text-[11px] text-slate-600 leading-tight">
-                <p class="font-bold text-slate-900">Paseo Aranjuez &middot; Cochabamba</p>
+            <div class="p-5 border-t border-slate-100 bg-slate-50/70 space-y-3">
+              <div class="text-[11px] text-slate-600 leading-relaxed">
+                <p class="font-extrabold text-slate-900 tracking-tight">Paseo Aranjuez &middot; Cochabamba</p>
                 <p class="text-[10px] text-slate-500 mt-0.5">Av. América y Pantaleón Dalence</p>
-                <p class="text-emerald-700 text-[10px] font-semibold mt-1">● Lun-Sáb 10-22h | Dom 12-22h</p>
+                <p class="text-emerald-700 text-[10px] font-semibold mt-1.5">● Lun-Sáb 10-22h | Dom 12-22h</p>
               </div>
 
               @if (authService.isAuthenticated()) {
                 <button
                   type="button"
                   (click)="logoutAndClose()"
-                  class="w-full py-2 bg-white hover:bg-rose-50 text-rose-600 border border-slate-200 hover:border-rose-200 rounded-xl text-xs font-bold transition flex items-center justify-center gap-1.5 cursor-pointer shadow-2xs"
+                  class="btn-press w-full h-10 bg-white hover:bg-rose-50 text-rose-600 border border-slate-200 hover:border-rose-200 rounded-xl text-xs font-bold flex items-center justify-center gap-1.5 cursor-pointer shadow-xs"
                 >
-                  <span>🚪</span>
+                  <app-icon name="log-out" [size]="16" />
                   <span>Cerrar Sesión</span>
                 </button>
               }
 
-              <div class="text-[10px] text-slate-400 leading-tight pt-1">
+              <p class="text-[10px] text-slate-400 leading-tight pt-1 text-center">
                 Privacidad &middot; Condiciones &middot; PaseoYa © 2026
-              </div>
+              </p>
             </div>
           </aside>
         </div>
@@ -580,7 +604,7 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
             <span class="text-[10px] tracking-tight leading-none">Buscar</span>
           </a>
 
-          <!-- 3. ✨ IA PASEOYA (EN EL MEDIO - ESTILO META AI DE FACEBOOK) -->
+          <!-- 3. IA PaseoYa -->
           <div class="flex flex-col items-center justify-center -mt-5 relative z-40">
             <button
               (click)="chatbotService.toggleOpen()"
@@ -591,16 +615,11 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
             >
               <!-- Glowing Pulsating Ring -->
               <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400 to-indigo-500 blur-xs opacity-60 animate-pulse"></span>
-              
-              <!-- Inner Button Body -->
-              <div class="relative w-full h-full rounded-full bg-slate-950 flex flex-col items-center justify-center text-white">
-                <span class="text-sm font-black leading-none bg-gradient-to-r from-amber-300 to-indigo-300 bg-clip-text text-transparent">
-                  IA
-                </span>
-                <span class="text-[8px] font-bold text-indigo-300 leading-none mt-0.5">
-                  ✨
-                </span>
-              </div>
+
+              <!-- Vectorized AI Orb Body -->
+              <span class="relative w-full h-full rounded-full bg-slate-950 flex items-center justify-center">
+                <app-ai-orb-icon [size]="40" />
+              </span>
             </button>
             <span class="text-[9px] font-extrabold tracking-tight text-indigo-700 mt-0.5">
               IA Asistente
@@ -651,14 +670,17 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
             class="flex items-center gap-2 pl-3 pr-2 py-1.5 rounded-full bg-slate-950 text-white border border-amber-500/60 shadow-xl active:scale-95 transition cursor-pointer"
           >
             <span class="size-2 rounded-full bg-amber-400 animate-ping"></span>
-            <span class="text-xs font-bold text-amber-300">📲 Instalar App</span>
+            <app-icon name="smartphone" [size]="14" class="text-amber-300" />
+            <span class="text-xs font-bold text-amber-300">Instalar App</span>
             <span class="text-[9px] bg-amber-500 text-slate-950 font-black px-1.5 py-0.5 rounded-full">PWA</span>
             <span
               (click)="dismissFloatingInstall($event)"
               class="text-slate-400 hover:text-white ml-0.5 p-0.5 text-xs font-bold"
               title="Ocultar"
               aria-label="Cerrar"
-            >✕</span>
+            >
+              <app-icon name="x" [size]="14" />
+            </span>
           </button>
         </div>
       }
@@ -674,11 +696,44 @@ export class ClienteLayoutComponent implements OnInit {
   cartService = inject(CartService);
   chatbotService = inject(ChatbotService);
   pwaInstall = inject(PwaInstallService);
+  private route = inject(ActivatedRoute);
   private toastService = inject(ToastService);
 
   showPwaInstallBanner = signal<boolean>(false);
   showFloatingInstall = signal<boolean>(true);
   isSidePanelOpen = signal<boolean>(false);
+  activeFloor = signal<string | null>(null);
+
+  /** Color del chip de rol según el tipo de usuario autenticado */
+  readonly roleChip = computed(() => {
+    switch (this.authService.role()) {
+      case 'admin':
+        return 'bg-purple-50 text-purple-700 border-purple-200';
+      case 'comercio':
+        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+      case 'cliente':
+        return 'bg-sky-50 text-sky-700 border-sky-200';
+      default:
+        return 'bg-slate-100 text-slate-600 border-slate-200';
+    }
+  });
+
+  readonly roleLabel = computed(() => {
+    switch (this.authService.role()) {
+      case 'admin':
+        return 'Administración';
+      case 'comercio':
+        return 'Comercio';
+      case 'cliente':
+        return 'Cliente';
+      default:
+        return 'Invitado';
+    }
+  });
+
+  constructor() {
+    this.route.queryParamMap.subscribe((params) => this.activeFloor.set(params.get('piso')));
+  }
 
   ngOnInit(): void {
     if (!this.pwaInstall.isInstalled()) {
@@ -686,6 +741,13 @@ export class ClienteLayoutComponent implements OnInit {
       if (!dismissed) {
         this.showPwaInstallBanner.set(true);
       }
+    }
+  }
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    if (this.isSidePanelOpen()) {
+      this.closeSidePanel();
     }
   }
 
