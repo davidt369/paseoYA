@@ -93,15 +93,12 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
             </button>
 
             <!-- Brand Logo with Official Paseo Aranjuez Image -->
-            <a routerLink="/cliente" class="flex items-center gap-2 group">
+            <a routerLink="/cliente" class="flex items-center group">
               <img
                 src="/logo-negro.png"
                 alt="Paseo Aranjuez Logo"
                 class="h-9 w-auto max-w-[130px] sm:max-w-[160px] object-contain group-hover:scale-105 transition-transform"
               />
-              <span class="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-amber-100/90 text-amber-900 uppercase tracking-wider border border-amber-200/60 hidden sm:inline-block">
-                Mall
-              </span>
             </a>
           </div>
 
@@ -252,15 +249,12 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
             <div class="p-5 border-b border-slate-100 space-y-4 bg-white">
               <div class="flex items-center justify-between">
                 <!-- Brand header -->
-                <div class="flex items-center gap-2.5">
+                <div class="flex items-center">
                   <img
                     src="/logo-negro.png"
                     alt="Paseo Aranjuez Logo"
                     class="h-9 w-auto max-w-[140px] object-contain"
                   />
-                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200">
-                    Mall
-                  </span>
                 </div>
 
                 <button
