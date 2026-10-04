@@ -21,14 +21,15 @@ import { ToastComponent } from '../../../shared/ui/toast/toast.component';
         <div>
           <!-- Header Branding -->
           <div class="p-5 border-b border-slate-800 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-              <div class="size-9 rounded-xl bg-amber-500 text-slate-950 font-black text-base flex items-center justify-center">
-                PA
-              </div>
-              <div>
-                <h2 class="font-bold text-sm tracking-tight leading-tight">Panel Comercio</h2>
-                <p class="text-[11px] text-slate-400">Paseo Aranjuez</p>
-              </div>
+            <div class="flex items-center gap-2.5">
+              <img
+                src="/logo-blanco.png"
+                alt="Paseo Aranjuez"
+                class="h-9 w-auto max-w-[130px] object-contain"
+              />
+              <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-amber-500 text-slate-950 uppercase">
+                Comercio
+              </span>
             </div>
             <button
               type="button"

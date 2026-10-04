@@ -27,8 +27,8 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
       <app-toast />
       <app-chatbot />
 
-      <!-- PWA Smart Install Banner (Mobile Top) -->
-      @if (showPwaInstallBanner() && !pwaInstall.isInstalled()) {
+      <!-- PWA Smart Install Banner (Mobile Only) -->
+      @if (pwaInstall.isMobile() && showPwaInstallBanner() && !pwaInstall.isInstalled()) {
         <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white px-4 py-2 flex items-center justify-between text-xs shadow-md border-b border-indigo-900/50 safe-top">
           <div class="max-w-7xl mx-auto w-full flex items-center justify-between">
             <div class="flex items-center gap-2 min-w-0">
@@ -80,20 +80,16 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
               </svg>
             </button>
 
-            <!-- Brand Logo -->
-            <a routerLink="/cliente" class="flex items-center gap-2.5 group">
-              <div class="size-9 rounded-xl bg-gradient-to-tr from-amber-600 via-amber-500 to-amber-400 text-white flex items-center justify-center font-black text-sm tracking-tight shadow-xs group-hover:scale-105 transition-transform inner-border-subtle">
-                PY
-              </div>
-              <div>
-                <div class="flex items-center gap-1.5">
-                  <span class="font-black text-lg text-slate-900 tracking-tight leading-none">PaseoYa</span>
-                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-amber-100/90 text-amber-900 uppercase tracking-wider border border-amber-200/60">
-                    Mall
-                  </span>
-                </div>
-                <p class="text-[10px] text-slate-500 font-medium leading-tight hidden sm:block tracking-tight">Paseo Aranjuez &middot; Cochabamba</p>
-              </div>
+            <!-- Brand Logo with Official Paseo Aranjuez Image -->
+            <a routerLink="/cliente" class="flex items-center gap-2 group">
+              <img
+                src="/logo-negro.png"
+                alt="Paseo Aranjuez Logo"
+                class="h-9 w-auto max-w-[130px] sm:max-w-[160px] object-contain group-hover:scale-105 transition-transform"
+              />
+              <span class="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-amber-100/90 text-amber-900 uppercase tracking-wider border border-amber-200/60 hidden sm:inline-block">
+                Mall
+              </span>
             </a>
           </div>
 
@@ -156,13 +152,13 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
 
           <!-- Right: Actions & Role / Cart -->
           <div class="flex items-center gap-2">
-            <!-- Install App Quick Button (Header) -->
-            @if (!pwaInstall.isInstalled()) {
+            <!-- Install App Quick Button (Header - Mobile Only) -->
+            @if (pwaInstall.isMobile() && !pwaInstall.isInstalled()) {
               <button
                 type="button"
                 (click)="triggerInstallPrompt()"
-                class="btn-press hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-xs cursor-pointer inner-border-subtle"
-                title="Instalar PaseoYa en tu teléfono o computadora"
+                class="btn-press flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-xs cursor-pointer inner-border-subtle"
+                title="Instalar PaseoYa en tu teléfono"
               >
                 <span>📲</span>
                 <span>Instalar App</span>
@@ -240,13 +236,14 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
               <div class="flex items-center justify-between">
                 <!-- Brand header -->
                 <div class="flex items-center gap-2.5">
-                  <div class="size-10 rounded-full bg-gradient-to-tr from-amber-500 via-amber-600 to-amber-700 text-white font-black text-sm flex items-center justify-center shadow-xs">
-                    PY
-                  </div>
-                  <div>
-                    <h2 class="font-black text-sm text-slate-900 tracking-tight leading-tight">PaseoYa Mall</h2>
-                    <p class="text-[10px] text-amber-600 font-semibold leading-none mt-0.5">Paseo Aranjuez &middot; Cochabamba</p>
-                  </div>
+                  <img
+                    src="/logo-negro.png"
+                    alt="Paseo Aranjuez Logo"
+                    class="h-9 w-auto max-w-[140px] object-contain"
+                  />
+                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded-md bg-amber-100 text-amber-900 border border-amber-200">
+                    Mall
+                  </span>
                 </div>
 
                 <button
@@ -642,8 +639,8 @@ import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/p
         </div>
       </nav>
 
-      <!-- Floating PWA Install Pill (Mobile, fixed right above bottom nav) -->
-      @if (!pwaInstall.isInstalled() && showFloatingInstall()) {
+      <!-- Floating PWA Install Pill (Mobile Only, fixed right above bottom nav) -->
+      @if (pwaInstall.isMobile() && !pwaInstall.isInstalled() && showFloatingInstall()) {
         <div class="fixed bottom-18 right-3 z-30 md:hidden animate-in slide-in-from-bottom duration-300">
           <button
             type="button"

@@ -190,19 +190,15 @@ import { ToastComponent } from '../../../shared/ui/toast/toast.component';
         
         <!-- Brand Header -->
         <div class="p-5 border-b border-slate-800">
-          <div class="flex items-center gap-3">
-            <div class="size-10 rounded-2xl bg-gradient-to-br from-purple-600 to-indigo-700 text-white font-black text-base flex items-center justify-center shadow-lg shadow-purple-900/30">
-              PA
-            </div>
-            <div>
-              <div class="flex items-center gap-1.5">
-                <span class="font-black text-base tracking-tight text-white">PaseoYa</span>
-                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-purple-900 text-purple-300 border border-purple-700/60 uppercase">
-                  Admin
-                </span>
-              </div>
-              <p class="text-[11px] text-slate-400 font-medium">Paseo Aranjuez &middot; CBB</p>
-            </div>
+          <div class="flex items-center gap-2.5">
+            <img
+              src="/logo-blanco.png"
+              alt="Paseo Aranjuez"
+              class="h-9 w-auto max-w-[130px] object-contain"
+            />
+            <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-purple-900 text-purple-300 border border-purple-700/60 uppercase">
+              Admin
+            </span>
           </div>
         </div>
 

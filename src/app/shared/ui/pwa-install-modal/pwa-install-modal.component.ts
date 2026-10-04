@@ -28,8 +28,12 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
 
           <!-- App Icon & Title Header -->
           <div class="flex items-center gap-3.5">
-            <div class="size-14 rounded-2xl bg-gradient-to-tr from-amber-600 via-amber-500 to-amber-400 text-white font-black text-xl flex items-center justify-center shadow-md shrink-0">
-              PY
+            <div class="h-14 w-18 rounded-2xl bg-slate-900 p-2 flex items-center justify-center shadow-md shrink-0 border border-slate-800">
+              <img
+                src="/logo-blanco.png"
+                alt="Paseo Aranjuez"
+                class="w-full h-full object-contain"
+              />
             </div>
             <div>
               <div class="flex items-center gap-1.5">
