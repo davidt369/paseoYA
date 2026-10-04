@@ -19,7 +19,7 @@ import { Order, Store, Product, OrderStatus } from '../../../../core/models';
             Tablero de Control Operacional
           </h1>
           <p class="text-xs text-slate-500 mt-0.5">
-            Supervisión integral de ventas, pedidos y flujo de retiro en mostrador de Paseo Aranjuez.
+            Supervisión integral de ventas, flujo de retiro y parqueo en Paseo Aranjuez.
           </p>
         </div>
 
@@ -67,14 +67,14 @@ import { Order, Store, Product, OrderStatus } from '../../../../core/models';
           </p>
         </div>
 
-        <!-- 3. Retiro Express QR -->
+        <!-- 3. Horas de Parqueo Subterráneo -->
         <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-2xs space-y-1">
-          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Retiro Express QR</span>
+          <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider">Parqueo Subterráneo</span>
           <div class="text-2xl font-black text-indigo-700 tabular-nums">
-            {{ deliveredCount() }} pases
+            {{ deliveredCount() * 2 }} hrs
           </div>
           <p class="text-[11px] text-slate-500 font-medium">
-            Entregas validadas en mostrador
+            Validadas por consumo físico
           </p>
         </div>
 

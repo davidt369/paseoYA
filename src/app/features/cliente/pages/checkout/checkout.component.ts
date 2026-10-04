@@ -7,12 +7,13 @@ import { CatalogService } from '../../../../core/services/catalog.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 import * as QRCode from 'qrcode';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent],
+  imports: [CommonModule, FormsModule, ButtonComponent, IconComponent],
   template: `
     <div class="max-w-4xl mx-auto space-y-6 pb-12">
       <div class="space-y-1">
@@ -25,8 +26,8 @@ import * as QRCode from 'qrcode';
         <div class="lg:col-span-6 space-y-4">
           <div class="p-5 bg-white rounded-2xl border border-slate-200/80 shadow-2xs space-y-4">
             <div class="flex items-center gap-3">
-              <div class="size-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm">
-                📍
+              <div class="size-10 rounded-xl bg-slate-900 text-white flex items-center justify-center">
+                <app-icon name="map-pin" [size]="18" />
               </div>
               <div>
                 <h3 class="text-sm font-bold text-slate-900">Punto de Retiro</h3>

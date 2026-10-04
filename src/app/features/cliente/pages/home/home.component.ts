@@ -6,6 +6,8 @@ import { CatalogService } from '../../../../core/services/catalog.service';
 import { CartService } from '../../../../core/services/cart.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { Category, Store, Product } from '../../../../core/models';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
+import { categoryIcon } from '../../../../shared/ui/icon/icon-maps';
 
 interface MallStory {
   id: string;
@@ -46,7 +48,7 @@ interface FeedPost {
 @Component({
   selector: 'app-cliente-home',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, IconComponent],
   template: `
     <div class="lg:grid lg:grid-cols-12 gap-8 pb-8">
       <!-- Main Content Area (Mobile + Desktop feed) -->
@@ -123,29 +125,34 @@ interface FeedPost {
           <a
             routerLink="/cliente/productos"
             [queryParams]="{ categoria: 'electronica' }"
-            class="btn-press px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 font-semibold text-[11px] whitespace-nowrap border border-slate-200/60 cursor-pointer"
+            class="btn-press inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 font-semibold text-[11px] whitespace-nowrap border border-slate-200/60 cursor-pointer"
           >
-            🎧 Audífonos bluetooth
+            <app-icon name="headphones" [size]="13" />
+            <span>Audífonos bluetooth</span>
           </a>
           <a
             routerLink="/cliente/productos"
             [queryParams]="{ categoria: 'gastronomia' }"
-            class="btn-press px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 font-semibold text-[11px] whitespace-nowrap border border-slate-200/60 cursor-pointer"
+            class="btn-press inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 font-semibold text-[11px] whitespace-nowrap border border-slate-200/60 cursor-pointer"
           >
-            🍔 Almuerzo Piso 3
+            <app-icon name="burger" [size]="13" />
+            <span>Almuerzo Piso 3</span>
           </a>
           <a
             routerLink="/cliente/tiendas"
             [queryParams]="{ piso: 'Piso 4' }"
-            class="btn-press px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 font-semibold text-[11px] whitespace-nowrap border border-slate-200/60 cursor-pointer"
+            class="btn-press inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-100 text-slate-700 hover:text-amber-900 font-semibold text-[11px] whitespace-nowrap border border-slate-200/60 cursor-pointer"
           >
-            🍷 Terraza El Cuarto
+            <app-icon name="wine" [size]="13" />
+            <span>Terraza El Cuarto</span>
           </a>
-          <div
-            class="px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 font-semibold text-[11px] whitespace-nowrap border border-indigo-200/80"
+          <a
+            routerLink="/cliente/pedidos"
+            class="btn-press inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-amber-50 text-amber-800 font-semibold text-[11px] whitespace-nowrap border border-amber-200/80 cursor-pointer"
           >
-            🚗 2h Parqueo Gratis
-          </div>
+            <app-icon name="ticket" [size]="13" />
+            <span>Retiro con QR</span>
+          </a>
         </div>
       </section>
 
@@ -170,7 +177,7 @@ interface FeedPost {
                 [queryParams]="{ categoria: cat.id }"
                 class="flex flex-col items-center justify-center p-2.5 bg-white rounded-2xl border border-slate-200/80 hover:border-amber-400 hover:shadow-xs transition text-center group active:scale-95"
               >
-                <span class="text-2xl mb-1 group-hover:scale-110 transition-transform">{{ cat.icono }}</span>
+                <app-icon [name]="categoryIcon(cat)" [size]="26" class="mb-1 text-slate-700 group-hover:scale-110 transition-transform" />
                 <span class="text-[10px] font-bold text-slate-800 leading-tight line-clamp-1">
                   {{ cat.nombre }}
                 </span>
@@ -184,8 +191,8 @@ interface FeedPost {
       <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-amber-950 rounded-3xl p-4 text-white shadow-md space-y-3 border border-amber-500/30">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-2.5">
-            <div class="size-9 rounded-xl bg-amber-500 text-slate-950 font-black text-sm flex items-center justify-center shadow-xs">
-              🛍️
+            <div class="size-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center shadow-xs">
+              <app-icon name="shopping-bag" [size]="18" />
             </div>
             <div>
               <div class="flex items-center gap-1.5">
@@ -235,7 +242,7 @@ interface FeedPost {
       <section class="space-y-3.5">
         <div class="flex items-center justify-between px-1">
           <h3 class="text-xs font-black uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
-            <span>📰 Novedades en Directo del Paseo</span>
+            <span>Novedades en Directo del Paseo</span>
           </h3>
           <span class="text-[10px] text-emerald-600 font-bold bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
             ● Hoy Abierto 10-22h
@@ -309,13 +316,14 @@ interface FeedPost {
                 [class.text-rose-600]="post.isLiked"
                 class="btn-press flex items-center gap-1.5 px-3 py-1.5 rounded-xl hover:bg-slate-100 font-semibold cursor-pointer"
               >
-                <span class="transition-transform duration-150" [class.scale-125]="post.isLiked">{{ post.isLiked ? '❤️' : '🤍' }}</span>
+                <app-icon [name]="post.isLiked ? 'heart-filled' : 'heart'" [size]="16" class="transition-transform duration-150" [class.scale-125]="post.isLiked" [class.text-rose-600]="post.isLiked" />
                 <span class="text-[11px] tabular-nums">{{ post.likes }} Me gusta</span>
               </button>
 
               <!-- Retiro QR Info Badge -->
               <span class="text-[10px] text-slate-500 font-medium bg-slate-100 px-2 py-0.5 rounded-md">
-                🚗 Retiro QR + 2h Parqueo
+                <app-icon name="ticket" [size]="12" class="inline-block align-[-2px] mr-0.5" />
+                Retiro QR en mostrador
               </span>
             </div>
           </article>
@@ -338,7 +346,9 @@ interface FeedPost {
 
           <div class="space-y-2.5 text-xs">
             <a routerLink="/cliente/tiendas" [queryParams]="{ piso: 'Piso 1' }" class="p-2.5 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 flex items-center gap-3 transition group">
-              <span class="size-9 rounded-xl bg-amber-100 text-amber-900 font-bold flex items-center justify-center text-base">👗</span>
+              <span class="size-9 rounded-xl bg-amber-100 text-amber-900 flex items-center justify-center">
+                <app-icon name="shirt" [size]="18" />
+              </span>
               <div class="min-w-0 flex-1">
                 <p class="font-bold text-slate-900 group-hover:text-amber-800 transition-colors">Piso 1: Moda & Joyería</p>
                 <p class="text-[11px] text-slate-500">Boutiques, vestidos de diseñador, plata y lino</p>
@@ -346,7 +356,9 @@ interface FeedPost {
             </a>
 
             <a routerLink="/cliente/tiendas" [queryParams]="{ piso: 'Piso 2' }" class="p-2.5 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 flex items-center gap-3 transition group">
-              <span class="size-9 rounded-xl bg-indigo-100 text-indigo-900 font-bold flex items-center justify-center text-base">🎧</span>
+              <span class="size-9 rounded-xl bg-indigo-100 text-indigo-900 flex items-center justify-center">
+                <app-icon name="headphones" [size]="18" />
+              </span>
               <div class="min-w-0 flex-1">
                 <p class="font-bold text-slate-900 group-hover:text-amber-800 transition-colors">Piso 2: Tecnología & Audio</p>
                 <p class="text-[11px] text-slate-500">Sony, Xiaomi, Apple &middot; Audífonos Bluetooth</p>
@@ -354,7 +366,9 @@ interface FeedPost {
             </a>
 
             <a routerLink="/cliente/tiendas" [queryParams]="{ piso: 'Piso 3' }" class="p-2.5 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 flex items-center gap-3 transition group">
-              <span class="size-9 rounded-xl bg-orange-100 text-orange-900 font-bold flex items-center justify-center text-base">🍔</span>
+              <span class="size-9 rounded-xl bg-orange-100 text-orange-900 flex items-center justify-center">
+                <app-icon name="burger" [size]="18" />
+              </span>
               <div class="min-w-0 flex-1">
                 <p class="font-bold text-slate-900 group-hover:text-amber-800 transition-colors">Piso 3: Mercado Gastronómico</p>
                 <p class="text-[11px] text-slate-500">Burger Craft, Pique Macho, Pizzas y Sky Games</p>
@@ -362,7 +376,9 @@ interface FeedPost {
             </a>
 
             <a routerLink="/cliente/tiendas" [queryParams]="{ piso: 'Piso 4' }" class="p-2.5 rounded-2xl bg-slate-50 hover:bg-amber-50/60 border border-slate-100 flex items-center gap-3 transition group">
-              <span class="size-9 rounded-xl bg-rose-100 text-rose-900 font-bold flex items-center justify-center text-base">🍷</span>
+              <span class="size-9 rounded-xl bg-rose-100 text-rose-900 flex items-center justify-center">
+                <app-icon name="wine" [size]="18" />
+              </span>
               <div class="min-w-0 flex-1">
                 <p class="font-bold text-slate-900 group-hover:text-amber-800 transition-colors">Piso 4: Terraza El Cuarto</p>
                 <p class="text-[11px] text-slate-500">Cortes a las brasas, tablas gourmet y mirador</p>
@@ -371,18 +387,18 @@ interface FeedPost {
           </div>
         </div>
 
-        <!-- 2 Hours Free Parking Card -->
-        <div class="bg-gradient-to-br from-indigo-950 via-slate-900 to-indigo-900 text-white rounded-3xl p-5 shadow-sm border border-indigo-800/50 space-y-2">
+        <!-- Retiro Express Card -->
+        <div class="bg-gradient-to-br from-slate-900 via-amber-950 to-slate-900 text-white rounded-3xl p-5 shadow-sm border border-amber-800/40 space-y-2">
           <div class="flex items-center gap-2">
-            <span class="text-xl">🚗</span>
-            <span class="text-xs font-black text-amber-400 uppercase tracking-wide">Parqueo Subterráneo</span>
+            <app-icon name="ticket" [size]="18" class="text-amber-400" />
+            <span class="text-xs font-black text-amber-400 uppercase tracking-wide">Retiro Express</span>
           </div>
-          <h4 class="text-sm font-bold text-white">2 Horas Libres por Consumo</h4>
+          <h4 class="text-sm font-bold text-white">Compra Online, Recoge en Local</h4>
           <p class="text-xs text-slate-300 leading-relaxed">
-            Compra en PaseoYa y al retirar en el local se emite tu ticket digital con código de barrera.
+            Paga desde PaseoYa y presenta tu código QR en el mostrador del comercio para retirar al instante.
           </p>
-          <div class="pt-1 text-[11px] text-indigo-300">
-            Ingreso por calle Pantaleón Dalence.
+          <div class="pt-1 text-[11px] text-amber-300">
+            Sin filas y sin cargos por retiro.
           </div>
         </div>
 
@@ -396,7 +412,7 @@ interface FeedPost {
             </div>
           </div>
           <div class="p-3 bg-slate-950/10 rounded-xl text-xs text-slate-950 font-medium leading-relaxed">
-            Explora 4 pisos de moda, tecnología y gastronomía con 2 horas de parqueo subterráneo gratuito.
+            Explora 4 pisos de moda, tecnología y gastronomía con retiros express en mostrador.
           </div>
         </div>
       </aside>
@@ -426,7 +442,9 @@ interface FeedPost {
                   <p class="text-[10px] text-slate-300 leading-none mt-0.5">{{ activeStory()!.piso }} &middot; Paseo Aranjuez</p>
                 </div>
               </div>
-              <button (click)="closeStory()" class="text-white hover:text-amber-400 text-base p-1">✕</button>
+              <button (click)="closeStory()" class="text-white hover:text-amber-400 text-base p-1 flex items-center justify-center">
+              <app-icon name="x" [size]="18" />
+            </button>
             </div>
 
             <!-- Story Image -->
@@ -468,6 +486,8 @@ export class HomeComponent implements OnInit {
   private toastService = inject(ToastService);
   private router = inject(Router);
 
+  readonly categoryIcon = categoryIcon;
+
   categories = signal<Category[]>([]);
   stores = signal<Store[]>([]);
   loading = signal<boolean>(true);
@@ -482,10 +502,10 @@ export class HomeComponent implements OnInit {
       piso: 'Pisos 1-4',
       avatarUrl: 'https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?w=160&auto=format&fit=crop&q=80',
       imageUrl: 'https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?w=800&auto=format&fit=crop&q=80',
-      title: '🚗 2 Horas de Parqueo Gratis',
+      title: '🎫 Retiro con QR',
       tagline: 'Beneficio Oficial',
-      highlightText: 'Realiza tu compra en PaseoYa y retira en mostrador con tu código QR para desbloquear 2 horas de parqueo subterráneo gratuito.',
-      queryPrompt: '¿Cómo funciona el parqueo gratis en Paseo Aranjuez?',
+      highlightText: 'Realiza tu compra en PaseoYa y retira en mostrador con tu código QR, sin filas y sin cargos por retiro.',
+      queryPrompt: '¿Cómo retiro mi compra?',
     },
     {
       id: 'story-sony',
@@ -554,7 +574,7 @@ export class HomeComponent implements OnInit {
       avatarUrl: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=160&auto=format&fit=crop&q=80',
       timeAgo: 'Hace 25 min',
       badge: '🔥 Oferta Tech',
-      content: '¿Buscando audífonos bluetooth para entrenar o trabajar? Ven al Piso 2 y llévate los Sony WH-CH520 a solo Bs. 250.00. 🎧\n\nAl retirar en nuestro mostrador con tu código QR obtienes automáticamente 2 horas de parqueo subterráneo gratis.',
+      content: '¿Buscando audífonos bluetooth para entrenar o trabajar? Ven al Piso 2 y llévate los Sony WH-CH520 a solo Bs. 250.00. 🎧\n\nAl retirar en nuestro mostrador con tu código QR recoges tu pedido en apenas 15 minutos.',
       product: {
         id: '10000000-0000-0000-0000-000000000002',
         nombre: 'Audífonos Bluetooth Sony WH-CH520',

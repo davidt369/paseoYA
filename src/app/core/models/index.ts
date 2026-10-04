@@ -85,7 +85,6 @@ export interface Order {
   tienda?: Store;
   cliente?: Profile;
   items?: OrderItem[];
-  parking_validation?: ParkingValidation;
 }
 
 export interface OrderStatusHistory {
@@ -96,16 +95,6 @@ export interface OrderStatusHistory {
   cambiado_por: string;
   rol_actor: UserRole;
   nota?: string;
-  created_at: string;
-}
-
-export interface ParkingValidation {
-  id: string;
-  order_id: string;
-  codigo_qr: string;
-  valido_hasta: string;
-  horas_libres: number;
-  estado: 'emitido' | 'canjeado' | 'expirado';
   created_at: string;
 }
 

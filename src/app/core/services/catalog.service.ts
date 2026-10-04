@@ -4,13 +4,13 @@ import { AuthService } from './auth.service';
 import { Category, Store, Product, Order, OrderStatus } from '../models';
 
 export const INITIAL_CATEGORIES: Category[] = [
-  { id: 'cat-tec', nombre: 'Tecnología y Celulares', descripcion: 'Smartphones, audio, laptops y accesorios', icono: '🎧', orden: 1 },
-  { id: 'cat-gas', nombre: 'Mercado Gastronómico', descripcion: 'Comida rápida, tradicional y cafeterías en Piso 3', icono: '🍔', orden: 2 },
-  { id: 'cat-ter', nombre: 'Terraza Gourmet El Cuarto', descripcion: 'Restaurantes de autor y carnes premium en Piso 4', icono: '🍷', orden: 3 },
-  { id: 'cat-mod', nombre: 'Moda y Ropa Exclusiva', descripcion: 'Tendencias urbanas, alta costura y casual', icono: '👗', orden: 4 },
-  { id: 'cat-cal', nombre: 'Calzado y Marroquinería', descripcion: 'Zapatos de diseñador, cuero y sneakers', icono: '👟', orden: 5 },
-  { id: 'cat-joy', nombre: 'Joyería y Relojes', descripcion: 'Plata, oro y accesorios de prestigio en Piso 1', icono: '💍', orden: 6 },
-  { id: 'cat-gam', nombre: 'Sky Games y Ocio', descripcion: 'Entretenimiento familiar y arcades en Piso 3', icono: '🕹️', orden: 7 },
+  { id: 'cat-tec', nombre: 'Tecnología y Celulares', descripcion: 'Smartphones, audio, laptops y accesorios', icono: '', orden: 1 },
+  { id: 'cat-gas', nombre: 'Mercado Gastronómico', descripcion: 'Comida rápida, tradicional y cafeterías en Piso 3', icono: '', orden: 2 },
+  { id: 'cat-ter', nombre: 'Terraza Gourmet El Cuarto', descripcion: 'Restaurantes de autor y carnes premium en Piso 4', icono: '', orden: 3 },
+  { id: 'cat-mod', nombre: 'Moda y Ropa Exclusiva', descripcion: 'Tendencias urbanas, alta costura y casual', icono: '', orden: 4 },
+  { id: 'cat-cal', nombre: 'Calzado y Marroquinería', descripcion: 'Zapatos de diseñador, cuero y sneakers', icono: '', orden: 5 },
+  { id: 'cat-joy', nombre: 'Joyería y Relojes', descripcion: 'Plata, oro y accesorios de prestigio en Piso 1', icono: '', orden: 6 },
+  { id: 'cat-gam', nombre: 'Sky Games y Ocio', descripcion: 'Entretenimiento familiar y arcades en Piso 3', icono: '', orden: 7 },
 ];
 
 export const INITIAL_STORES: Store[] = [
@@ -684,7 +684,7 @@ export class CatalogService {
   async validarRetiro(
     orderId: string,
     codigo: string
-  ): Promise<{ success: boolean; parking?: any; error?: string }> {
+  ): Promise<{ success: boolean; error?: string }> {
     const cleanCode = codigo.trim().toUpperCase();
 
     try {
@@ -695,7 +695,7 @@ export class CatalogService {
 
       if (!error && data?.success) {
         this.updateLocalOrderStatus(orderId, 'entregado');
-        return { success: true, parking: data.parking };
+        return { success: true };
       }
       if (error) {
         console.warn('RPC validar_retiro error, attempting local validation:', error.message);
@@ -715,17 +715,8 @@ export class CatalogService {
     }
 
     this.updateLocalOrderStatus(orderId, 'entregado');
-    const parkingTicket = {
-      codigo_qr: 'PARK-' + ord.pickup_code,
-      horas_libres: 2,
-      valido_hasta: new Date(Date.now() + 3 * 3600 * 1000).toISOString(),
-      mensaje: '¡Validación de parqueo subterráneo Paseo Aranjuez generada con 2 horas libres!',
-    };
 
-    return {
-      success: true,
-      parking: parkingTicket,
-    };
+    return { success: true };
   }
 
   async addProduct(product: Partial<Product>): Promise<Product> {

@@ -4,21 +4,25 @@ import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { UserRole } from '../../core/models';
+import { IconComponent } from '../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, IconComponent],
   template: `
     <div class="min-h-dvh flex flex-col justify-center px-4 py-8 bg-slate-50 safe-top safe-bottom">
       <div class="w-full max-w-sm mx-auto bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
         <!-- Brand Header -->
         <div class="text-center mb-6">
-          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-slate-900 text-white font-black text-xl tracking-tight shadow-xs mb-2">
-            PY
+          <div class="flex justify-center mb-2">
+            <img
+              src="/logo-negro.png"
+              alt="Paseo Aranjuez Logo"
+              class="h-12 w-auto max-w-[200px] object-contain"
+            />
           </div>
-          <h1 class="text-2xl font-bold tracking-tight text-slate-900">PaseoYa</h1>
-          <p class="text-xs text-slate-500 font-medium">Paseo Aranjuez &middot; Cochabamba</p>
+          <p class="text-xs text-slate-500 font-medium">Marketplace Oficial &middot; Cochabamba</p>
         </div>
 
         <!-- Feedback Alert -->
@@ -91,23 +95,26 @@ import { UserRole } from '../../core/models';
             <button
               type="button"
               (click)="quickLogin('cliente')"
-              class="h-9 text-[11px] font-medium bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-800 rounded-lg border border-slate-200 transition text-center px-1"
+              class="h-9 text-[11px] font-medium bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-800 rounded-lg border border-slate-200 transition flex items-center justify-center gap-1 px-1"
             >
-              👤 Cliente
+              <app-icon name="user" [size]="12" />
+              <span>Cliente</span>
             </button>
             <button
               type="button"
               (click)="quickLogin('comercio')"
-              class="h-9 text-[11px] font-medium bg-amber-50 hover:bg-amber-100 active:bg-amber-200 text-amber-900 rounded-lg border border-amber-200 transition text-center px-1"
+              class="h-9 text-[11px] font-medium bg-amber-50 hover:bg-amber-100 active:bg-amber-200 text-amber-900 rounded-lg border border-amber-200 transition flex items-center justify-center gap-1 px-1"
             >
-              🏪 Comercio
+              <app-icon name="store" [size]="12" />
+              <span>Comercio</span>
             </button>
             <button
               type="button"
               (click)="quickLogin('admin')"
-              class="h-9 text-[11px] font-medium bg-purple-50 hover:bg-purple-100 active:bg-purple-200 text-purple-900 rounded-lg border border-purple-200 transition text-center px-1"
+              class="h-9 text-[11px] font-medium bg-purple-50 hover:bg-purple-100 active:bg-purple-200 text-purple-900 rounded-lg border border-purple-200 transition flex items-center justify-center gap-1 px-1"
             >
-              ⚙️ Admin
+              <app-icon name="settings" [size]="12" />
+              <span>Admin</span>
             </button>
           </div>
         </div>

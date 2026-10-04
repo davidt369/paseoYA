@@ -1,11 +1,12 @@
 import { Component, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { PwaInstallService } from '../../../core/services/pwa-install.service';
+import { IconComponent } from '../icon/icon.component';
 
 @Component({
   selector: 'app-pwa-install-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   template: `
     @if (pwaInstall.showGuideModal()) {
       <div
@@ -20,16 +21,20 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
           <button
             type="button"
             (click)="pwaInstall.closeGuide()"
-            class="absolute top-4 right-4 size-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition cursor-pointer text-sm font-bold"
+            class="absolute top-4 right-4 size-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-500 hover:text-slate-800 flex items-center justify-center transition cursor-pointer"
             aria-label="Cerrar modal"
           >
-            ✕
+            <app-icon name="x" [size]="18" />
           </button>
 
           <!-- App Icon & Title Header -->
           <div class="flex items-center gap-3.5">
-            <div class="size-14 rounded-2xl bg-gradient-to-tr from-amber-600 via-amber-500 to-amber-400 text-white font-black text-xl flex items-center justify-center shadow-md shrink-0">
-              PY
+            <div class="h-14 w-18 rounded-2xl bg-slate-900 p-2 flex items-center justify-center shadow-md shrink-0 border border-slate-800">
+              <img
+                src="/logo-blanco.png"
+                alt="Paseo Aranjuez"
+                class="w-full h-full object-contain"
+              />
             </div>
             <div>
               <div class="flex items-center gap-1.5">
@@ -47,14 +52,14 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
             <div class="p-3.5 bg-gradient-to-r from-amber-500 to-amber-600 rounded-2xl text-white shadow-sm space-y-2">
               <div class="flex items-center justify-between">
                 <span class="font-bold text-xs">Instalación automática disponible</span>
-                <span class="text-xs">⚡</span>
+                <app-icon name="bolt" [size]="16" />
               </div>
               <button
                 type="button"
                 (click)="onDirectInstall()"
                 class="w-full py-2.5 bg-slate-950 hover:bg-slate-900 active:scale-95 text-white font-black text-xs rounded-xl shadow transition cursor-pointer flex items-center justify-center gap-2"
               >
-                <span>📲</span>
+                <app-icon name="smartphone" [size]="16" />
                 <span>Instalar Ahora Directamente</span>
               </button>
             </div>
@@ -71,7 +76,7 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
                 [class.shadow-xs]="activeTab() === 'android'"
                 class="flex-1 py-1.5 rounded-lg transition text-center cursor-pointer"
               >
-                🤖 Android
+                Android
               </button>
               <button
                 type="button"
@@ -81,7 +86,7 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
                 [class.shadow-xs]="activeTab() === 'ios'"
                 class="flex-1 py-1.5 rounded-lg transition text-center cursor-pointer"
               >
-                🍎 iPhone / iPad
+                iPhone / iPad
               </button>
               <button
                 type="button"
@@ -91,7 +96,7 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
                 [class.shadow-xs]="activeTab() === 'pc'"
                 class="flex-1 py-1.5 rounded-lg transition text-center cursor-pointer"
               >
-                💻 PC
+                PC
               </button>
             </div>
 
@@ -118,7 +123,7 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
               <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-3 text-xs text-slate-700">
                 <div class="flex items-start gap-2.5">
                   <span class="size-5 rounded-full bg-amber-500 text-slate-950 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
-                  <p>Toca el botón <strong>Compartir (icono cuadrado con flecha arriba 📤)</strong> en Safari.</p>
+                  <p>Toca el botón <strong>Compartir</strong> en Safari.</p>
                 </div>
                 <div class="flex items-start gap-2.5">
                   <span class="size-5 rounded-full bg-amber-500 text-slate-950 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
@@ -136,7 +141,7 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
               <div class="p-4 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-3 text-xs text-slate-700">
                 <div class="flex items-start gap-2.5">
                   <span class="size-5 rounded-full bg-amber-500 text-slate-950 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">1</span>
-                  <p>Busca el icono de instalación <strong>⬇️</strong> en el extremo derecho de la barra de direcciones de Chrome o Edge.</p>
+                  <p>Busca el icono de instalación en el extremo derecho de la barra de direcciones de Chrome o Edge.</p>
                 </div>
                 <div class="flex items-start gap-2.5">
                   <span class="size-5 rounded-full bg-amber-500 text-slate-950 font-bold text-[10px] flex items-center justify-center shrink-0 mt-0.5">2</span>
@@ -149,19 +154,19 @@ import { PwaInstallService } from '../../../core/services/pwa-install.service';
           <!-- Benefits Footer -->
           <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-600 bg-amber-50/60 p-3 rounded-2xl border border-amber-200/60">
             <div class="flex items-center gap-1.5">
-              <span>⚡</span>
+              <app-icon name="bolt" [size]="14" />
               <span>Carga instantánea</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span>🎫</span>
+              <app-icon name="ticket" [size]="14" />
               <span>QR sin conexión</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span>🚗</span>
-              <span>Ticket de parqueo</span>
+              <app-icon name="ticket" [size]="14" />
+              <span>Pase QR sin conexión</span>
             </div>
             <div class="flex items-center gap-1.5">
-              <span>🔔</span>
+              <app-icon name="bell" [size]="14" />
               <span>Avisos de retiro</span>
             </div>
           </div>

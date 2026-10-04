@@ -6,16 +6,24 @@ import { Injectable, signal, computed } from '@angular/core';
 export class PwaInstallService {
   private deferredPrompt = signal<any>(null);
   readonly isInstalled = signal<boolean>(false);
+  readonly isMobile = signal<boolean>(false);
   readonly showGuideModal = signal<boolean>(false);
   readonly hasPrompt = computed(() => this.deferredPrompt() !== null);
 
   constructor() {
-    this.checkStandalone();
+    this.checkEnvironment();
     this.initListeners();
   }
 
-  private checkStandalone(): void {
+  private checkEnvironment(): void {
     if (typeof window === 'undefined') return;
+
+    // Detect if device is phone/tablet (avoid showing install prompt on desktop PC / Mac)
+    const ua = navigator.userAgent || '';
+    const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+    const hasTouchScreen = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+    const isSmallScreen = window.innerWidth <= 1024;
+    this.isMobile.set(isMobileUA || (hasTouchScreen && isSmallScreen));
 
     const isStandalone =
       window.matchMedia('(display-mode: standalone)').matches ||

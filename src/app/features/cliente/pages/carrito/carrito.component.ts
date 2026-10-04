@@ -4,11 +4,12 @@ import { Router } from '@angular/router';
 import { CartService } from '../../../../core/services/cart.service';
 import { StateMessageComponent } from '../../../../shared/ui/state/state-message.component';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-carrito',
   standalone: true,
-  imports: [CommonModule, StateMessageComponent, ButtonComponent],
+  imports: [CommonModule, StateMessageComponent, ButtonComponent, IconComponent],
   template: `
     <div class="space-y-5 pb-8">
       <div class="space-y-1">
@@ -30,7 +31,7 @@ import { ButtonComponent } from '../../../../shared/ui/button/button.component';
           <div class="lg:col-span-7 space-y-4">
             <!-- Store Notice Card (Single store order rule) -->
             <div class="p-4 bg-amber-50/80 border border-amber-200/90 rounded-3xl flex items-start gap-3">
-              <span class="text-xl">🏪</span>
+              <app-icon name="store" [size]="20" />
               <div class="text-xs">
                 <span class="font-bold text-amber-950 block text-sm">Retiro en local de Paseo Aranjuez</span>
                 <p class="text-amber-900 mt-1 leading-snug">
@@ -108,8 +109,8 @@ import { ButtonComponent } from '../../../../shared/ui/button/button.component';
                   <span class="font-bold text-emerald-600">GRATIS</span>
                 </div>
                 <div class="flex justify-between text-amber-900 bg-amber-50 p-2.5 rounded-xl font-medium text-xs">
-                  <span>Validación de Parqueo Subterráneo</span>
-                  <span class="font-black text-amber-800">2 Horas Gratis</span>
+                  <span>Pase QR de Retiro</span>
+                  <span class="font-black text-amber-800">Digital</span>
                 </div>
               </div>
 
@@ -134,7 +135,7 @@ import { ButtonComponent } from '../../../../shared/ui/button/button.component';
                 <span class="font-bold text-amber-400">Garantía de Retiro en Paseo Aranjuez</span>
               </div>
               <p class="text-[11px] text-slate-300 leading-relaxed">
-                Muestra tu QR en el local de la tienda. Puedes llegar en auto e ingresar al parqueo subterráneo por la calle Pantaleón Dalence.
+                Muestra tu QR en el mostrador del local de la tienda y el comercio te entrega tu pedido al instante.
               </p>
             </div>
           </div>

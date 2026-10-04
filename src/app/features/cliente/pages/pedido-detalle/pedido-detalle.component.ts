@@ -9,6 +9,7 @@ import { OrderStepperComponent } from '../../../../shared/ui/stepper/order-stepp
 import { StatusBadgeComponent } from '../../../../shared/ui/badge/badge.component';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { StateMessageComponent } from '../../../../shared/ui/state/state-message.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 import * as QRCode from 'qrcode';
 
 @Component({
@@ -21,6 +22,7 @@ import * as QRCode from 'qrcode';
     StatusBadgeComponent,
     ButtonComponent,
     StateMessageComponent,
+    IconComponent,
   ],
   template: `
     <div class="space-y-5 pb-10">
@@ -49,12 +51,13 @@ import * as QRCode from 'qrcode';
         />
       } @else {
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-          <!-- Left Column: Official Pickup QR Pass & Parking Ticket -->
+          <!-- Left Column: Official Pickup QR Pass -->
           <div class="lg:col-span-6 space-y-5">
             <!-- QR Pickup Card (Main Attraction for demo) -->
             <div class="bg-white rounded-3xl border-2 border-slate-900 p-6 shadow-sm text-center space-y-4">
               <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 text-white text-[11px] font-bold">
-                <span>🎫 Pase Oficial de Retiro &middot; Paseo Aranjuez</span>
+                <app-icon name="ticket" [size]="12" />
+                <span>Pase Oficial de Retiro &middot; Paseo Aranjuez</span>
               </div>
 
               <h1 class="text-lg font-black text-slate-900 tracking-tight leading-tight">
@@ -62,7 +65,8 @@ import * as QRCode from 'qrcode';
               </h1>
 
               <div class="inline-flex items-center gap-2 px-3 py-1 rounded-xl bg-slate-100 text-slate-800 text-xs font-bold">
-                <span>📍 {{ order()!.tienda?.piso }}</span>
+                <app-icon name="map-pin" [size]="14" />
+                <span>{{ order()!.tienda?.piso }}</span>
                 <span>&middot;</span>
                 <span>{{ order()!.tienda?.local }}</span>
               </div>
@@ -115,7 +119,8 @@ import * as QRCode from 'qrcode';
                     [fullWidth]="true"
                     (clicked)="onClientArrived()"
                   >
-                    📍 ¡Ya llegué al local del Paseo!
+                    <app-icon name="map-pin" [size]="16" class="inline-block align-[-2px] mr-1" />
+                    ¡Ya llegué al local del Paseo!
                   </app-button>
                 </div>
               } @else if (order()!.estado === 'cliente_llego') {
@@ -125,30 +130,25 @@ import * as QRCode from 'qrcode';
               }
             </div>
 
-            <!-- FREE PARKING VALIDATION TICKET (Visible if order is 'entregado') -->
+            <!-- PICKUP CONFIRMATION (Visible if order is 'entregado') -->
             @if (order()!.estado === 'entregado') {
               <div class="bg-gradient-to-br from-emerald-900 to-slate-900 text-white rounded-3xl p-5 shadow-sm space-y-3">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2">
-                    <span class="text-2xl">🚗</span>
+                    <span class="text-2xl">🎉</span>
                     <div>
-                      <h3 class="font-bold text-sm text-emerald-300">Ticket de Parqueo Validado</h3>
-                      <p class="text-[10px] text-slate-300">Estacionamiento Subterráneo Paseo Aranjuez</p>
+                      <h3 class="font-bold text-sm text-emerald-300">Pedido Retirado</h3>
+                      <p class="text-[10px] text-slate-300">Canje completado en {{ order()!.tienda?.nombre }}</p>
                     </div>
                   </div>
                   <span class="px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-bold">
-                    2 Hrs Libres
+                    Entregado
                   </span>
                 </div>
 
                 <p class="text-xs text-slate-200 leading-relaxed">
-                  Tu consumo en <strong>{{ order()!.tienda?.nombre }}</strong> valida tu salida sin costo en las barreras del parqueo. Muestra el código en la cabina o terminal.
+                  Tu consumo en <strong>{{ order()!.tienda?.nombre }}</strong> fue entregado en mostrador. ¡Gracias por comprar en Paseo Aranjuez!
                 </p>
-
-                <div class="p-3 bg-white/10 rounded-xl border border-white/20 flex items-center justify-between font-mono text-xs">
-                  <span class="text-slate-300">CÓDIGO DE SALIDA:</span>
-                  <span class="font-black text-emerald-300 text-sm">PARK-{{ order()!.pickup_code }}</span>
-                </div>
               </div>
             }
           </div>
@@ -199,7 +199,7 @@ import * as QRCode from 'qrcode';
             <!-- "MIENTRAS ESPERAS, VISITA..." (Floor 3 & 4 Cross-Selling) -->
             <section class="space-y-3">
               <div class="flex items-center gap-2">
-                <span class="text-lg">✨</span>
+                <app-icon name="sparkles" [size]="18" />
                 <div>
                   <h2 class="text-xs font-black uppercase tracking-wider text-slate-800">
                     Mientras esperas tu pedido, visita...
@@ -212,7 +212,7 @@ import * as QRCode from 'qrcode';
                 <!-- Floor 3 Card -->
                 <div class="p-3.5 bg-white rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-3">
                   <div class="size-12 rounded-xl bg-orange-100 text-orange-700 flex items-center justify-center text-xl shrink-0">
-                    🍔
+                    <app-icon name="burger" [size]="20" />
                   </div>
                   <div class="flex-1 min-w-0">
                     <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-orange-50 text-orange-800">
@@ -226,7 +226,7 @@ import * as QRCode from 'qrcode';
                 <!-- Floor 4 Card -->
                 <div class="p-3.5 bg-white rounded-2xl border border-slate-200/80 shadow-2xs flex items-center gap-3">
                   <div class="size-12 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-xl shrink-0">
-                    🍷
+                    <app-icon name="wine" [size]="20" />
                   </div>
                   <div class="flex-1 min-w-0">
                     <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-50 text-purple-800">
