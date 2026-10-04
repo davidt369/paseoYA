@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CartService } from '../../../../core/services/cart.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { Product } from '../../../../core/models';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 
 interface MallReel {
   id: string;
@@ -31,7 +32,7 @@ interface MallReel {
 @Component({
   selector: 'app-reels',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   template: `
     <div class="space-y-6 pb-16">
       
@@ -41,7 +42,8 @@ interface MallReel {
         <div class="relative z-10 max-w-2xl space-y-2">
           <div class="flex items-center gap-2">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-xs text-rose-200 text-xs font-bold uppercase tracking-wider">
-              🎬 PaseoYa Watch & Reels
+              <app-icon name="film" [size]="14" />
+              PaseoYa Watch & Reels
             </span>
             <span class="text-xs font-black text-rose-300 bg-rose-950/70 border border-rose-700/60 px-2.5 py-0.5 rounded-full flex items-center gap-1">
               <span class="size-2 rounded-full bg-rose-500 animate-ping"></span>
@@ -67,7 +69,10 @@ interface MallReel {
               [class]="selectedFloor() === f ? 'bg-slate-900 text-white font-bold shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
               class="px-3.5 py-1.5 rounded-xl whitespace-nowrap transition cursor-pointer text-xs font-medium active:scale-95"
             >
-              {{ f === 'Todos' ? '🔥 Todos los Reels' : f }}
+              @if (f === 'Todos') {
+                <app-icon name="fire" [size]="12" />
+              }
+              {{ f === 'Todos' ? 'Todos los Reels' : f }}
             </button>
           }
         </div>
@@ -153,7 +158,7 @@ interface MallReel {
 
                 <!-- Audio tag -->
                 <div class="flex items-center gap-1.5 text-[11px] text-amber-300">
-                  <span>🎵</span>
+                  <app-icon name="music" [size]="12" />
                   <span class="truncate font-medium">{{ reel.audioTrack }}</span>
                 </div>
 

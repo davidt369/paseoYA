@@ -1,18 +1,20 @@
 import { Component, input, computed, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { OrderStatus } from '../../../core/models';
+import { IconComponent } from '../icon/icon.component';
+import { IconName } from '../icon/icons';
 
 interface StepInfo {
   key: OrderStatus;
   label: string;
   sublabel: string;
-  icon: string;
+  icon: IconName;
 }
 
 @Component({
   selector: 'app-order-stepper',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconComponent],
   template: `
     <div class="py-2">
       <!-- Mobile Compact Timeline -->
@@ -32,7 +34,7 @@ interface StepInfo {
               } @else if (isCurrent(step.key)) {
                 <span class="size-2.5 rounded-full bg-white animate-pulse"></span>
               } @else {
-                <span class="text-slate-400 font-mono text-[11px]">{{ idx + 1 }}</span>
+                <app-icon [name]="step.icon" [size]="16" />
               }
             </span>
 
@@ -59,12 +61,12 @@ export class OrderStepperComponent {
   currentStatus = input.required<OrderStatus | string>();
 
   readonly steps: StepInfo[] = [
-    { key: 'recibido', label: '1. Pedido Recibido', sublabel: 'Registrado en PaseoYa y enviado a la tienda', icon: '📝' },
-    { key: 'confirmado', label: '2. Confirmado por Tienda', sublabel: 'El comercio aceptó tu orden y reservó stock', icon: '✅' },
-    { key: 'preparando', label: '3. En Preparación', sublabel: 'Empaquetando en el local comercial', icon: '📦' },
-    { key: 'listo_para_recoger', label: '4. Listo para Retirar', sublabel: '¡Pasa al local con tu código QR de retiro!', icon: '🔔' },
-    { key: 'cliente_llego', label: '5. Llegaste al Local', sublabel: 'Notificaste tu presencia en el mostrador', icon: '📍' },
-    { key: 'entregado', label: '6. Entregado + Parqueo', sublabel: 'Pedido retirado y 2 hrs de parqueo activadas', icon: '🎉' },
+    { key: 'recibido', label: '1. Pedido Recibido', sublabel: 'Registrado en PaseoYa y enviado a la tienda', icon: 'note-edit' },
+    { key: 'confirmado', label: '2. Confirmado por Tienda', sublabel: 'El comercio aceptó tu orden y reservó stock', icon: 'check' },
+    { key: 'preparando', label: '3. En Preparación', sublabel: 'Empaquetando en el local comercial', icon: 'package' },
+    { key: 'listo_para_recoger', label: '4. Listo para Retirar', sublabel: '¡Pasa al local con tu código QR de retiro!', icon: 'bell' },
+    { key: 'cliente_llego', label: '5. Llegaste al Local', sublabel: 'Notificaste tu presencia en el mostrador', icon: 'map-pin' },
+    { key: 'entregado', label: '6. Entregado', sublabel: 'Pedido retirado en el mostrador del local', icon: 'party' },
   ];
 
   private readonly statusOrder: OrderStatus[] = [

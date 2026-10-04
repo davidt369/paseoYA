@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { CatalogService } from '../../../../core/services/catalog.service';
 import { Store, Category, Product } from '../../../../core/models';
 import { StateMessageComponent } from '../../../../shared/ui/state/state-message.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
+import { floorIcon } from '../../../../shared/ui/icon/icon-maps';
 
 @Component({
   selector: 'app-tiendas',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule, StateMessageComponent],
+  imports: [CommonModule, RouterLink, FormsModule, StateMessageComponent, IconComponent],
   template: `
     <div class="space-y-4 pb-12">
       
@@ -18,7 +20,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
         <div class="absolute -right-6 -bottom-6 size-36 bg-amber-500/10 rounded-full blur-xl pointer-events-none"></div>
         <div class="flex items-center justify-between">
           <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-bold uppercase tracking-wider">
-            🏪 Directorio Comercial
+            <app-icon name="store" [size]="12" />
+            Directorio Comercial
           </span>
           <span class="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2 py-0.5 rounded-full">
             ● 12 Locales Activos
@@ -58,7 +61,7 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                 [class]="selectedFloor() === f.key ? 'bg-slate-900 text-white font-bold shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'"
                 class="py-2 px-1 rounded-xl text-center transition flex flex-col items-center justify-center gap-0.5 cursor-pointer active:scale-95"
               >
-                <span class="text-sm leading-none">{{ f.icon }}</span>
+                <app-icon [name]="f.icon" [size]="14" />
                 <span class="text-[10px] leading-tight font-bold truncate">{{ f.label }}</span>
               </button>
             }
@@ -69,7 +72,7 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
         @if (selectedFloor() !== 'Todos') {
           <div class="p-3 rounded-2xl bg-amber-50/90 border border-amber-200/80 flex items-center justify-between text-xs text-amber-900 shadow-2xs">
             <div class="flex items-center gap-2.5">
-              <span class="text-lg">{{ getFloorInfo(selectedFloor()).icon }}</span>
+              <app-icon [name]="getFloorInfo(selectedFloor()).icon" [size]="18" />
               <div>
                 <p class="font-bold text-xs leading-tight text-amber-950">{{ getFloorInfo(selectedFloor()).title }}</p>
                 <p class="text-[11px] text-amber-800">{{ getFloorInfo(selectedFloor()).description }}</p>
@@ -125,10 +128,11 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                   </span>
                 </div>
 
-                <!-- Free Parking Badge -->
+                <!-- Pickup QR Badge -->
                 <div class="absolute top-3 right-3">
-                  <span class="px-2 py-0.5 rounded-full bg-indigo-900/80 backdrop-blur-xs text-indigo-200 text-[9px] font-bold border border-indigo-700/50 flex items-center gap-1">
-                    <span>🚗 2h Libre</span>
+                  <span class="px-2 py-0.5 rounded-full bg-slate-950/80 backdrop-blur-xs text-amber-200 text-[9px] font-bold border border-amber-700/50 flex items-center gap-1">
+                    <app-icon name="ticket" [size]="10" />
+                    <span>Retiro QR</span>
                   </span>
                 </div>
 
@@ -210,11 +214,11 @@ export class TiendasComponent implements OnInit {
   searchQuery = '';
 
   readonly floorTabs = [
-    { key: 'Todos', label: 'Todos', icon: '🏢' },
-    { key: 'Piso 1', label: 'Piso 1', icon: '👗' },
-    { key: 'Piso 2', label: 'Piso 2', icon: '🎧' },
-    { key: 'Piso 3', label: 'Piso 3', icon: '🍔' },
-    { key: 'Piso 4', label: 'Piso 4', icon: '🍷' },
+    { key: 'Todos', label: 'Todos', icon: 'building' as const },
+    { key: 'Piso 1', label: 'Piso 1', icon: 'shirt' as const },
+    { key: 'Piso 2', label: 'Piso 2', icon: 'headphones' as const },
+    { key: 'Piso 3', label: 'Piso 3', icon: 'burger' as const },
+    { key: 'Piso 4', label: 'Piso 4', icon: 'wine' as const },
   ];
 
   filteredStores = computed(() => {
@@ -267,18 +271,18 @@ export class TiendasComponent implements OnInit {
     return this.allProducts().filter((p) => p.store_id === storeId).slice(0, 2);
   }
 
-  getFloorInfo(floor: string): { title: string; description: string; icon: string } {
+  getFloorInfo(floor: string): { title: string; description: string; icon: any } {
     switch (floor) {
       case 'Piso 1':
-        return { title: 'Piso 1: Moda & Joyería', description: 'Boutiques de ropa exclusiva, accesorios y joyería fina.', icon: '👗' };
+        return { title: 'Piso 1: Moda & Joyería', description: 'Boutiques de ropa exclusiva, accesorios y joyería fina.', icon: 'shirt' };
       case 'Piso 2':
-        return { title: 'Piso 2: Tecnología & Gadgets', description: 'Sony, Xiaomi, Apple. ¡Comparador de audífonos bluetooth!', icon: '🎧' };
+        return { title: 'Piso 2: Tecnología & Gadgets', description: 'Sony, Xiaomi, Apple. ¡Comparador de audífonos bluetooth!', icon: 'headphones' };
       case 'Piso 3':
-        return { title: 'Piso 3: Mercado Gastronómico & Sky Games', description: 'Hamburguesas, comida tradicional, pizzas y arcades.', icon: '🍔' };
+        return { title: 'Piso 3: Mercado Gastronómico & Sky Games', description: 'Hamburguesas, comida tradicional, pizzas y arcades.', icon: 'burger' };
       case 'Piso 4':
-        return { title: 'Piso 4: Terraza Gourmet El Cuarto', description: 'Carnes a la parrilla, tablas de quesos y vinos de altura.', icon: '🍷' };
+        return { title: 'Piso 4: Terraza Gourmet El Cuarto', description: 'Carnes a la parrilla, tablas de quesos y vinos de altura.', icon: 'wine' };
       default:
-        return { title: 'Paseo Aranjuez', description: 'Todos los locales comerciales del mall.', icon: '🏢' };
+        return { title: 'Paseo Aranjuez', description: 'Todos los locales comerciales del mall.', icon: 'building' };
     }
   }
 }

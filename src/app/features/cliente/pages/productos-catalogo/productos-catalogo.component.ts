@@ -7,11 +7,13 @@ import { CartService } from '../../../../core/services/cart.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { Product } from '../../../../core/models';
 import { StateMessageComponent } from '../../../../shared/ui/state/state-message.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
+import { filterIcon } from '../../../../shared/ui/icon/icon-maps';
 
 @Component({
   selector: 'app-productos-catalogo',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, StateMessageComponent],
+  imports: [CommonModule, FormsModule, RouterLink, StateMessageComponent, IconComponent],
   template: `
     <div class="space-y-6 pb-16">
       
@@ -21,7 +23,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
         <div class="relative z-10 max-w-2xl space-y-3">
           <div class="flex items-center gap-2">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/20 backdrop-blur-xs text-amber-200 text-xs font-bold uppercase tracking-wider">
-              🛍️ Gran Vitrina PaseoYa
+              <app-icon name="shopping-bag" [size]="14" />
+              Gran Vitrina PaseoYa
             </span>
             <span class="text-xs font-black text-emerald-300 bg-emerald-950/70 border border-emerald-700/60 px-3 py-1 rounded-full">
               ● {{ allProducts().length }} Productos en Vivo
@@ -31,7 +34,7 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
             Venta de Todos los Productos del Mall
           </h1>
           <p class="text-xs sm:text-sm text-amber-100 leading-relaxed">
-            Explora y compara artículos de todas las tiendas de los 4 pisos de Paseo Aranjuez en un solo lugar. Pide en línea y retira con QR con 2 horas de parqueo subterráneo gratuito.
+            Explora y compara artículos de todas las tiendas de los 4 pisos de Paseo Aranjuez en un solo lugar. Pide en línea y retira en mostrador con tu código QR.
           </p>
         </div>
       </div>
@@ -45,7 +48,7 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
           <div class="bg-white rounded-3xl border border-slate-200/90 p-5 shadow-xs space-y-5">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
               <h3 class="font-black text-sm text-slate-900 flex items-center gap-2">
-                <span>🔍</span>
+                <app-icon name="search" [size]="16" />
                 <span>Filtros de Catálogo</span>
               </h3>
               @if (selectedFloor() !== 'Todos los Pisos' || selectedCategory() !== 'all' || searchQuery || priceBracket !== 'all') {
@@ -107,7 +110,7 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                     class="w-full px-3 py-2 rounded-xl text-left transition flex items-center justify-between cursor-pointer"
                   >
                     <span class="flex items-center gap-2">
-                      <span>{{ cat.icon }}</span>
+                      <app-icon [name]="cat.icon" [size]="14" />
                       <span>{{ cat.label }}</span>
                     </span>
                     @if (selectedCategory() === cat.key) {
@@ -146,14 +149,14 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
             </div>
           </div>
 
-          <!-- Free Parking Card (Sidebar) -->
-          <div class="bg-gradient-to-br from-indigo-950 to-slate-900 text-white rounded-3xl p-5 border border-indigo-800/40 shadow-sm space-y-2">
+          <!-- Retiro Express Card (Sidebar) -->
+          <div class="bg-gradient-to-br from-slate-900 via-amber-950 to-slate-900 text-white rounded-3xl p-5 border border-amber-800/40 shadow-sm space-y-2">
             <div class="flex items-center gap-2">
-              <span class="text-xl">🚗</span>
-              <span class="text-xs font-bold text-amber-400">2h Parqueo Subterráneo</span>
+              <app-icon name="ticket" [size]="18" class="text-amber-400" />
+              <span class="text-xs font-bold text-amber-400">Retiro Express con QR</span>
             </div>
             <p class="text-[11px] text-slate-300 leading-relaxed">
-              Cualquier compra con retiro presencial activa tu código de salida libre del parqueo.
+              Cualquier compra con retiro presencial se completa mostrando tu código QR en el mostrador de la tienda.
             </p>
           </div>
         </aside>
@@ -165,8 +168,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
           <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl p-4 sm:p-5 shadow-md border border-indigo-900/60 space-y-3">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2.5">
-                <div class="size-10 rounded-2xl bg-indigo-600/30 text-indigo-400 border border-indigo-500/40 flex items-center justify-center text-lg">
-                  🎧
+                <div class="size-10 rounded-2xl bg-indigo-600/30 text-indigo-400 border border-indigo-500/40 flex items-center justify-center">
+                  <app-icon name="headphones" [size]="18" />
                 </div>
                 <div>
                   <h3 class="font-black text-sm text-white leading-tight">Comparativa de Audífonos Bluetooth</h3>
@@ -278,9 +281,10 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                         </span>
                       </div>
 
-                      <!-- Free Parking indicator -->
-                      <span class="absolute bottom-2.5 right-2.5 text-[8px] font-bold px-2 py-0.5 rounded-md bg-indigo-950/80 text-indigo-200 backdrop-blur-xs border border-indigo-700/40">
-                        🚗 2h Libre
+                      <!-- Pickup indicator -->
+                      <span class="absolute bottom-2.5 right-2.5 text-[8px] font-bold px-2 py-0.5 rounded-md bg-slate-950/80 text-amber-200 backdrop-blur-xs border border-amber-700/40">
+                        <app-icon name="ticket" [size]="10" class="inline-block align-[-1px] mr-0.5" />
+                        Retiro QR
                       </span>
                     </div>
 
@@ -291,7 +295,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                         [routerLink]="['/cliente/tiendas', product.store_id]"
                         class="text-[11px] text-slate-500 hover:text-amber-700 font-bold truncate block transition-colors"
                       >
-                        🏪 {{ product.tienda?.nombre || 'Tienda Paseo' }}
+                        <app-icon name="store" [size]="12" class="inline-block align-[-2px] mr-0.5" />
+                        {{ product.tienda?.nombre || 'Tienda Paseo' }}
                       </a>
                       
                       <h3 class="font-bold text-xs sm:text-sm text-slate-900 line-clamp-2 leading-snug group-hover:text-amber-800 transition-colors">
@@ -347,15 +352,15 @@ export class ProductosCatalogoComponent implements OnInit {
   sortBy = 'featured';
 
   readonly categoryOptions = [
-    { key: 'all', label: 'Todas', icon: '✨' },
-    { key: 'Audio', label: 'Audio & Tech', icon: '🎧' },
-    { key: 'Hamburguesas', label: 'Hamburguesas', icon: '🍔' },
-    { key: 'Tradicional', label: 'Tradicional', icon: '🍲' },
-    { key: 'Carnes Premium', label: 'Carnes', icon: '🥩' },
-    { key: 'Pizzas', label: 'Pizzas', icon: '🍕' },
-    { key: 'Bebidas', label: 'Bebidas & Café', icon: '☕' },
-    { key: 'Moda', label: 'Moda & Ropa', icon: '👗' },
-    { key: 'Joyería', label: 'Joyería', icon: '💍' },
+    { key: 'all', label: 'Todas', icon: 'sparkles' as const },
+    { key: 'Audio', label: 'Audio & Tech', icon: 'headphones' as const },
+    { key: 'Hamburguesas', label: 'Hamburguesas', icon: 'burger' as const },
+    { key: 'Tradicional', label: 'Tradicional', icon: 'utensils' as const },
+    { key: 'Carnes Premium', label: 'Carnes', icon: 'beef' as const },
+    { key: 'Pizzas', label: 'Pizzas', icon: 'pizza' as const },
+    { key: 'Bebidas', label: 'Bebidas & Café', icon: 'coffee' as const },
+    { key: 'Moda', label: 'Moda & Ropa', icon: 'shirt' as const },
+    { key: 'Joyería', label: 'Joyería', icon: 'gem' as const },
   ];
 
   // Specific 3 Bluetooth headphones for comparison

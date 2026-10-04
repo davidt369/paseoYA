@@ -55,12 +55,12 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
         </div>
       </div>
 
-      <!-- Free Parking Impact Stats -->
+      <!-- Pickup Operations Stats -->
       <div class="p-4 bg-slate-900 text-white rounded-2xl shadow-sm flex items-center justify-between">
         <div class="space-y-0.5">
-          <span class="text-xs font-bold text-emerald-400">🅿️ Impacto en Parqueo Subterráneo</span>
+          <span class="text-xs font-bold text-emerald-400">🎫 Retiros Completados Hoy</span>
           <p class="text-[11px] text-slate-300">
-            Has validado <strong>{{ deliveredOrders().length * 2 }} horas libres</strong> de estacionamiento para tus clientes.
+            Has entregado <strong>{{ deliveredOrders().length }}</strong> pedidos en mostrador a tus clientes de PaseoYa.
           </p>
         </div>
         <span class="text-xs font-black text-white px-2.5 py-1 bg-white/10 rounded-xl border border-white/20">

@@ -6,11 +6,12 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { Order } from '../../../../core/models';
 import { StatusBadgeComponent } from '../../../../shared/ui/badge/badge.component';
 import { StateMessageComponent } from '../../../../shared/ui/state/state-message.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-mis-pedidos',
   standalone: true,
-  imports: [CommonModule, RouterLink, StatusBadgeComponent, StateMessageComponent],
+  imports: [CommonModule, RouterLink, StatusBadgeComponent, StateMessageComponent, IconComponent],
   template: `
     <div class="space-y-4 pb-8">
       <div class="space-y-1">
@@ -38,7 +39,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                   <span class="text-[10px] text-slate-400 font-mono block">Código {{ order.pickup_code }}</span>
                   <h3 class="text-sm font-bold text-slate-900 mt-0.5">{{ order.tienda?.nombre || 'Tienda Paseo Aranjuez' }}</h3>
                   <p class="text-xs text-slate-500">
-                    📍 <strong>{{ order.tienda?.piso }}</strong> &middot; {{ order.tienda?.local }}
+                    <app-icon name="map-pin" [size]="12" />
+                    <strong>{{ order.tienda?.piso }}</strong> &middot; {{ order.tienda?.local }}
                   </p>
                 </div>
                 <app-status-badge [status]="order.estado" />

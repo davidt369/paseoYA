@@ -7,12 +7,13 @@ import { CatalogService } from '../../../../core/services/catalog.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 import * as QRCode from 'qrcode';
 
 @Component({
   selector: 'app-checkout',
   standalone: true,
-  imports: [CommonModule, FormsModule, ButtonComponent],
+  imports: [CommonModule, FormsModule, ButtonComponent, IconComponent],
   template: `
     <div class="max-w-4xl mx-auto space-y-6 pb-12">
       <div class="space-y-1">
@@ -25,8 +26,8 @@ import * as QRCode from 'qrcode';
         <div class="lg:col-span-6 space-y-4">
           <div class="p-5 bg-white rounded-2xl border border-slate-200/80 shadow-2xs space-y-4">
             <div class="flex items-center gap-3">
-              <div class="size-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-bold text-sm">
-                📍
+              <div class="size-10 rounded-xl bg-slate-900 text-white flex items-center justify-center">
+                <app-icon name="map-pin" [size]="18" />
               </div>
               <div>
                 <h3 class="text-sm font-bold text-slate-900">Punto de Retiro</h3>
@@ -87,7 +88,8 @@ import * as QRCode from 'qrcode';
         <div class="lg:col-span-6">
           <div class="p-6 bg-white rounded-3xl border border-slate-200/80 shadow-2xs text-center space-y-4">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-[11px] font-bold">
-              <span>📲 Pago QR Simple (Simulación Hackathon)</span>
+              <app-icon name="smartphone" [size]="12" />
+              <span>Pago QR Simple (Simulación Hackathon)</span>
             </div>
 
             <p class="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">

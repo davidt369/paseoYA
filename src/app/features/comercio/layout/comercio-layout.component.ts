@@ -3,11 +3,12 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
 import { ToastComponent } from '../../../shared/ui/toast/toast.component';
+import { IconComponent } from '../../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-comercio-layout',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, ToastComponent, IconComponent],
   template: `
     <div class="min-h-dvh flex bg-slate-100 text-slate-900 select-none">
       <app-toast />
@@ -37,7 +38,7 @@ import { ToastComponent } from '../../../shared/ui/toast/toast.component';
               class="md:hidden text-slate-400 hover:text-white p-1"
               aria-label="Cerrar panel"
             >
-              ✕
+              <app-icon name="x" [size]="18" />
             </button>
           </div>
 

@@ -24,13 +24,13 @@ export class ChatbotService {
     {
       id: 'welcome-1',
       sender: 'bot',
-      text: '¡Hola! Soy tu asistente virtual de Paseo Aranjuez 🛍️. Puedo ayudarte a buscar productos, comparar precios entre tiendas, ubicar locales por piso o consultar sobre el parqueo subterráneo.',
+      text: '¡Hola! Soy tu asistente virtual de Paseo Aranjuez 🛍️. Puedo ayudarte a buscar productos, comparar precios entre tiendas, ubicar locales por piso o resolver tus dudas sobre el retiro con QR.',
       timestamp: new Date(),
       suggestions: [
         '🎧 Comparar audífonos bluetooth',
         '🍔 ¿Qué comer en Piso 3?',
         '🍷 Restaurantes en Terraza Piso 4',
-        '🚗 ¿Cómo funciona el parqueo gratis?',
+        '🎫 ¿Cómo funciona el retiro con QR?',
         '🕒 ¿Cuáles son los horarios de atención?',
       ],
     },
@@ -138,26 +138,11 @@ export class ChatbotService {
           `Horario de la terraza: Todos los días de 12:00 a 23:00.`,
         timestamp: new Date(),
         products: premiumProducts.slice(0, 3),
-        suggestions: ['Ver Ojo de Bife', 'Ver Tabla Gourmet', '¿Cómo valido el parqueo?'],
+        suggestions: ['Ver Ojo de Bife', 'Ver Tabla Gourmet', '¿Cuáles son los horarios?'],
       };
     }
 
-    // 4. PARQUEO SUBTERRÁNEO
-    if (q.includes('parqueo') || q.includes('estacionamiento') || q.includes('auto') || q.includes('carro') || q.includes('gratis') || q.includes('barrera')) {
-      return {
-        id: 'bot-' + Date.now(),
-        sender: 'bot',
-        text: `🚗 **Validación de Parqueo Subterráneo en Paseo Aranjuez:**\n\n` +
-          `1. Realiza cualquier compra en PaseoYa.\n` +
-          `2. Cuando te entreguen tu pedido en el local físico, se activará tu **Ticket de Parqueo Digital con 2 horas libres**.\n` +
-          `3. Muestra el código \`PARK-...\` en las barreras o cabinas de salida del sótano para salir sin costo.\n\n` +
-          `El ingreso al parqueo subterráneo es por la calle Pantaleón Dalence.`,
-        timestamp: new Date(),
-        suggestions: ['¿Cuáles son los horarios?', 'Buscar audífonos', 'Ver tiendas Piso 2'],
-      };
-    }
-
-    // 5. HORARIOS Y UBICACIÓN DEL PASEO
+    // 4. HORARIOS Y UBICACIÓN DEL PASEO
     if (q.includes('horario') || q.includes('hora') || q.includes('abierto') || q.includes('ubicacion') || q.includes('ubicación') || q.includes('donde queda') || q.includes('dónde queda') || q.includes('direccion') || q.includes('dirección')) {
       return {
         id: 'bot-' + Date.now(),
@@ -167,14 +152,13 @@ export class ChatbotService {
           `🕒 **Horarios de Tiendas (Pisos 1 y 2):**\n` +
           `• Lunes a Sábado: 10:00 - 22:00\n` +
           `• Domingos y Feriados: 12:00 - 22:00\n\n` +
-          `🍷 **Terraza El Cuarto (Piso 4):** 12:00 - 23:00\n` +
-          `🚗 **Parqueo Subterráneo:** Abierto todo el día con acceso por Pantaleón Dalence.`,
+          `🍷 **Terraza El Cuarto (Piso 4):** 12:00 - 23:00`,
         timestamp: new Date(),
         suggestions: ['Ver tiendas Piso 1', 'Ver tiendas Piso 2', 'Ver restaurantes Piso 3'],
       };
     }
 
-    // 6. TIENDAS ESPECÍFICAS
+    // 5. TIENDAS ESPECÍFICAS
     const matchedStore = allStores.find((s) => q.includes(s.nombre.toLowerCase()));
     if (matchedStore) {
       const storeProds = allProducts.filter((p) => p.store_id === matchedStore.id);
@@ -189,11 +173,11 @@ export class ChatbotService {
           `Aquí tienes algunos de sus productos disponibles para retiro inmediato:`,
         timestamp: new Date(),
         products: storeProds.slice(0, 3),
-        suggestions: ['Ir al catálogo de la tienda', '¿Cómo valido mi parqueo?'],
+        suggestions: ['Ir al catálogo de la tienda', '¿Cómo retiro mi compra?'],
       };
     }
 
-    // 7. PRODUCT SEARCH MATCH
+    // 6. PRODUCT SEARCH MATCH
     const searchMatches = await this.catalogService.searchProducts(cleanText);
     if (searchMatches.length > 0) {
       return {
@@ -215,12 +199,12 @@ export class ChatbotService {
         `• 🍔 **Mercado Gastronómico:** Hamburguesas, pique macho, café (Piso 3)\n` +
         `• 🍷 **Terraza Gourmet:** Carnes a la brasa, vinos y tablas (Piso 4)\n` +
         `• 👗 **Moda y Joyería:** Ropa de lino, joyas de plata y vestidos (Piso 1)\n` +
-        `• 🚗 **Parqueo Subterráneo:** 2 horas gratis por compras con retiro QR.`,
+        `• 🎫 **Retiro con QR:** Paga online y recoge tu pedido en el mostrador del local.`,
       timestamp: new Date(),
       suggestions: [
         '🎧 Audífonos bluetooth',
         '🍔 Hamburguesas en Piso 3',
-        '🚗 ¿Cómo funciona el parqueo?',
+        '🎫 ¿Cómo retiro mi compra?',
       ],
     };
   }
