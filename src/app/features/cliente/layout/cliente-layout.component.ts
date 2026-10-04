@@ -386,10 +386,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                   <div class="size-9 rounded-xl bg-amber-100 text-amber-800 flex items-center justify-center text-base shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
                     <app-icon name="shirt" [size]="18" />
                   </div>
-                  <div class="min-w-0 flex-1">
-                    <p class="font-bold text-xs text-slate-900 tracking-tight">Piso 1: Moda & Joyería</p>
-                    <p class="text-[10px] text-slate-500 font-medium mt-0.5">Boutiques y alta costura</p>
-                  </div>
+                  <span class="font-bold text-xs text-slate-900 flex-1">Piso 1: Moda & Joyería</span>
                 </a>
 
                 <a
@@ -402,10 +399,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                   <div class="size-9 rounded-xl bg-indigo-100 text-indigo-800 flex items-center justify-center text-base shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
                     <app-icon name="headphones" [size]="18" />
                   </div>
-                  <div class="min-w-0 flex-1">
-                    <p class="font-bold text-xs text-slate-900 tracking-tight">Piso 2: Tecnología & Audio</p>
-                    <p class="text-[10px] text-slate-500 font-medium mt-0.5">Xiaomi, Sony, Audífonos Bluetooth</p>
-                  </div>
+                  <span class="font-bold text-xs text-slate-900 flex-1">Piso 2: Tecnología & Audio</span>
                 </a>
 
                 <a
@@ -418,10 +412,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                   <div class="size-9 rounded-xl bg-orange-100 text-orange-800 flex items-center justify-center text-base shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
                     <app-icon name="burger" [size]="18" />
                   </div>
-                  <div class="min-w-0 flex-1">
-                    <p class="font-bold text-xs text-slate-900 tracking-tight">Piso 3: Mercado Gastronómico</p>
-                    <p class="text-[10px] text-slate-500 font-medium mt-0.5">Burger Craft, comidas rápidas</p>
-                  </div>
+                  <span class="font-bold text-xs text-slate-900 flex-1">Piso 3: Mercado Gastronómico</span>
                 </a>
 
                 <a
@@ -434,10 +425,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                   <div class="size-9 rounded-xl bg-rose-100 text-rose-800 flex items-center justify-center text-base shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.08)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
                     <app-icon name="wine" [size]="18" />
                   </div>
-                  <div class="min-w-0 flex-1">
-                    <p class="font-bold text-xs text-slate-900 tracking-tight">Piso 4: Terraza El Cuarto</p>
-                    <p class="text-[10px] text-slate-500 font-medium mt-0.5">Carnes premium y mirador</p>
-                  </div>
+                  <span class="font-bold text-xs text-slate-900 flex-1">Piso 4: Terraza El Cuarto</span>
                 </a>
               </div>
 
@@ -475,13 +463,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
             </div>
 
             <!-- Modern White Footer -->
-            <div class="p-5 border-t border-slate-100 bg-slate-50/70 space-y-3">
-              <div class="text-[11px] text-slate-600 leading-relaxed">
-                <p class="font-extrabold text-slate-900 tracking-tight">Paseo Aranjuez &middot; Cochabamba</p>
-                <p class="text-[10px] text-slate-500 mt-0.5">Av. América y Pantaleón Dalence</p>
-                <p class="text-emerald-700 text-[10px] font-semibold mt-1.5">● Lun-Sáb 10-22h | Dom 12-22h</p>
-              </div>
-
+            <div class="p-4 border-t border-slate-100 bg-slate-50/70 space-y-2.5">
               @if (authService.isAuthenticated()) {
                 <button
                   type="button"
@@ -493,8 +475,8 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                 </button>
               }
 
-              <p class="text-[10px] text-slate-400 leading-tight pt-1 text-center">
-                Privacidad &middot; Condiciones &middot; PaseoYa © 2026
+              <p class="text-[10px] text-slate-400 leading-tight text-center">
+                PaseoYa &middot; Paseo Aranjuez © 2026
               </p>
             </div>
           </aside>
