@@ -6,12 +6,13 @@ import { CatalogService } from '../../../../core/services/catalog.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { Order } from '../../../../core/models';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 import { BrowserQRCodeReader } from '@zxing/browser';
 
 @Component({
   selector: 'app-validar-retiro',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink, ButtonComponent],
+  imports: [CommonModule, FormsModule, RouterLink, ButtonComponent, IconComponent],
   template: `
     <div class="space-y-5 pb-8 max-w-lg mx-auto">
       <!-- Top Nav -->
@@ -37,7 +38,7 @@ import { BrowserQRCodeReader } from '@zxing/browser';
       @if (validatedResult()) {
         <div class="bg-white rounded-3xl border-2 border-emerald-500 p-6 shadow-lg text-center space-y-4 animate-in fade-in zoom-in duration-200">
           <div class="size-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-2xl">
-            ✓
+            <app-icon name="check" [size]="28" />
           </div>
 
           <div class="space-y-1">
@@ -52,7 +53,7 @@ import { BrowserQRCodeReader } from '@zxing/browser';
           <div class="p-4 bg-emerald-950 text-emerald-200 rounded-2xl text-left space-y-2 border border-emerald-700/50">
             <div class="flex items-center justify-between">
               <div class="flex items-center gap-2">
-                <span class="text-xl">🎫</span>
+                <app-icon name="ticket" [size]="18" class="text-emerald-400" />
                 <span class="text-xs font-bold text-white">Pase QR Canjeado</span>
               </div>
               <span class="px-2 py-0.5 rounded bg-emerald-800 text-[10px] font-bold text-emerald-100">
@@ -99,7 +100,7 @@ import { BrowserQRCodeReader } from '@zxing/browser';
             @if (!cameraActive()) {
               <div class="text-center p-6 space-y-3">
                 <div class="size-14 rounded-2xl bg-slate-800 text-slate-300 flex items-center justify-center mx-auto text-2xl">
-                  📷
+                  <app-icon name="camera" [size]="28" />
                 </div>
                 <div>
                   <p class="text-xs font-bold text-slate-200">Cámara Inactiva</p>

@@ -100,8 +100,9 @@ import { IconComponent } from '../../../../shared/ui/icon/icon.component';
           @for (item of results(); track item.id; let idx = $index) {
             <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-2xs space-y-3 relative hover:border-slate-300 transition flex flex-col justify-between">
               @if (idx === 0 && results().length > 1) {
-                <span class="absolute -top-2.5 right-3 px-2 py-0.5 bg-emerald-600 text-white text-[10px] font-black rounded-full uppercase tracking-wider shadow-xs">
-                  🏆 Mejor Precio
+                <span class="absolute -top-2.5 right-3 px-2 py-0.5 bg-emerald-600 text-white text-[10px] font-black rounded-full uppercase tracking-wider shadow-xs flex items-center gap-1">
+                  <app-icon name="trophy" [size]="12" />
+                  <span>Mejor Precio</span>
                 </span>
               }
 
@@ -132,8 +133,9 @@ import { IconComponent } from '../../../../shared/ui/icon/icon.component';
               <div class="p-2.5 bg-slate-50 rounded-xl border border-slate-100 flex items-center justify-between text-xs">
                 <div>
                   <p class="font-bold text-slate-800 text-[11px] truncate">{{ item.tienda?.nombre }}</p>
-                  <p class="text-[10px] text-slate-500">
-                    📍 <strong>{{ item.tienda?.piso }}</strong> &middot; {{ item.tienda?.local }}
+                  <p class="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
+                    <app-icon name="map-pin" [size]="12" class="text-slate-400" />
+                    <span><strong>{{ item.tienda?.piso }}</strong> &middot; {{ item.tienda?.local }}</span>
                   </p>
                 </div>
 

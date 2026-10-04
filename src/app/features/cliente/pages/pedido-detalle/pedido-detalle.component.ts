@@ -124,8 +124,9 @@ import * as QRCode from 'qrcode';
                   </app-button>
                 </div>
               } @else if (order()!.estado === 'cliente_llego') {
-                <div class="p-2.5 bg-indigo-50 border border-indigo-200 rounded-xl text-xs text-indigo-900 font-bold">
-                  ✅ Notificaste tu llegada. El comercio te atenderá en el mostrador.
+                <div class="p-2.5 bg-indigo-50 border border-indigo-200 rounded-xl text-xs text-indigo-900 font-bold flex items-center gap-1.5">
+                  <app-icon name="check" [size]="16" class="text-indigo-600" />
+                  <span>Notificaste tu llegada. El comercio te atenderá en el mostrador.</span>
                 </div>
               }
             </div>
@@ -134,8 +135,10 @@ import * as QRCode from 'qrcode';
             @if (order()!.estado === 'entregado') {
               <div class="bg-gradient-to-br from-emerald-900 to-slate-900 text-white rounded-3xl p-5 shadow-sm space-y-3">
                 <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2">
-                    <span class="text-2xl">🎉</span>
+                  <div class="flex items-center gap-2.5">
+                    <div class="size-9 rounded-xl bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center text-emerald-300">
+                      <app-icon name="party" [size]="20" />
+                    </div>
                     <div>
                       <h3 class="font-bold text-sm text-emerald-300">Pedido Retirado</h3>
                       <p class="text-[10px] text-slate-300">Canje completado en {{ order()!.tienda?.nombre }}</p>

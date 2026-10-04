@@ -88,7 +88,8 @@ import * as QRCode from 'qrcode';
         <div class="lg:col-span-6">
           <div class="p-6 bg-white rounded-3xl border border-slate-200/80 shadow-2xs text-center space-y-4">
             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 text-[11px] font-bold">
-              <span>📋 Reserva con Retiro Presencial (Demo Hackathon)</span>
+              <app-icon name="ticket" [size]="14" class="text-amber-700" />
+              <span>Reserva con Retiro Presencial (Demo Hackathon)</span>
             </div>
 
             <p class="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">

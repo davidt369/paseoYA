@@ -5,12 +5,13 @@ import { ChatbotService, ChatMessage } from '../../../../core/services/chatbot.s
 import { CartService } from '../../../../core/services/cart.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { AiOrbIconComponent } from '../../../../shared/ui/ai-orb/ai-orb-icon.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 import { Product } from '../../../../core/models';
 
 @Component({
   selector: 'app-chatbot',
   standalone: true,
-  imports: [CommonModule, FormsModule, AiOrbIconComponent],
+  imports: [CommonModule, FormsModule, AiOrbIconComponent, IconComponent],
   template: `
     <!-- Chat Modal Window (Only launched via central IA button) -->
     @if (chatbot.isOpen()) {
@@ -48,7 +49,7 @@ import { Product } from '../../../../core/models';
             @if (msg.sender === 'bot') {
               <div class="flex items-start gap-2.5">
                 <div class="w-7 h-7 rounded-lg bg-amber-100 text-amber-800 font-bold text-xs flex items-center justify-center shrink-0 border border-amber-200">
-                  🤖
+                  <app-icon name="robot" [size]="15" />
                 </div>
                 <div class="max-w-[85%] space-y-2">
                   <div class="bg-white p-3 rounded-2xl rounded-tl-sm shadow-xs border border-slate-200 text-slate-800 leading-relaxed whitespace-pre-line text-xs sm:text-[13px]">

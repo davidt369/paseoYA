@@ -5,11 +5,12 @@ import { FormsModule } from '@angular/forms';
 import { CatalogService } from '../../../../core/services/catalog.service';
 import { SupabaseService } from '../../../../core/services/supabase.service';
 import { Order, Store, Product, OrderStatus } from '../../../../core/models';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, RouterLink, FormsModule],
+  imports: [CommonModule, RouterLink, FormsModule, IconComponent],
   template: `
     <div class="space-y-6 pb-10">
       <!-- Title & Context -->
@@ -33,7 +34,7 @@ import { Order, Store, Product, OrderStatus } from '../../../../core/models';
           >
             <span class="size-2 rounded-full" [class]="supabaseService.isConnected() ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'"></span>
             <span>{{ supabaseService.isConnected() ? 'Supabase Conectado' : 'Configurar Supabase' }}</span>
-            <span class="text-[10px] opacity-70">⚙️</span>
+            <app-icon name="settings" [size]="14" class="opacity-70" />
           </button>
 
           <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-900 text-white text-xs font-bold">
@@ -243,7 +244,7 @@ import { Order, Store, Product, OrderStatus } from '../../../../core/models';
             <div class="flex items-center justify-between border-b border-slate-100 pb-3">
               <div class="flex items-center gap-2.5">
                 <div class="size-9 rounded-xl bg-emerald-500 text-white font-black text-sm flex items-center justify-center shadow-xs">
-                  ⚡
+                  <app-icon name="bolt" [size]="18" />
                 </div>
                 <div>
                   <h3 class="font-black text-base text-slate-900 leading-tight">Conexión con Supabase</h3>
@@ -303,9 +304,14 @@ import { Order, Store, Product, OrderStatus } from '../../../../core/models';
                 type="button"
                 (click)="testConnection()"
                 [disabled]="testingDb()"
-                class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-800 font-bold text-xs rounded-xl transition cursor-pointer"
+                class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-800 font-bold text-xs rounded-xl transition cursor-pointer flex items-center gap-1.5"
               >
-                {{ testingDb() ? 'Probando...' : '🔍 Probar Conexión' }}
+                @if (testingDb()) {
+                  <span>Probando...</span>
+                } @else {
+                  <app-icon name="search" [size]="14" />
+                  <span>Probar Conexión</span>
+                }
               </button>
 
               <button

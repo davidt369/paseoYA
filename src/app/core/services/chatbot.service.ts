@@ -24,14 +24,14 @@ export class ChatbotService {
     {
       id: 'welcome-1',
       sender: 'bot',
-      text: '¡Hola! Soy tu asistente virtual de Paseo Aranjuez 🛍️. Puedo ayudarte a buscar productos, comparar precios entre tiendas, ubicar locales por piso o resolver tus dudas sobre el retiro con QR.',
+      text: '¡Hola! Soy tu asistente virtual de Paseo Aranjuez. Puedo ayudarte a buscar productos, comparar precios entre tiendas, ubicar locales por piso o resolver tus dudas sobre el retiro con QR.',
       timestamp: new Date(),
       suggestions: [
-        '🎧 Comparar audífonos bluetooth',
-        '🍔 ¿Qué comer en Piso 3?',
-        '🍷 Restaurantes en Terraza Piso 4',
-        '🎫 ¿Cómo funciona el retiro con QR?',
-        '🕒 ¿Cuáles son los horarios de atención?',
+        'Comparar audífonos bluetooth',
+        '¿Qué comer en Piso 3?',
+        'Restaurantes en Terraza Piso 4',
+        '¿Cómo funciona el retiro con QR?',
+        '¿Cuáles son los horarios de atención?',
       ],
     },
   ]);
@@ -86,9 +86,9 @@ export class ChatbotService {
         id: 'bot-' + Date.now(),
         sender: 'bot',
         text: `En el **Piso 2** de Paseo Aranjuez tenemos 3 opciones de audífonos bluetooth a distintos precios:\n\n` +
-          `• 🏆 **Xiaomi Mi Store** (Local 208): **Bs. 180.00** (Redmi Buds 4 Active)\n` +
-          `• 🎧 **Sony Store** (Local 215): **Bs. 250.00** (Sony WH-CH520)\n` +
-          `• 🍎 **iShop Apple** (Local 222): **Bs. 320.00** (Beats Flex Wireless)\n\n` +
+          `• **Xiaomi Mi Store** (Local 208): **Bs. 180.00** (Redmi Buds 4 Active)\n` +
+          `• **Sony Store** (Local 215): **Bs. 250.00** (Sony WH-CH520)\n` +
+          `• **iShop Apple** (Local 222): **Bs. 320.00** (Beats Flex Wireless)\n\n` +
           `Puedes agregarlos al carrito directamente desde aquí para retirarlos hoy con QR:`,
         timestamp: new Date(),
         products: matched.slice(0, 3),
@@ -111,10 +111,10 @@ export class ChatbotService {
         id: 'bot-' + Date.now(),
         sender: 'bot',
         text: `En el **Piso 3 (Mercado Gastronómico)** tienes una amplia variedad gastronómica:\n\n` +
-          `🍔 **Burger Craft** (Local 302): Hamburguesas gourmet desde **Bs. 38** a **Bs. 52**.\n` +
-          `🍲 **Tradición Valluna** (Local 306): Pique Macho (**Bs. 52**) y Silpancho tradicional (**Bs. 38**).\n` +
-          `🍕 **Pizzería Napolitana** (Local 308): Pizzas artesanales desde **Bs. 45**.\n` +
-          `☕ **Café & Dulces Gourmet** (Isla 310): Bebidas y repostería desde **Bs. 15** a **Bs. 22**.\n\n` +
+          `• **Burger Craft** (Local 302): Hamburguesas gourmet desde **Bs. 38** a **Bs. 52**.\n` +
+          `• **Tradición Valluna** (Local 306): Pique Macho (**Bs. 52**) y Silpancho tradicional (**Bs. 38**).\n` +
+          `• **Pizzería Napolitana** (Local 308): Pizzas artesanales desde **Bs. 45**.\n` +
+          `• **Café & Dulces Gourmet** (Isla 310): Bebidas y repostería desde **Bs. 15** a **Bs. 22**.\n\n` +
           `¡Además, junto al patio de comidas se encuentra **Sky Games** con arcades para la familia!`,
         timestamp: new Date(),
         products: foodProducts.slice(0, 4),
@@ -133,8 +133,8 @@ export class ChatbotService {
         id: 'bot-' + Date.now(),
         sender: 'bot',
         text: `En el **Piso 4** se encuentra la exclusiva **Terraza Gourmet "El Cuarto"** con vista panorámica de Cochabamba:\n\n` +
-          `🥩 **Fuego & Corte Steakhouse** (Local 401): Ojo de bife (**Bs. 95**), Bife de chorizo (**Bs. 85**) y Tomahawk para compartir (**Bs. 130**).\n` +
-          `🍷 **La Cava & Tapas** (Local 405): Tablas de quesos y jamón serrano (**Bs. 68**) y vinos de altura de Tarija (**Bs. 28**).\n\n` +
+          `• **Fuego & Corte Steakhouse** (Local 401): Ojo de bife (**Bs. 95**), Bife de chorizo (**Bs. 85**) y Tomahawk para compartir (**Bs. 130**).\n` +
+          `• **La Cava & Tapas** (Local 405): Tablas de quesos y jamón serrano (**Bs. 68**) y vinos de altura de Tarija (**Bs. 28**).\n\n` +
           `Horario de la terraza: Todos los días de 12:00 a 23:00.`,
         timestamp: new Date(),
         products: premiumProducts.slice(0, 3),
@@ -147,12 +147,12 @@ export class ChatbotService {
       return {
         id: 'bot-' + Date.now(),
         sender: 'bot',
-        text: `📍 **Ubicación & Horarios de Paseo Aranjuez:**\n\n` +
-          `🏢 **Dirección:** Av. América y Pantaleón Dalence (Zona Norte, Cochabamba, Bolivia).\n\n` +
-          `🕒 **Horarios de Tiendas (Pisos 1 y 2):**\n` +
-          `• Lunes a Sábado: 10:00 - 22:00\n` +
-          `• Domingos y Feriados: 12:00 - 22:00\n\n` +
-          `🍷 **Terraza El Cuarto (Piso 4):** 12:00 - 23:00`,
+        text: `**Ubicación & Horarios de Paseo Aranjuez:**\n\n` +
+          `• **Dirección:** Av. América y Pantaleón Dalence (Zona Norte, Cochabamba, Bolivia).\n\n` +
+          `• **Horarios de Tiendas (Pisos 1 y 2):**\n` +
+          `  - Lunes a Sábado: 10:00 - 22:00\n` +
+          `  - Domingos y Feriados: 12:00 - 22:00\n\n` +
+          `• **Terraza El Cuarto (Piso 4):** 12:00 - 23:00`,
         timestamp: new Date(),
         suggestions: ['Ver tiendas Piso 1', 'Ver tiendas Piso 2', 'Ver restaurantes Piso 3'],
       };
@@ -165,7 +165,7 @@ export class ChatbotService {
       return {
         id: 'bot-' + Date.now(),
         sender: 'bot',
-        text: `🏪 **${matchedStore.nombre}**:\n\n` +
+        text: `**${matchedStore.nombre}**:\n\n` +
           `• **Ubicación:** ${matchedStore.piso}, ${matchedStore.local} (${matchedStore.sector || 'Sector Principal'})\n` +
           `• **Rubro:** ${matchedStore.rubro}\n` +
           `• **Horario:** ${matchedStore.horario_semana}\n` +
@@ -195,16 +195,16 @@ export class ChatbotService {
       id: 'bot-' + Date.now(),
       sender: 'bot',
       text: `No encontré productos específicos para "${cleanText}", pero puedo ayudarte con:\n\n` +
-        `• 🎧 **Tecnología:** Audífonos bluetooth, celulares, cargadores (Piso 2)\n` +
-        `• 🍔 **Mercado Gastronómico:** Hamburguesas, pique macho, café (Piso 3)\n` +
-        `• 🍷 **Terraza Gourmet:** Carnes a la brasa, vinos y tablas (Piso 4)\n` +
-        `• 👗 **Moda y Joyería:** Ropa de lino, joyas de plata y vestidos (Piso 1)\n` +
-        `• 🎫 **Retiro con QR:** Paga online y recoge tu pedido en el mostrador del local.`,
+        `• **Tecnología:** Audífonos bluetooth, celulares, cargadores (Piso 2)\n` +
+        `• **Mercado Gastronómico:** Hamburguesas, pique macho, café (Piso 3)\n` +
+        `• **Terraza Gourmet:** Carnes a la brasa, vinos y tablas (Piso 4)\n` +
+        `• **Moda y Joyería:** Ropa de lino, joyas de plata y vestidos (Piso 1)\n` +
+        `• **Retiro con QR:** Paga online y recoge tu pedido en el mostrador del local.`,
       timestamp: new Date(),
       suggestions: [
-        '🎧 Audífonos bluetooth',
-        '🍔 Hamburguesas en Piso 3',
-        '🎫 ¿Cómo retiro mi compra?',
+        'Audífonos bluetooth',
+        'Hamburguesas en Piso 3',
+        '¿Cómo retiro mi compra?',
       ],
     };
   }

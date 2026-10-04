@@ -116,7 +116,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                       (click)="closeMobileMenu()"
                       class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-slate-300 hover:bg-slate-800 transition"
                     >
-                      <span class="text-base">📊</span>
+                      <app-icon name="chart-bar" [size]="18" class="text-purple-400" />
                       <div>
                         <div class="font-bold">Dashboard Ejecutivo</div>
                         <div class="text-[10px] text-slate-400">KPIs, ventas y métricas globales</div>
@@ -128,7 +128,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                       (click)="closeMobileMenu()"
                       class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-slate-300 hover:bg-slate-800 transition"
                     >
-                      <span class="text-base">📦</span>
+                      <app-icon name="package" [size]="18" class="text-purple-400" />
                       <div>
                         <div class="font-bold">Supervisión de Pedidos</div>
                         <div class="text-[10px] text-slate-400">Auditoría en tiempo real y PIN</div>
@@ -146,7 +146,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                       (click)="closeMobileMenu()"
                       class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-slate-300 hover:bg-slate-800 transition"
                     >
-                      <span class="text-base">🏪</span>
+                      <app-icon name="store" [size]="18" class="text-purple-400" />
                       <div>
                         <div class="font-bold">Tiendas & Locales</div>
                         <div class="text-[10px] text-slate-400">Directorio por Pisos 1 al 4</div>
@@ -158,7 +158,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                       (click)="closeMobileMenu()"
                       class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs text-slate-300 hover:bg-slate-800 transition"
                     >
-                      <span class="text-base">👥</span>
+                      <app-icon name="users" [size]="18" class="text-purple-400" />
                       <div>
                         <div class="font-bold">Usuarios & Roles</div>
                         <div class="text-[10px] text-slate-400">Control de permisos y comercios</div>
@@ -224,7 +224,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                 routerLinkActive="bg-purple-600 text-white font-bold shadow-md shadow-purple-900/30"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800/80 hover:text-white transition group"
               >
-                <span class="text-base group-hover:scale-110 transition-transform">📊</span>
+                <app-icon name="chart-bar" [size]="18" class="text-purple-400 group-hover:scale-110 transition-transform" />
                 <div class="flex-1 min-w-0">
                   <div class="text-xs">Dashboard Ejecutivo</div>
                   <div class="text-[10px] opacity-75 font-normal truncate">KPIs, ventas y retiros</div>
@@ -236,7 +236,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                 routerLinkActive="bg-purple-600 text-white font-bold shadow-md shadow-purple-900/30"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800/80 hover:text-white transition group"
               >
-                <span class="text-base group-hover:scale-110 transition-transform">📦</span>
+                <app-icon name="package" [size]="18" class="text-purple-400 group-hover:scale-110 transition-transform" />
                 <div class="flex-1 min-w-0">
                   <div class="text-xs">Supervisión de Pedidos</div>
                   <div class="text-[10px] opacity-75 font-normal truncate">Auditoría en vivo y PIN</div>
@@ -256,7 +256,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                 routerLinkActive="bg-purple-600 text-white font-bold shadow-md shadow-purple-900/30"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800/80 hover:text-white transition group"
               >
-                <span class="text-base group-hover:scale-110 transition-transform">🏪</span>
+                <app-icon name="store" [size]="18" class="text-purple-400 group-hover:scale-110 transition-transform" />
                 <div class="flex-1 min-w-0">
                   <div class="text-xs">Tiendas & Locales</div>
                   <div class="text-[10px] opacity-75 font-normal truncate">Pisos 1, 2, 3 y 4</div>
@@ -276,7 +276,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                 routerLinkActive="bg-purple-600 text-white font-bold shadow-md shadow-purple-900/30"
                 class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-slate-300 hover:bg-slate-800/80 hover:text-white transition group"
               >
-                <span class="text-base group-hover:scale-110 transition-transform">👥</span>
+                <app-icon name="users" [size]="18" class="text-purple-400 group-hover:scale-110 transition-transform" />
                 <div class="flex-1 min-w-0">
                   <div class="text-xs">Usuarios & Roles</div>
                   <div class="text-[10px] opacity-75 font-normal truncate">Comercios, clientes, admin</div>
@@ -294,14 +294,14 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
               routerLink="/cliente"
               class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[11px] text-slate-400 hover:bg-slate-800 hover:text-amber-400 transition"
             >
-              <span>🛍️</span>
+              <app-icon name="shopping-bag" [size]="15" />
               <span>Ver App de Clientes</span>
             </a>
             <a
               routerLink="/comercio/pedidos"
               class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-[11px] text-slate-400 hover:bg-slate-800 hover:text-emerald-400 transition"
             >
-              <span>📷</span>
+              <app-icon name="camera" [size]="15" />
               <span>Escanear QR de Retiro</span>
             </a>
           </div>

@@ -5,10 +5,11 @@ import { CatalogService } from '../../../../core/services/catalog.service';
 import { AuthService, DEMO_USERS } from '../../../../core/services/auth.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { Profile, UserRole, Category } from '../../../../core/models';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 @Component({
   selector: 'app-usuarios-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, IconComponent],
   template: `
     <div class="space-y-6 pb-10">
       <!-- Header -->
@@ -41,8 +42,9 @@ import { Profile, UserRole, Category } from '../../../../core/models';
                   </div>
                   <p class="text-slate-500">{{ u.email }} &middot; Cel: {{ u.telefono || 'No registrado' }}</p>
                   @if (u.store_id) {
-                    <p class="text-[11px] text-amber-700 font-semibold">
-                      🏪 Vinculado a: {{ getStoreName(u.store_id) }}
+                    <p class="text-[11px] text-amber-700 font-semibold flex items-center gap-1 mt-0.5">
+                      <app-icon name="store" [size]="13" />
+                      <span>Vinculado a: {{ getStoreName(u.store_id) }}</span>
                     </p>
                   }
                 </div>

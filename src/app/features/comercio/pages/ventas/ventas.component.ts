@@ -4,11 +4,12 @@ import { CatalogService } from '../../../../core/services/catalog.service';
 import { AuthService } from '../../../../core/services/auth.service';
 import { Order } from '../../../../core/models';
 import { StateMessageComponent } from '../../../../shared/ui/state/state-message.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-ventas-comercio',
   standalone: true,
-  imports: [CommonModule, StateMessageComponent],
+  imports: [CommonModule, StateMessageComponent, IconComponent],
   template: `
     <div class="space-y-6 pb-8">
       <!-- Header -->
@@ -58,7 +59,10 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
       <!-- Pickup Operations Stats -->
       <div class="p-4 bg-slate-900 text-white rounded-2xl shadow-sm flex items-center justify-between">
         <div class="space-y-0.5">
-          <span class="text-xs font-bold text-emerald-400">🎫 Retiros Completados Hoy</span>
+          <span class="text-xs font-bold text-emerald-400 flex items-center gap-1.5">
+            <app-icon name="ticket" [size]="14" />
+            <span>Retiros Completados Hoy</span>
+          </span>
           <p class="text-[11px] text-slate-300">
             Has entregado <strong>{{ deliveredOrders().length }}</strong> pedidos en mostrador a tus clientes de PaseoYa.
           </p>

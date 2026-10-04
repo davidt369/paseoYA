@@ -182,7 +182,8 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
               title="Compra en línea y retira en el local del Paseo Aranjuez"
               class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold"
             >
-              <span>📍 Retiro Presencial en Mall</span>
+              <app-icon name="map-pin" [size]="14" class="text-amber-600" />
+              <span>Retiro Presencial en Mall</span>
             </div>
 
             <!-- Cart Quick Icon with item count -->
@@ -421,8 +422,8 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                 <div
                   class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-800"
                 >
-                  <div class="size-9 rounded-full bg-slate-900 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-xs">
-                    📍
+                  <div class="size-9 rounded-full bg-slate-900 text-amber-400 flex items-center justify-center shrink-0 shadow-xs">
+                    <app-icon name="map-pin" [size]="18" />
                   </div>
                   <div class="min-w-0 flex-1">
                     <div class="font-semibold text-xs text-slate-900 leading-tight">Retiro en Mostrador</div>

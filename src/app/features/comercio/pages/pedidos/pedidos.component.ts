@@ -9,11 +9,12 @@ import { Order, OrderStatus } from '../../../../core/models';
 import { StatusBadgeComponent } from '../../../../shared/ui/badge/badge.component';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { StateMessageComponent } from '../../../../shared/ui/state/state-message.component';
+import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 
 @Component({
   selector: 'app-pedidos-comercio',
   standalone: true,
-  imports: [CommonModule, RouterLink, StatusBadgeComponent, ButtonComponent, StateMessageComponent],
+  imports: [CommonModule, RouterLink, StatusBadgeComponent, ButtonComponent, StateMessageComponent, IconComponent],
   template: `
     <div class="space-y-5 pb-8">
       <!-- Header -->
@@ -46,7 +47,7 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
       @if (arrivedOrders().length > 0) {
         <div class="p-4 bg-indigo-50 border-2 border-indigo-300 rounded-2xl shadow-xs space-y-2 animate-pulse">
           <div class="flex items-center gap-2 font-bold text-indigo-950 text-xs">
-            <span class="text-base">🔔</span>
+            <app-icon name="bell" [size]="16" class="text-indigo-600" />
             <span>¡CLIENTE EN MOSTRADOR! ({{ arrivedOrders().length }} esperando)</span>
           </div>
           <p class="text-[11px] text-indigo-900 leading-snug">
@@ -146,7 +147,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                         size="sm"
                         (clicked)="advanceStatus(order, 'confirmado', 'Pedido aceptado por el comercio')"
                       >
-                        ✅ Confirmar Pedido
+                        <app-icon name="check" [size]="14" class="inline-block align-[-2px] mr-1" />
+                        <span>Confirmar Pedido</span>
                       </app-button>
                     }
                     @case ('confirmado') {
@@ -155,7 +157,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                         size="sm"
                         (clicked)="advanceStatus(order, 'preparando', 'Empaquetando productos en la tienda')"
                       >
-                        📦 Iniciar Preparación
+                        <app-icon name="package" [size]="14" class="inline-block align-[-2px] mr-1" />
+                        <span>Iniciar Preparación</span>
                       </app-button>
                     }
                     @case ('preparando') {
@@ -164,7 +167,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                         size="sm"
                         (clicked)="advanceStatus(order, 'listo_para_recoger', 'Pedido listo en el mostrador')"
                       >
-                        🔔 Marcar Listo para Retiro
+                        <app-icon name="bell" [size]="14" class="inline-block align-[-2px] mr-1" />
+                        <span>Marcar Listo para Retiro</span>
                       </app-button>
                     }
                     @case ('listo_para_recoger') {
@@ -173,7 +177,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                         [queryParams]="{ orderId: order.id, code: order.pickup_code }"
                         class="h-9 px-3 rounded-xl bg-slate-900 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-2xs hover:bg-slate-800 transition"
                       >
-                        📷 Escanear para Entregar
+                        <app-icon name="camera" [size]="14" />
+                        <span>Escanear para Entregar</span>
                       </a>
                     }
                     @case ('cliente_llego') {
@@ -182,7 +187,8 @@ import { StateMessageComponent } from '../../../../shared/ui/state/state-message
                         [queryParams]="{ orderId: order.id, code: order.pickup_code }"
                         class="h-9 px-3.5 rounded-xl bg-indigo-600 text-white text-xs font-bold flex items-center justify-center gap-1.5 shadow-2xs hover:bg-indigo-700 transition animate-pulse"
                       >
-                        ⚡ Validar Entrega Inmediata
+                        <app-icon name="bolt" [size]="14" />
+                        <span>Validar Entrega Inmediata</span>
                       </a>
                     }
                     @case ('entregado') {

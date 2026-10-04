@@ -91,7 +91,7 @@ import { filterIcon } from '../../../../shared/ui/icon/icon-maps';
                   >
                     <span>{{ f }}</span>
                     @if (selectedFloor() === f) {
-                      <span class="text-amber-400 text-xs">✓</span>
+                      <app-icon name="check" [size]="14" class="text-amber-400" />
                     }
                   </button>
                 }
@@ -114,7 +114,7 @@ import { filterIcon } from '../../../../shared/ui/icon/icon-maps';
                       <span>{{ cat.label }}</span>
                     </span>
                     @if (selectedCategory() === cat.key) {
-                      <span class="text-white text-xs">✓</span>
+                      <app-icon name="check" [size]="14" class="text-white" />
                     }
                   </button>
                 }
