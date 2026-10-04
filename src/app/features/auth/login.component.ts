@@ -15,11 +15,14 @@ import { IconComponent } from '../../shared/ui/icon/icon.component';
       <div class="w-full max-w-sm mx-auto bg-white rounded-2xl border border-slate-200/80 p-6 shadow-sm">
         <!-- Brand Header -->
         <div class="text-center mb-6">
-          <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-slate-900 text-white font-black text-xl tracking-tight shadow-xs mb-2">
-            PY
+          <div class="flex justify-center mb-2">
+            <img
+              src="/logo-negro.png"
+              alt="Paseo Aranjuez Logo"
+              class="h-12 w-auto max-w-[200px] object-contain"
+            />
           </div>
-          <h1 class="text-2xl font-bold tracking-tight text-slate-900">PaseoYa</h1>
-          <p class="text-xs text-slate-500 font-medium">Paseo Aranjuez &middot; Cochabamba</p>
+          <p class="text-xs text-slate-500 font-medium">Marketplace Oficial &middot; Cochabamba</p>
         </div>
 
         <!-- Feedback Alert -->
