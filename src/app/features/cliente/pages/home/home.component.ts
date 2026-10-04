@@ -306,35 +306,6 @@ interface FeedPost {
             </a>
           </div>
         </div>
-
-        <!-- Retiro Express Card -->
-        <div class="bg-gradient-to-br from-slate-900 via-amber-950 to-slate-900 text-white rounded-3xl p-5 shadow-sm border border-amber-800/40 space-y-2">
-          <div class="flex items-center gap-2">
-            <app-icon name="ticket" [size]="18" class="text-amber-400" />
-            <span class="text-xs font-black text-amber-400 uppercase tracking-wide">Retiro Express</span>
-          </div>
-          <h4 class="text-sm font-bold text-white">Compra Online, Recoge en Local</h4>
-          <p class="text-xs text-slate-300 leading-relaxed">
-            Paga desde PaseoYa y presenta tu código QR en el mostrador del comercio para retirar al instante.
-          </p>
-          <div class="pt-1 text-[11px] text-amber-300">
-            Sin filas y sin cargos por retiro.
-          </div>
-        </div>
-
-        <!-- Desktop Information Widget -->
-        <div class="bg-gradient-to-br from-amber-500 via-amber-600 to-amber-700 text-slate-950 rounded-3xl p-5 shadow-sm space-y-2.5">
-          <div class="flex items-center gap-2">
-            <span class="size-8 rounded-full bg-slate-950 text-amber-400 font-black text-xs flex items-center justify-center">PY</span>
-            <div>
-              <h4 class="text-xs font-black text-slate-950 uppercase tracking-wider">Centro Comercial Paseo Aranjuez</h4>
-              <p class="text-[10px] text-amber-950 font-semibold">Cochabamba &middot; Bolivia</p>
-            </div>
-          </div>
-          <div class="p-3 bg-slate-950/10 rounded-xl text-xs text-slate-950 font-medium leading-relaxed">
-            Explora 4 pisos de moda, tecnología y gastronomía con retiros express en mostrador.
-          </div>
-        </div>
       </aside>
     </div>
 
