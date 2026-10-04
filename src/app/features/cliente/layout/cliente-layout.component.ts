@@ -184,14 +184,7 @@ import { LoyaltyService } from '../../../core/services/loyalty.service';
               </button>
             }
 
-            <!-- Retiro Presencial Badge -->
-            <div
-              title="Compra en línea y retira en el local del Paseo Aranjuez"
-              class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold"
-            >
-              <app-icon name="map-pin" [size]="14" class="text-amber-600" />
-              <span>Retiro Presencial en Mall</span>
-            </div>
+
 
             <!-- Points Quick Pill -->
             <a
