@@ -15,16 +15,16 @@ import { IconComponent } from '../../../../shared/ui/icon/icon.component';
   template: `
     <div class="space-y-4 pb-8">
       <div class="space-y-1">
-        <h2 class="text-xl font-bold tracking-tight text-slate-900">Mis Pedidos</h2>
-        <p class="text-xs text-slate-500">Muestra tu código QR en el local para retirar tus compras.</p>
+        <h2 class="text-xl font-bold tracking-tight text-slate-900">Mis Pedidos y Reservas</h2>
+        <p class="text-xs text-slate-500">Muestra tu código QR en el local para validar tu reserva y retirar en mostrador.</p>
       </div>
 
       @if (orders().length === 0) {
         <app-state-message
           type="empty"
-          title="No tienes pedidos registrados"
-          message="Cuando realices una compra en las tiendas del Paseo Aranjuez, aparecerá aquí con su código QR de retiro."
-          actionLabel="Ir a comprar"
+          title="No tienes reservas registradas"
+          message="Cuando reserves productos en las tiendas del Paseo Aranjuez, aparecerán aquí con su código QR de retiro."
+          actionLabel="Ir a reservar productos"
           (actionClicked)="goToShop()"
         />
       } @else {
@@ -56,7 +56,7 @@ import { IconComponent } from '../../../../shared/ui/icon/icon.component';
                 </div>
 
                 <div class="flex items-center gap-1 text-slate-900 font-bold text-xs">
-                  <span>Ver Pase QR</span>
+                  <span>Ver Pase de Reserva</span>
                   <svg class="size-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                   </svg>

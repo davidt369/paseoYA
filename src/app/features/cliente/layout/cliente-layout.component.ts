@@ -301,28 +301,6 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
             <!-- Drawer Navigation Body -->
             <div class="flex-1 p-3.5 space-y-3 text-xs overflow-y-auto">
               
-              <!-- PWA Direct Install Tile in Drawer -->
-              @if (!pwaInstall.isInstalled()) {
-                <div class="p-3.5 rounded-2xl bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 text-slate-950 flex items-center justify-between shadow-xs">
-                  <div class="flex items-center gap-2.5">
-                    <div class="size-9 rounded-xl bg-slate-950 text-amber-400 font-black text-xs flex items-center justify-center shadow-xs shrink-0">
-                      <app-icon name="smartphone" [size]="18" />
-                    </div>
-                    <div>
-                      <h4 class="font-black text-xs text-slate-950 leading-tight">Instalar App PaseoYa</h4>
-                      <p class="text-[10px] text-amber-950 font-semibold mt-0.5">Acceso directo PWA en Android</p>
-                    </div>
-                  </div>
-                  <button
-                    type="button"
-                    (click)="triggerInstallPrompt()"
-                    class="px-3 py-1.5 bg-slate-950 hover:bg-slate-900 active:scale-95 text-white font-black text-xs rounded-xl shadow-xs transition cursor-pointer shrink-0"
-                  >
-                    Instalar
-                  </button>
-                </div>
-              }
-
               <!-- Main Navigation Items -->
               <div class="space-y-1">
                 <span class="drawer-section-label block mb-1.5">
@@ -339,13 +317,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                   <div class="size-9 rounded-xl bg-blue-600 text-white flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
                     <app-icon name="shopping-bag" [size]="18" />
                   </div>
-                  <div class="min-w-0 flex-1">
-                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Todos los Productos</div>
-                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">Gran vitrina de todas las tiendas</div>
-                  </div>
-                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">
-                    Mall
-                  </span>
+                  <span class="font-bold text-xs text-slate-900 flex-1">Todos los Productos</span>
                 </a>
 
                 <!-- 2. Tiendas y Pisos -->
@@ -358,13 +330,10 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                   <div class="size-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
                     <app-icon name="store" [size]="18" />
                   </div>
-                  <div class="min-w-0 flex-1">
-                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Tiendas y Pisos</div>
-                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">Directorio de 12 locales en Pisos 1-4</div>
-                  </div>
+                  <span class="font-bold text-xs text-slate-900 flex-1">Tiendas y Pisos</span>
                 </a>
 
-                <!-- 3. Reels & Videos -->
+                <!-- 3. Reels de Publicaciones -->
                 <a
                   routerLink="/cliente/reels"
                   routerLinkActive="drawer-link-active"
@@ -374,16 +343,10 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                   <div class="size-9 rounded-xl bg-rose-500 text-white flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
                     <app-icon name="film" [size]="18" />
                   </div>
-                  <div class="min-w-0 flex-1">
-                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Reels de Publicaciones</div>
-                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">Videos y promociones virales</div>
-                  </div>
-                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200">
-                    En Vivo
-                  </span>
+                  <span class="font-bold text-xs text-slate-900 flex-1">Reels de Publicaciones</span>
                 </a>
 
-                <!-- 4. Buscador & Comparador -->
+                <!-- 4. Buscador -->
                 <a
                   routerLink="/cliente/buscar"
                   routerLinkActive="drawer-link-active"
@@ -393,13 +356,10 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                   <div class="size-9 rounded-xl bg-cyan-500 text-white flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
                     <app-icon name="search" [size]="18" />
                   </div>
-                  <div class="min-w-0 flex-1">
-                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Buscador Global</div>
-                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">Comparador de precios por pisos</div>
-                  </div>
+                  <span class="font-bold text-xs text-slate-900 flex-1">Buscador</span>
                 </a>
 
-                <!-- 5. Mis Pedidos QR -->
+                <!-- 5. Mis Pedidos -->
                 <a
                   routerLink="/cliente/pedidos"
                   routerLinkActive="drawer-link-active"
@@ -409,30 +369,8 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                   <div class="size-9 rounded-xl bg-emerald-500 text-white flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
                     <app-icon name="package" [size]="18" />
                   </div>
-                  <div class="min-w-0 flex-1">
-                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Mis Pedidos QR</div>
-                    <div class="text-[10px] text-slate-500 font-medium mt-0.5">Pases oficiales de retiro en mostrador</div>
-                  </div>
-                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">
-                    QR
-                  </span>
+                  <span class="font-bold text-xs text-slate-900 flex-1">Mis Pedidos</span>
                 </a>
-
-                <!-- 6. Información de Retiro Presencial en Mall -->
-                <div
-                  class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-800"
-                >
-                  <div class="size-9 rounded-full bg-slate-900 text-amber-400 flex items-center justify-center shrink-0 shadow-xs">
-                    <app-icon name="map-pin" [size]="18" />
-                  </div>
-                  <div class="min-w-0 flex-1">
-                    <div class="font-semibold text-xs text-slate-900 leading-tight">Retiro en Mostrador</div>
-                    <div class="text-[10px] text-slate-500">Muestra tu código QR en el local del Paseo</div>
-                  </div>
-                  <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">
-                    4 Pisos
-                  </span>
-                </div>
               </div>
 
               <!-- Divider -->

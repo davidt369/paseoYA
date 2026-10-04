@@ -57,7 +57,7 @@ import * as QRCode from 'qrcode';
             <div class="bg-white rounded-3xl border-2 border-slate-900 p-6 shadow-sm text-center space-y-4">
               <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-900 text-white text-[11px] font-bold">
                 <app-icon name="ticket" [size]="12" />
-                <span>Pase Oficial de Retiro &middot; Paseo Aranjuez</span>
+                <span>Pase Oficial de Reserva &middot; Paseo Aranjuez</span>
               </div>
 
               <h1 class="text-lg font-black text-slate-900 tracking-tight leading-tight">
@@ -106,8 +106,8 @@ import * as QRCode from 'qrcode';
 
               <!-- Schedule & Window -->
               <div class="text-[11px] text-slate-500 pt-1">
-                <p><strong>Ventana programada:</strong> {{ order()!.ventana_retiro }}</p>
-                <p class="text-[10px] text-slate-400 mt-0.5">Muestra este código al llegar al mostrador de la tienda.</p>
+                <p><strong>Ventana de reserva:</strong> {{ order()!.ventana_retiro }}</p>
+                <p class="text-[10px] text-slate-400 mt-0.5">Presenta este código QR de reserva al llegar al mostrador de la tienda para recoger tu pedido.</p>
               </div>
 
               <!-- "Ya llegué al local" Button (Action for client) -->
@@ -194,7 +194,7 @@ import * as QRCode from 'qrcode';
               </div>
 
               <div class="pt-3 border-t border-slate-200 flex justify-between items-center text-sm font-black">
-                <span>Total Pagado</span>
+                <span>Total de la Reserva</span>
                 <span class="tabular-nums text-base">Bs. {{ order()!.total | number:'1.2-2' }}</span>
               </div>
             </div>
