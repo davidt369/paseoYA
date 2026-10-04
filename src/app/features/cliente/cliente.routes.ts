@@ -27,7 +27,8 @@ export const CLIENTE_ROUTES: Routes = [
       },
       {
         path: 'buscar',
-        loadComponent: () => import('./pages/buscador/buscador.component').then(m => m.BuscadorComponent),
+        redirectTo: 'productos',
+        pathMatch: 'full',
       },
       {
         path: 'carrito',

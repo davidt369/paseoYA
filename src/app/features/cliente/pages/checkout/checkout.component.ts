@@ -87,23 +87,22 @@ import * as QRCode from 'qrcode';
         <!-- Simulated QR Payment Card (Right) -->
         <div class="lg:col-span-6">
           <div class="p-6 bg-white rounded-3xl border border-slate-200/80 shadow-2xs text-center space-y-4">
-            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 text-slate-800 text-[11px] font-bold">
-              <app-icon name="smartphone" [size]="12" />
-              <span>Pago QR Simple (Simulación Hackathon)</span>
+            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 text-[11px] font-bold">
+              <span>📋 Reserva con Retiro Presencial (Demo Hackathon)</span>
             </div>
 
             <p class="text-xs text-slate-500 max-w-xs mx-auto leading-relaxed">
-              Escanea el código QR desde cualquier aplicación bancaria boliviana (o presiona el botón inferior para confirmar la simulación).
+              El pedido se registra en la tienda seleccionada. Puedes abonar en mostrador mediante efectivo, tarjeta o QR Simple del comercio al momento de recoger.
             </p>
 
-            <!-- Generated Payment QR -->
+            <!-- Generated Payment / Order QR Reference -->
             <div class="flex justify-center py-2">
               <div class="p-3 bg-white border-2 border-slate-900 rounded-2xl shadow-sm inline-block">
                 @if (qrDataUrl()) {
-                  <img [src]="qrDataUrl()" alt="QR de Pago Simulado" class="size-48 object-contain" />
+                  <img [src]="qrDataUrl()" alt="Referencia de Pedido QR" class="size-48 object-contain" />
                 } @else {
                   <div class="size-48 bg-slate-100 flex items-center justify-center text-xs text-slate-400">
-                    Generando QR...
+                    Generando referencia QR...
                   </div>
                 }
               </div>
@@ -111,7 +110,7 @@ import * as QRCode from 'qrcode';
 
             <!-- Total Breakdown -->
             <div class="py-2 border-t border-b border-slate-100">
-              <span class="text-xs text-slate-500 block">Monto total a pagar</span>
+              <span class="text-xs text-slate-500 block">Total a liquidar en mostrador</span>
               <span class="text-2xl font-black text-slate-900 tabular-nums">
                 Bs. {{ cartService.subtotal() | number:'1.2-2' }}
               </span>
@@ -124,7 +123,7 @@ import * as QRCode from 'qrcode';
               [loading]="processing()"
               (clicked)="confirmPayment()"
             >
-              Confirmar Pago y Generar QR de Retiro
+              Confirmar Pedido y Generar Pase de Retiro
             </app-button>
           </div>
         </div>

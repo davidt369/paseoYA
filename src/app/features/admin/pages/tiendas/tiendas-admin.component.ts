@@ -279,38 +279,25 @@ export class TiendasAdminComponent implements OnInit {
     this.showModal.set(false);
   }
 
-  saveStore(): void {
+  async saveStore(): Promise<void> {
     const editing = this.editingStore();
     if (editing) {
-      this.stores.update((list) =>
-        list.map((s) => (s.id === editing.id ? { ...s, ...this.formData } : s))
-      );
+      await this.catalogService.updateStore(editing.id, this.formData);
+      this.stores.set(this.catalogService.stores());
       this.toastService.success(`Tienda "${this.formData.nombre}" actualizada.`);
     } else {
-      const newStore: Store = {
-        id: 'store-' + Math.random().toString(36).substring(2, 9),
-        nombre: this.formData.nombre,
-        rubro: this.formData.rubro,
-        piso: this.formData.piso,
-        sector: this.formData.sector,
-        local: this.formData.local,
-        horario_semana: this.formData.horario_semana,
-        horario_domingo_feriado: this.formData.horario_domingo_feriado,
-        logo_url: 'https://images.unsplash.com/photo-1546868871-7041f2a55e12?w=160&auto=format&fit=crop&q=80',
-        activo: true,
-      };
-      this.stores.update((list) => [newStore, ...list]);
+      const newStore = await this.catalogService.addStore(this.formData);
+      this.stores.set(this.catalogService.stores());
       this.toastService.success(`Tienda "${newStore.nombre}" registrada.`);
     }
 
     this.closeModal();
   }
 
-  toggleStoreStatus(store: Store): void {
+  async toggleStoreStatus(store: Store): Promise<void> {
     const updated = !store.activo;
-    this.stores.update((list) =>
-      list.map((s) => (s.id === store.id ? { ...s, activo: updated } : s))
-    );
+    await this.catalogService.updateStore(store.id, { activo: updated });
+    this.stores.set(this.catalogService.stores());
     this.toastService.info(
       updated ? `"${store.nombre}" fue activada` : `"${store.nombre}" fue desactivada temporalmente`
     );

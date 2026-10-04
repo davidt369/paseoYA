@@ -177,6 +177,14 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
               </button>
             }
 
+            <!-- Retiro Presencial Badge -->
+            <div
+              title="Compra en línea y retira en el local del Paseo Aranjuez"
+              class="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 border border-slate-200 text-slate-800 text-xs font-bold"
+            >
+              <span>📍 Retiro Presencial en Mall</span>
+            </div>
+
             <!-- Cart Quick Icon with item count -->
             <a
               routerLink="/cliente/carrito"
@@ -409,19 +417,19 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                   </span>
                 </a>
 
-                <!-- 6. Retiro Express en Mostrador -->
+                <!-- 6. Información de Retiro Presencial en Mall -->
                 <div
-                  class="flex items-center gap-3 py-2.5 pr-3 rounded-xl bg-amber-50/70 border border-amber-100 text-slate-800"
+                  class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-slate-50 border border-slate-200/80 text-slate-800"
                 >
-                  <div class="size-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5">
-                    <app-icon name="ticket" [size]="18" />
+                  <div class="size-9 rounded-full bg-slate-900 text-white flex items-center justify-center text-sm font-bold shrink-0 shadow-xs">
+                    📍
                   </div>
                   <div class="min-w-0 flex-1">
-                    <div class="font-bold text-xs text-slate-900 leading-tight tracking-tight">Retiro Express con QR</div>
-                    <div class="text-[10px] text-amber-700 font-medium mt-0.5">Paga online y recoge en mostrador</div>
+                    <div class="font-semibold text-xs text-slate-900 leading-tight">Retiro en Mostrador</div>
+                    <div class="text-[10px] text-slate-500">Muestra tu código QR en el local del Paseo</div>
                   </div>
                   <span class="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200">
-                    Gratis
+                    4 Pisos
                   </span>
                 </div>
               </div>
@@ -587,9 +595,9 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
             <span class="text-[10px] tracking-tight leading-none">Inicio</span>
           </a>
 
-          <!-- 2. BUSCAR / EXPLORAR -->
+          <!-- 2. CATÁLOGO / BUSCAR -->
           <a
-            routerLink="/cliente/buscar"
+            routerLink="/cliente/productos"
             routerLinkActive="text-amber-600 font-bold"
             class="flex flex-col items-center justify-center gap-0.5 text-slate-400 hover:text-slate-800 transition py-1 touch-target group"
           >
@@ -601,7 +609,7 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
             <span class="text-[10px] tracking-tight leading-none">Buscar</span>
           </a>
 
-          <!-- 3. IA PaseoYa -->
+          <!-- 3. ✨ IA PASEOYA (EN EL MEDIO - ORBE CÓSMICO VECTORIAL) -->
           <div class="flex flex-col items-center justify-center -mt-5 relative z-40">
             <button
               (click)="chatbotService.toggleOpen()"
@@ -612,11 +620,13 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
             >
               <!-- Glowing Pulsating Ring -->
               <span class="absolute inset-0 rounded-full bg-gradient-to-tr from-amber-400 to-indigo-500 blur-xs opacity-60 animate-pulse"></span>
-
-              <!-- Vectorized AI Orb Body -->
-              <span class="relative w-full h-full rounded-full bg-slate-950 flex items-center justify-center">
-                <app-ai-orb-icon [size]="40" />
-              </span>
+              
+              <!-- Inner Button Body with 4-pointed Star SVG -->
+              <div class="relative w-full h-full rounded-full bg-slate-950 flex flex-col items-center justify-center text-white">
+                <svg class="size-6 text-amber-300 drop-shadow-md animate-pulse" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" />
+                </svg>
+              </div>
             </button>
             <span class="text-[9px] font-extrabold tracking-tight text-indigo-700 mt-0.5">
               IA Asistente

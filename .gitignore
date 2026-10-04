@@ -49,3 +49,8 @@ Thumbs.db
 # Temporary and skill scratch folders
 scratch/
 .ui-skills/
+
+.agents/*
+!.agents/skills/
+.agents/skills/*
+!.agents/skills/autoskill/

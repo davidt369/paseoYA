@@ -259,7 +259,11 @@ export class PedidoDetalleComponent implements OnInit, OnDestroy {
     const orderId = this.route.snapshot.paramMap.get('id');
     if (!orderId) return;
 
-    const ord = this.catalogService.getOrderById(orderId);
+    let ord = this.catalogService.getOrderById(orderId);
+    if (!ord) {
+      await this.catalogService.loadOrders();
+      ord = this.catalogService.getOrderById(orderId);
+    }
     if (ord) {
       this.order.set(ord);
       await this.generateQR(ord);
