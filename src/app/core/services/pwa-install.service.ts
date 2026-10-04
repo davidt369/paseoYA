@@ -36,39 +36,54 @@ export class PwaInstallService {
   private initListeners(): void {
     if (typeof window === 'undefined') return;
 
+    // Check if prompt was already captured by early script in index.html
+    if ((window as any).deferredPwaPrompt) {
+      this.deferredPrompt.set((window as any).deferredPwaPrompt);
+    }
+
+    window.addEventListener('pwa-prompt-ready', () => {
+      if ((window as any).deferredPwaPrompt) {
+        this.deferredPrompt.set((window as any).deferredPwaPrompt);
+      }
+    });
+
     window.addEventListener('beforeinstallprompt', (e: Event) => {
-      // Prevent browser default mini-infobar on mobile Chrome
       e.preventDefault();
+      (window as any).deferredPwaPrompt = e;
       this.deferredPrompt.set(e);
     });
 
     window.addEventListener('appinstalled', () => {
       this.isInstalled.set(true);
       this.deferredPrompt.set(null);
+      (window as any).deferredPwaPrompt = null;
       this.showGuideModal.set(false);
       console.log('PaseoYa PWA successfully installed');
     });
   }
 
   async installPwa(): Promise<'accepted' | 'dismissed' | 'manual_guide'> {
-    const promptEvent = this.deferredPrompt();
+    // 1. Obtener el evento prompt nativo del servicio o del scope global inmediato
+    const promptEvent = this.deferredPrompt() || (typeof window !== 'undefined' ? (window as any).deferredPwaPrompt : null);
 
     if (promptEvent) {
       try {
-        promptEvent.prompt();
+        await promptEvent.prompt();
         const choice = await promptEvent.userChoice;
-        if (choice.outcome === 'accepted') {
+        if (choice && choice.outcome === 'accepted') {
           this.deferredPrompt.set(null);
+          if (typeof window !== 'undefined') (window as any).deferredPwaPrompt = null;
           this.isInstalled.set(true);
+          this.showGuideModal.set(false);
           return 'accepted';
         }
         return 'dismissed';
       } catch (err) {
-        console.warn('Error during PWA install prompt:', err);
+        console.warn('Error launching native PWA install prompt:', err);
       }
     }
 
-    // If native prompt is not available (e.g. iOS Safari, prompt already used, or browser doesn't support beforeinstallprompt)
+    // 2. Si el navegador no permite el prompt automático (ej: iOS Safari o cuando el usuario ya lo cerró)
     this.showGuideModal.set(true);
     return 'manual_guide';
   }
