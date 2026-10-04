@@ -102,3 +102,31 @@ export interface CartItem {
   product: Product;
   quantity: number;
 }
+
+export type PointActivityType =
+  | 'compra'
+  | 'interaccion_feed'
+  | 'interaccion_story'
+  | 'interaccion_reel'
+  | 'interaccion_chat'
+  | 'referido_invitado'
+  | 'referido_canjeado'
+  | 'descuento_aplicado';
+
+export interface PointTransaction {
+  id: string;
+  cliente_id: string;
+  puntos: number; // positivo para ganar, negativo para canjear
+  tipo: PointActivityType;
+  descripcion: string;
+  order_id?: string;
+  created_at: string;
+}
+
+export interface LoyaltyAccount {
+  cliente_id: string;
+  puntos_totales: number;
+  codigo_referido: string;
+  total_referidos: number;
+  historial: PointTransaction[];
+}

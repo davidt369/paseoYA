@@ -19,6 +19,7 @@ import { ChatbotComponent } from '../components/chatbot/chatbot.component';
 import { AiOrbIconComponent } from '../../../shared/ui/ai-orb/ai-orb-icon.component';
 import { PwaInstallModalComponent } from '../../../shared/ui/pwa-install-modal/pwa-install-modal.component';
 import { IconComponent } from '../../../shared/ui/icon/icon.component';
+import { LoyaltyService } from '../../../core/services/loyalty.service';
 
 @Component({
   selector: 'app-cliente-layout',
@@ -157,6 +158,15 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
               <app-icon name="package" [size]="16" />
               <span>Mis Pedidos</span>
             </a>
+
+            <a
+              routerLink="/cliente/club"
+              routerLinkActive="bg-slate-900 text-white shadow-xs"
+              class="btn-press px-3 py-2 rounded-xl hover:bg-slate-100 text-amber-700 font-extrabold whitespace-nowrap flex items-center gap-1.5"
+            >
+              <app-icon name="gem" [size]="16" class="text-amber-500" />
+              <span>Club & Puntos</span>
+            </a>
           </nav>
 
           <!-- Right: Actions & Role / Cart -->
@@ -182,6 +192,16 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
               <app-icon name="map-pin" [size]="14" class="text-amber-600" />
               <span>Retiro Presencial en Mall</span>
             </div>
+
+            <!-- Points Quick Pill -->
+            <a
+              routerLink="/cliente/club"
+              class="btn-press flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 hover:bg-amber-100 border border-amber-200/90 text-amber-900 text-xs font-black transition cursor-pointer"
+              title="Tus puntos de fidelización"
+            >
+              <app-icon name="gem" [size]="14" class="text-amber-600" />
+              <span class="tabular-nums">{{ loyalty.totalPoints() }} pts</span>
+            </a>
 
             <!-- Cart Quick Icon with item count -->
             <a
@@ -364,6 +384,24 @@ import { IconComponent } from '../../../shared/ui/icon/icon.component';
                     <app-icon name="package" [size]="18" />
                   </div>
                   <span class="font-bold text-xs text-slate-900 flex-1">Mis Pedidos</span>
+                </a>
+
+                <!-- 6. Club de Puntos y Referidos -->
+                <a
+                  routerLink="/cliente/club"
+                  routerLinkActive="drawer-link-active"
+                  (click)="closeSidePanel()"
+                  class="drawer-link flex items-center gap-3 pr-3 py-2.5 rounded-xl group"
+                >
+                  <div class="size-9 rounded-xl bg-amber-500 text-slate-950 flex items-center justify-center text-lg shrink-0 shadow-[0_1px_2px_rgba(15,23,42,0.10)] ring-1 ring-inset ring-black/5 group-hover:scale-105 transition-transform">
+                    <app-icon name="gem" [size]="18" />
+                  </div>
+                  <div class="flex-1 min-w-0 flex items-center justify-between">
+                    <span class="font-bold text-xs text-slate-900">Club & Puntos</span>
+                    <span class="text-[10px] font-black px-1.5 py-0.2 rounded-full bg-amber-100 text-amber-900">
+                      {{ loyalty.totalPoints() }} pts
+                    </span>
+                  </div>
                 </a>
               </div>
 
@@ -618,6 +656,7 @@ export class ClienteLayoutComponent implements OnInit {
   cartService = inject(CartService);
   chatbotService = inject(ChatbotService);
   pwaInstall = inject(PwaInstallService);
+  loyalty = inject(LoyaltyService);
   private route = inject(ActivatedRoute);
   private toastService = inject(ToastService);
 

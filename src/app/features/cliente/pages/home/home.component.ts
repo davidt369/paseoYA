@@ -8,6 +8,7 @@ import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { Category, Store, Product } from '../../../../core/models';
 import { IconComponent } from '../../../../shared/ui/icon/icon.component';
 import { categoryIcon } from '../../../../shared/ui/icon/icon-maps';
+import { LoyaltyService } from '../../../../core/services/loyalty.service';
 
 interface MallStory {
   id: string;
@@ -376,6 +377,7 @@ export class HomeComponent implements OnInit {
   private cartService = inject(CartService);
   private toastService = inject(ToastService);
   private router = inject(Router);
+  loyalty = inject(LoyaltyService);
 
   readonly categoryIcon = categoryIcon;
 
@@ -529,6 +531,7 @@ export class HomeComponent implements OnInit {
 
   openStory(story: MallStory): void {
     this.activeStory.set(story);
+    this.loyalty.addInteractionPoints('interaccion_story', 5, `Viste historia de ${story.storeName}`, false);
   }
 
   closeStory(): void {
@@ -548,6 +551,9 @@ export class HomeComponent implements OnInit {
         if (p.id === post.id) {
           const isLiked = !p.isLiked;
           const likes = isLiked ? p.likes + 1 : p.likes - 1;
+          if (isLiked) {
+            this.loyalty.addInteractionPoints('interaccion_feed', 5, `Like a publicación de ${post.storeName}`);
+          }
           return { ...p, isLiked, likes };
         }
         return p;

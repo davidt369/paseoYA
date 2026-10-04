@@ -51,6 +51,8 @@ export const ICON_NAMES = [
   'shoe',
   'gem',
   'gamepad',
+  'gift',
+  'copy',
 ] as const;
 
 export type IconName = (typeof ICON_NAMES)[number];
@@ -127,4 +129,15 @@ export const ICONS: Record<IconName, string[]> = {
   shoe: ['M4 18h16M4 10h4l2 3h4l2-3h4M2 18V8a2 2 0 0 1 2-2h3l4 4h2l4-4h3a2 2 0 0 1 2 2v10'],
   gem: ['M6 3h12l3 4v14H3V7l3-4zM3 7h18M12 3v18'],
   gamepad: ['M6 12V7a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v5', 'M6 12v5a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-5M9 11h.01M15 11h.01M9 16h.01M15 16h.01'],
+  gift: [
+    'M20 12v10H4V12',
+    'M2 7h20v5H2z',
+    'M12 22V7',
+    'M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z',
+    'M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z',
+  ],
+  copy: [
+    'M8 4v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2h-8a2 2 0 0 0-2 2z',
+    'M16 18v2a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2',
+  ],
 };

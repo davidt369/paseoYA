@@ -141,6 +141,35 @@ CREATE TABLE IF NOT EXISTS public.parking_validations (
     created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc', NOW())
 );
 
+-- 11. TABLA: LOYALTY_ACCOUNTS (Cuentas del Club de Fidelización y Códigos de Referido)
+CREATE TABLE IF NOT EXISTS public.loyalty_accounts (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    cliente_id UUID NOT NULL UNIQUE REFERENCES public.profiles(id) ON DELETE CASCADE,
+    puntos_totales INT NOT NULL DEFAULT 150 CHECK (puntos_totales >= 0),
+    codigo_referido TEXT NOT NULL UNIQUE,
+    total_referidos INT NOT NULL DEFAULT 0 CHECK (total_referidos >= 0),
+    created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc', NOW()),
+    updated_at TIMESTAMPTZ DEFAULT TIMEZONE('utc', NOW())
+);
+
+-- 12. TABLA: LOYALTY_TRANSACTIONS (Historial de puntos ganados y canjeados)
+CREATE TABLE IF NOT EXISTS public.loyalty_transactions (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    account_id UUID REFERENCES public.loyalty_accounts(id) ON DELETE CASCADE,
+    cliente_id UUID NOT NULL REFERENCES public.profiles(id) ON DELETE CASCADE,
+    puntos INT NOT NULL, -- Positivo al ganar, negativo al canjear
+    tipo TEXT NOT NULL,  -- 'compra', 'interaccion_feed', 'interaccion_story', 'interaccion_reel', 'referido_canjeado', 'descuento_aplicado'
+    descripcion TEXT NOT NULL,
+    order_id UUID REFERENCES public.orders(id) ON DELETE SET NULL,
+    created_at TIMESTAMPTZ DEFAULT TIMEZONE('utc', NOW())
+);
+
+-- Índices recomendados para transacciones de fidelidad
+CREATE INDEX IF NOT EXISTS idx_loyalty_account_cliente ON public.loyalty_accounts(cliente_id);
+CREATE INDEX IF NOT EXISTS idx_loyalty_tx_cliente ON public.loyalty_transactions(cliente_id);
+CREATE INDEX IF NOT EXISTS idx_loyalty_code ON public.loyalty_accounts(codigo_referido);
+
+
 -- ============================================================================
 -- FUNCIONES AUXILIARES DE ROL Y AUTORIZACIÓN (SECURITY DEFINER)
 -- ============================================================================

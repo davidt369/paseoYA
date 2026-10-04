@@ -4,6 +4,7 @@ import { CartService } from '../../../../core/services/cart.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { Product } from '../../../../core/models';
 import { IconComponent } from '../../../../shared/ui/icon/icon.component';
+import { LoyaltyService } from '../../../../core/services/loyalty.service';
 
 interface MallReel {
   id: string;
@@ -191,6 +192,7 @@ interface MallReel {
 export class ReelsComponent {
   private cartService = inject(CartService);
   private toastService = inject(ToastService);
+  private loyalty = inject(LoyaltyService);
 
   selectedFloor = signal<string>('Todos');
 
@@ -295,6 +297,9 @@ export class ReelsComponent {
         if (r.id === reel.id) {
           const isLiked = !r.isLiked;
           const likesCount = isLiked ? r.likesCount + 1 : r.likesCount - 1;
+          if (isLiked) {
+            this.loyalty.addInteractionPoints('interaccion_reel', 5, `Like al reel de ${reel.storeName}`);
+          }
           return { ...r, isLiked, likesCount };
         }
         return r;
@@ -303,6 +308,7 @@ export class ReelsComponent {
   }
 
   shareReel(reel: MallReel): void {
+    this.loyalty.addInteractionPoints('interaccion_reel', 10, `Compartiste el reel de ${reel.storeName}`);
     if (navigator.share) {
       navigator.share({
         title: reel.title,

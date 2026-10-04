@@ -46,6 +46,10 @@ export const CLIENTE_ROUTES: Routes = [
         path: 'pedidos/:id',
         loadComponent: () => import('./pages/pedido-detalle/pedido-detalle.component').then(m => m.PedidoDetalleComponent),
       },
+      {
+        path: 'club',
+        loadComponent: () => import('./pages/club-fidelizacion/club-fidelizacion.component').then(m => m.ClubFidelizacionComponent),
+      },
     ],
   },
 ];

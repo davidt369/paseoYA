@@ -8,6 +8,7 @@ import { AuthService } from '../../../../core/services/auth.service';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { ButtonComponent } from '../../../../shared/ui/button/button.component';
 import { IconComponent } from '../../../../shared/ui/icon/icon.component';
+import { LoyaltyService } from '../../../../core/services/loyalty.service';
 import * as QRCode from 'qrcode';
 
 @Component({
@@ -109,12 +110,69 @@ import * as QRCode from 'qrcode';
               </div>
             </div>
 
+            <!-- LOYALTY POINTS & 10% MAXIMUM DISCOUNT SECTION -->
+            <div class="p-4 rounded-2xl bg-gradient-to-r from-amber-500/10 via-amber-500/5 to-transparent border border-amber-300/80 space-y-3">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                  <app-icon name="gem" [size]="18" class="text-amber-600" />
+                  <span class="text-xs font-black text-slate-900">Puntos de Fidelidad PaseoYa</span>
+                </div>
+                <span class="text-[11px] font-black px-2 py-0.5 rounded-full bg-amber-100 text-amber-900 border border-amber-200">
+                  {{ loyalty.totalPoints() }} pts disponibles
+                </span>
+              </div>
+
+              <div class="text-[11px] text-slate-600 space-y-1">
+                <p>
+                  Aplica tus puntos para recibir un descuento directo (margen máximo: <strong>10% por compra</strong>).
+                </p>
+                <div class="flex justify-between items-center text-xs font-bold text-slate-800 pt-1">
+                  <span>Descuento máximo aplicable (10%):</span>
+                  <span class="tabular-nums text-amber-900">Bs. {{ discountInfo().maxDiscountBs | number:'1.2-2' }}</span>
+                </div>
+              </div>
+
+              <!-- Toggle Use Points -->
+              @if (discountInfo().maxPointsUsable > 0 && loyalty.totalPoints() > 0) {
+                <div class="pt-2 flex items-center justify-between border-t border-amber-200/60">
+                  <label class="flex items-center gap-2 text-xs font-bold text-slate-900 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      [checked]="usePoints()"
+                      (change)="toggleUsePoints()"
+                      class="size-4 text-amber-600 rounded border-slate-300 focus:ring-amber-500 cursor-pointer"
+                    />
+                    <span>Canjear {{ discountInfo().pointsNeeded }} puntos (-Bs. {{ discountInfo().appliedDiscountBs | number:'1.2-2' }})</span>
+                  </label>
+                  <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                    -10% Ahorro
+                  </span>
+                </div>
+              } @else {
+                <p class="text-[10px] text-slate-400 italic">
+                  * Necesitas al menos 10 puntos para canjear descuentos.
+                </p>
+              }
+            </div>
+
             <!-- Total Breakdown -->
-            <div class="py-2 border-t border-b border-slate-100">
-              <span class="text-xs text-slate-500 block">Total a liquidar en mostrador</span>
-              <span class="text-2xl font-black text-slate-900 tabular-nums">
-                Bs. {{ cartService.subtotal() | number:'1.2-2' }}
-              </span>
+            <div class="py-2 border-t border-b border-slate-100 space-y-1">
+              <div class="flex justify-between text-xs text-slate-500">
+                <span>Subtotal</span>
+                <span class="font-bold tabular-nums text-slate-800">Bs. {{ cartService.subtotal() | number:'1.2-2' }}</span>
+              </div>
+              @if (usePoints() && discountInfo().appliedDiscountBs > 0) {
+                <div class="flex justify-between text-xs text-emerald-700 font-bold">
+                  <span>Descuento Fidelidad (10% max)</span>
+                  <span class="tabular-nums">-Bs. {{ discountInfo().appliedDiscountBs | number:'1.2-2' }}</span>
+                </div>
+              }
+              <div class="flex justify-between items-baseline pt-1">
+                <span class="text-xs text-slate-600 font-bold">Total a liquidar en mostrador</span>
+                <span class="text-2xl font-black text-slate-900 tabular-nums">
+                  Bs. {{ finalTotal() | number:'1.2-2' }}
+                </span>
+              </div>
             </div>
 
             <app-button
@@ -124,7 +182,7 @@ import * as QRCode from 'qrcode';
               [loading]="processing()"
               (clicked)="confirmPayment()"
             >
-              Confirmar Pedido y Generar Pase de Retiro
+              Confirmar Reserva y Pase QR
             </app-button>
           </div>
         </div>
@@ -135,6 +193,7 @@ import * as QRCode from 'qrcode';
 })
 export class CheckoutComponent implements OnInit {
   cartService = inject(CartService);
+  loyalty = inject(LoyaltyService);
   private catalogService = inject(CatalogService);
   private authService = inject(AuthService);
   private toastService = inject(ToastService);
@@ -142,7 +201,24 @@ export class CheckoutComponent implements OnInit {
 
   qrDataUrl = signal<string>('');
   processing = signal<boolean>(false);
+  usePoints = signal<boolean>(false);
   nota = '';
+
+  readonly discountInfo = () => this.loyalty.calculateDiscount(this.cartService.subtotal());
+
+  readonly finalTotal = () => {
+    const sub = this.cartService.subtotal();
+    if (!this.usePoints()) {
+      return sub;
+    }
+    const info = this.discountInfo();
+    return Math.max(0, Number((sub - info.appliedDiscountBs).toFixed(2)));
+  };
+
+  toggleUsePoints(): void {
+    this.usePoints.update((v) => !v);
+    this.updatePaymentQr();
+  }
 
   readonly validWindows = [
     'Hoy en 30 minutos (Retiro Express)',
@@ -164,11 +240,13 @@ export class CheckoutComponent implements OnInit {
       this.router.navigate(['/cliente']);
       return;
     }
+    await this.updatePaymentQr();
+  }
 
-    // Generate simulated payment QR payload
+  async updatePaymentQr(): Promise<void> {
     const storeName = this.firstStore()?.nombre || 'Paseo Aranjuez';
-    const amount = this.cartService.subtotal();
-    const qrPayload = `PASEOYA-PAY|${storeName}|BS-${amount}|${Date.now()}`;
+    const amount = this.finalTotal();
+    const qrPayload = `PASEOYA-RESERVA|${storeName}|BS-${amount}|${Date.now()}`;
 
     try {
       const url = await QRCode.toDataURL(qrPayload, {
@@ -201,11 +279,22 @@ export class CheckoutComponent implements OnInit {
       );
 
       if (res.success && res.orderId) {
+        // 1. Si canjeó puntos, descontarlos del saldo
+        if (this.usePoints()) {
+          const info = this.discountInfo();
+          if (info.pointsNeeded > 0) {
+            this.loyalty.redeemPoints(info.pointsNeeded, res.orderId);
+          }
+        }
+
+        // 2. Acumular nuevos puntos por el valor de la reserva efectuada
+        this.loyalty.addPurchasePoints(res.orderId, this.finalTotal());
+
         this.cartService.clear();
-        this.toastService.success('¡Pago confirmado! Tu pedido ha sido enviado a la tienda.');
+        this.toastService.success('¡Reserva confirmada! Pase QR generado y puntos sumados a tu cuenta.');
         this.router.navigate(['/cliente/pedidos', res.orderId]);
       } else {
-        this.toastService.error(res.error || 'Error al procesar la orden.');
+        this.toastService.error(res.error || 'Error al procesar la reserva.');
       }
     } catch (e: any) {
       this.toastService.error(e.message || 'Error inesperado');
@@ -214,3 +303,4 @@ export class CheckoutComponent implements OnInit {
     }
   }
 }
+
